@@ -1,0 +1,69 @@
+body {
+	box-sizing: border-box;
+	font-family: 'Source Code Pro', monospace;
+}
+
+.question-box {
+	margin: 20px;
+	padding: 20px;
+	background-color: #f7f7f7;
+	border-radius: 20px;
+}
+.btn-voteup {
+	cursor: pointer;
+	color: #6e6a69;
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	list-style: none;
+}
+.btn-submit {
+	margin: 10px auto;
+	padding: 15px 30px;
+	border-radius: 20px;
+	background-color: #f7f7f7;
+	text-align: center;
+	width: fit-content;
+	cursor: pointer;
+	margin-bottom: 15px;
+}
+
+.text-area {
+	padding: 30px;
+	border-radius: 20px;
+	font-family: 'Source Code Pro', monospace;
+	resize: none;
+	border: none;
+	background-color: #fafafa;
+	box-shadow: 10px 15px 27px -5px rgba(224, 224, 224, 1);
+	font-size: 15px;
+	margin-bottom: 20px;
+	transition: ease-in-out 0.4s;
+	color: black;
+	margin: 10px;
+	margin-bottom: 20px;
+}
+
+.text-area:focus {
+	outline: none;
+	border-radius: 20px;
+	background-color: #e8e8e8;
+	box-shadow: none;
+}
+
+.textbox-shell {
+	display: flex;
+	justify-content: center;
+}
+
+.btn-delete {
+	cursor: pointer;
+	color: #6e6a69;
+	margin: 0;
+	padding: 0;
+}
+
+
+/*# sourceMappingURL=/style.e308ff8e.css.map */
