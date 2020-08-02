@@ -28442,28 +28442,6 @@ var Window = function Window() {
 };
 
 var _default = Window;
-/* 
-[
-  {
-    author,
-	text,score
-	answered: true/false
-  },
-   {
-    author,
-    text,score
-  },
-   {
-    author,
-    text,score
-  },
-   {
-    author,
-    text,score
-  }
-]
-*/
-
 exports.default = _default;
 },{"react":"node_modules/react/index.js","./Question.js":"Question.js"}],"App.js":[function(require,module,exports) {
 "use strict";

@@ -32,11 +32,13 @@ const Window = () => {
 		state[index] = { ...state[index], score: state[index].score + 1 };
 		setDataList(state);
 	};
+
 	const handleDelete = (index) => {
 		let state = [ ...dataList ];
 		state.splice(index, 1);
 		setDataList(state);
 	};
+
 	return (
 		<React.Fragment>
 			{dataList.sort((a, b) => b.score - a.score).map((data, index) => (
@@ -77,25 +79,3 @@ const Window = () => {
 };
 
 export default Window;
-
-/* 
-[
-  {
-    author,
-	text,score
-	answered: true/false
-  },
-   {
-    author,
-    text,score
-  },
-   {
-    author,
-    text,score
-  },
-   {
-    author,
-    text,score
-  }
-]
-*/
