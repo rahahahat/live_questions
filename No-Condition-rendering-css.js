@@ -1,10 +1,12 @@
+/*
 import React from 'react';
 import Question from './Question.js';
 const Window = () => {
 	const [ visibility, setVisibility ] = React.useState({
 		form: false,
-		list: true,
-		post: true
+		list: false,
+		post: true,
+		position: true
 	});
 	const [ dataList, setDataList ] = React.useState([]);
 	const [ obj, setObj ] = React.useState({
@@ -45,23 +47,20 @@ const Window = () => {
 	};
 
 	const handleSubmitVisibility = () => {
-		setVisibility({ form: false, list: true, post: true });
+		setVisibility({ form: false, list: true, post: true, position: false });
 	};
 
 	const handlePostVisibility = () => {
-		setVisibility({ form: true, list: false, post: false });
+		setVisibility({ ...visibility, form: true, list: false, post: false, position: false });
 	};
 	return (
 		<React.Fragment>
-			{/*---------- Conditionally rendering the Question List both initially and after recieving data---------- */}
-			{dataList.length == 0 && visibility.list ? (
-				<div className={`question-container`}>
+			<div className={`question-container ${visibility.list} ss`}>
+				{dataList.length == 0 ? (
 					<h1 className="no-list-text"> No Questions Yet...</h1>
-				</div>
-			) : visibility.list ? (
-				<div className={`question-container`}>
-					{dataList.sort((a, b) => b.score - a.score).map((data, index) => (
-						<li key={index}>
+				) : (
+					dataList.sort((a, b) => b.score - a.score).map((data, index) => (
+						<li key={index} className={`${visibility.list}`}>
 							<div className={`question-box`}>
 								<Question val={data} />
 								<div className="btn-voteup" onClick={() => handleVote(index)}>
@@ -72,37 +71,31 @@ const Window = () => {
 								</div>
 							</div>
 						</li>
-					))}
-				</div>
-			) : null}
-
-			{/*--------------------- conditionally rendering the form -----------------*/}
-			{visibility.form ? (
-				<React.Fragment>
-					<div className={`form-area`}>
-						<div className={`textbox-shell`}>
-							<textarea
-								name="texts"
-								type="text"
-								className={`text-area`}
-								onChange={handleOnChange}
-								value={obj.texts}
-								rows="1"
-								cols="80"
-								placeholder="Ask a question..."
-							/>
-						</div>
-						<div className={`btn`} onClick={handleSubmit}>
-							Submit
-						</div>
+					))
+				)}
+			</div>
+			<React.Fragment>
+				<div className={`${visibility.form} form-area`}>
+					<div className={`${visibility.form} textbox-shell`}>
+						<textarea
+							name="texts"
+							type="text"
+							className={`${visibility.form} text-area`}
+							onChange={handleOnChange}
+							value={obj.texts}
+							rows="1"
+							cols="80"
+							placeholder="Ask a question..."
+						/>
 					</div>
-				</React.Fragment>
-			) : null}
-			{visibility.post ? (
-				<div className={`${visibility.post} btn`} onClick={handlePostVisibility}>
+					<div className={`${visibility.form} btn`} onClick={handleSubmit}>
+						Submit
+					</div>
+				</div>
+				<div className={`${visibility.post} btn-${visibility.position}`} onClick={handlePostVisibility}>
 					Post a Question...
 				</div>
-			) : null}
+			</React.Fragment>
 		</React.Fragment>
 	);
 };
@@ -111,3 +104,5 @@ export default Window;
 // <div className={`btn`} onClick={() => console.log(dataList)}>
 // Log State
 // </div>
+
+ */

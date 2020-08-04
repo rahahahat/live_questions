@@ -19,8 +19,7 @@ body {
 li {
 	list-style: none;
 }
-.btn,
-.btn-false {
+.btn {
 	margin: 10px auto;
 	padding: 15px 30px;
 	border-radius: 20px;
@@ -29,21 +28,6 @@ li {
 	width: fit-content;
 	cursor: pointer;
 	font-size: 15px;
-}
-
-.btn-true {
-	position: absolute;
-	margin: auto;
-	top: 0px;
-	bottom: 0px;
-	right: 0px;
-	left: 0px;
-	width: fit-content;
-	height: max-content;
-	border-radius: 20px;
-	background-color: #f7f7f7;
-	padding: 20px 30px;
-	font-size: 25px;
 }
 
 .text-area {
@@ -81,10 +65,6 @@ li {
 	padding: 0;
 }
 
-.false {
-	display: none;
-}
-
 .form-area {
 	width: 90%;
 	height: fit-content;
@@ -94,6 +74,25 @@ li {
 	bottom: 0px;
 	right: 0px;
 	left: 0px;
+}
+
+.question-container {
+	margin: 30px auto;
+	width: 90%;
+	min-height: 10rem;
+	max-height: fit-content;
+	padding: 10px;
+	background-color: #d9d9d9;
+	border-radius: 30px;
+}
+
+.no-list-text {
+	text-align: center;
+	margin-top: 30px;
+}
+
+h1 {
+	color: gray;
 }
 
 

@@ -28355,9 +28355,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var Window = function Window() {
   var _React$useState = _react.default.useState({
     form: false,
-    list: false,
-    post: true,
-    position: true
+    list: true,
+    post: true
   }),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       visibility = _React$useState2[0],
@@ -28415,26 +28414,29 @@ var Window = function Window() {
     setVisibility({
       form: false,
       list: true,
-      post: true,
-      position: false
+      post: true
     });
   };
 
   var handlePostVisibility = function handlePostVisibility() {
-    setVisibility(_objectSpread(_objectSpread({}, visibility), {}, {
+    setVisibility({
       form: true,
       list: false,
-      post: false,
-      position: false
-    }));
+      post: false
+    });
   };
 
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, dataList.sort(function (a, b) {
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, dataList.length == 0 && visibility.list ? /*#__PURE__*/_react.default.createElement("div", {
+    className: "question-container"
+  }, /*#__PURE__*/_react.default.createElement("h1", {
+    className: "no-list-text"
+  }, " No Questions Yet...")) : visibility.list ? /*#__PURE__*/_react.default.createElement("div", {
+    className: "question-container"
+  }, dataList.sort(function (a, b) {
     return b.score - a.score;
   }).map(function (data, index) {
     return /*#__PURE__*/_react.default.createElement("li", {
-      key: index,
-      className: "".concat(visibility.list)
+      key: index
     }, /*#__PURE__*/_react.default.createElement("div", {
       className: "question-box"
     }, /*#__PURE__*/_react.default.createElement(_Question.default, {
@@ -28450,26 +28452,26 @@ var Window = function Window() {
         return handleDelete(index);
       }
     }, "Delete")));
-  }), /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "".concat(visibility.form, " form-area")
+  })) : null, visibility.form ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "form-area"
   }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "".concat(visibility.form, " textbox-shell")
+    className: "textbox-shell"
   }, /*#__PURE__*/_react.default.createElement("textarea", {
     name: "texts",
     type: "text",
-    className: "".concat(visibility.form, " text-area"),
+    className: "text-area",
     onChange: handleOnChange,
     value: obj.texts,
     rows: "1",
     cols: "80",
     placeholder: "Ask a question..."
   })), /*#__PURE__*/_react.default.createElement("div", {
-    className: "".concat(visibility.form, " btn"),
+    className: "btn",
     onClick: handleSubmit
-  }, "Submit")), /*#__PURE__*/_react.default.createElement("div", {
-    className: "".concat(visibility.post, " btn-").concat(visibility.position),
+  }, "Submit"))) : null, visibility.post ? /*#__PURE__*/_react.default.createElement("div", {
+    className: "".concat(visibility.post, " btn"),
     onClick: handlePostVisibility
-  }, "Post a Question...")));
+  }, "Post a Question...") : null);
 };
 
 var _default = Window; // <div className={`btn`} onClick={() => console.log(dataList)}>
@@ -28521,7 +28523,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37397" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45043" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
