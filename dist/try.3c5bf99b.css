@@ -1,0 +1,21 @@
+body {
+	box-sizing: border-box;
+	font-family: 'Source Code Pro', monospace;
+}
+
+.outer {
+	justify-content: center;
+}
+
+.false {
+	display: none;
+}
+
+.basic {
+	border: 1px solid black;
+	text-align: center;
+	color: aquamarine;
+}
+
+
+/*# sourceMappingURL=/try.3c5bf99b.css.map */

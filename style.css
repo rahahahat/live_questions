@@ -19,8 +19,9 @@ body {
 li {
 	list-style: none;
 }
-.btn-submit {
-	margin: 10px auto;
+.btn,
+.btn-false {
+	margin: 15px auto;
 	padding: 15px 30px;
 	border-radius: 20px;
 	background-color: #f7f7f7;
@@ -28,6 +29,22 @@ li {
 	width: fit-content;
 	cursor: pointer;
 	margin-bottom: 15px;
+	font-size: 20px;
+}
+
+.btn-true {
+	position: absolute;
+	margin: auto;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+	left: 0px;
+	width: fit-content;
+	height: max-content;
+	border-radius: 20px;
+	background-color: #f7f7f7;
+	padding: 20px 30px;
+	font-size: 25px;
 }
 
 .text-area {
@@ -63,4 +80,19 @@ li {
 	color: #6e6a69;
 	margin: 0;
 	padding: 0;
+}
+
+.false {
+	display: none;
+}
+
+.form-area {
+	width: fit-content;
+	height: fit-content;
+	position: absolute;
+	margin: auto;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+	left: 0px;
 }

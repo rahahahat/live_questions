@@ -1,8 +1,8 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Window from "./Window.js";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Window from './Window.js';
 const App = () => {
-  return <Window />;
+	return <Window />;
 };
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'));

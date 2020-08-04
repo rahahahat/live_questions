@@ -28353,19 +28353,29 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var Window = function Window() {
-  var _React$useState = _react.default.useState([]),
+  var _React$useState = _react.default.useState({
+    form: false,
+    list: false,
+    post: true,
+    position: true
+  }),
       _React$useState2 = _slicedToArray(_React$useState, 2),
-      dataList = _React$useState2[0],
-      setDataList = _React$useState2[1];
+      visibility = _React$useState2[0],
+      setVisibility = _React$useState2[1];
 
-  var _React$useState3 = _react.default.useState({
+  var _React$useState3 = _react.default.useState([]),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      dataList = _React$useState4[0],
+      setDataList = _React$useState4[1];
+
+  var _React$useState5 = _react.default.useState({
     author: '//fetch from server//',
     texts: '',
     score: 0
   }),
-      _React$useState4 = _slicedToArray(_React$useState3, 2),
-      obj = _React$useState4[0],
-      setObj = _React$useState4[1];
+      _React$useState6 = _slicedToArray(_React$useState5, 2),
+      obj = _React$useState6[0],
+      setObj = _React$useState6[1];
 
   var handleOnChange = function handleOnChange(event) {
     setObj(_objectSpread(_objectSpread({}, obj), {}, _defineProperty({}, event.target.name, event.target.value)));
@@ -28381,6 +28391,8 @@ var Window = function Window() {
         score: 0
       });
     }
+
+    handleSubmitVisibility();
   };
 
   var handleVote = function handleVote(index) {
@@ -28399,11 +28411,30 @@ var Window = function Window() {
     setDataList(state);
   };
 
+  var handleSubmitVisibility = function handleSubmitVisibility() {
+    setVisibility({
+      form: false,
+      list: true,
+      post: true,
+      position: false
+    });
+  };
+
+  var handlePostVisibility = function handlePostVisibility() {
+    setVisibility(_objectSpread(_objectSpread({}, visibility), {}, {
+      form: true,
+      list: false,
+      post: false,
+      position: false
+    }));
+  };
+
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, dataList.sort(function (a, b) {
     return b.score - a.score;
   }).map(function (data, index) {
     return /*#__PURE__*/_react.default.createElement("li", {
-      key: index
+      key: index,
+      className: "".concat(visibility.list)
     }, /*#__PURE__*/_react.default.createElement("div", {
       className: "question-box"
     }, /*#__PURE__*/_react.default.createElement(_Question.default, {
@@ -28420,28 +28451,31 @@ var Window = function Window() {
       }
     }, "Delete")));
   }), /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "textbox-shell"
+    className: "".concat(visibility.form, " form-area")
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "".concat(visibility.form, " textbox-shell")
   }, /*#__PURE__*/_react.default.createElement("textarea", {
     name: "texts",
     type: "text",
-    className: "text-area",
+    className: "".concat(visibility.form, " text-area"),
     onChange: handleOnChange,
     value: obj.texts,
-    rows: "10",
-    cols: "50",
+    rows: "1",
+    cols: "80",
     placeholder: "Ask a question..."
   })), /*#__PURE__*/_react.default.createElement("div", {
-    className: "btn-submit",
+    className: "".concat(visibility.form, " btn"),
     onClick: handleSubmit
-  }, "Submit"), /*#__PURE__*/_react.default.createElement("div", {
-    className: "btn-submit",
-    onClick: function onClick() {
-      return console.log(dataList);
-    }
-  }, "log state")));
+  }, "Submit")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "".concat(visibility.post, " btn-").concat(visibility.position),
+    onClick: handlePostVisibility
+  }, "Post a Question...")));
 };
 
-var _default = Window;
+var _default = Window; // <div className={`btn`} onClick={() => console.log(dataList)}>
+// Log State
+// </div>
+
 exports.default = _default;
 },{"react":"node_modules/react/index.js","./Question.js":"Question.js"}],"App.js":[function(require,module,exports) {
 "use strict";
@@ -28458,7 +28492,7 @@ var App = function App() {
   return /*#__PURE__*/_react.default.createElement(_Window.default, null);
 };
 
-_reactDom.default.render( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById("root"));
+_reactDom.default.render( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById('root'));
 },{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./Window.js":"Window.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -28487,7 +28521,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41627" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36377" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
