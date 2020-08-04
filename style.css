@@ -21,15 +21,14 @@ li {
 }
 .btn,
 .btn-false {
-	margin: 15px auto;
+	margin: 10px auto;
 	padding: 15px 30px;
 	border-radius: 20px;
 	background-color: #f7f7f7;
 	text-align: center;
 	width: fit-content;
 	cursor: pointer;
-	margin-bottom: 15px;
-	font-size: 20px;
+	font-size: 15px;
 }
 
 .btn-true {
@@ -87,7 +86,7 @@ li {
 }
 
 .form-area {
-	width: fit-content;
+	width: 90%;
 	height: fit-content;
 	position: absolute;
 	margin: auto;
