@@ -28510,8 +28510,7 @@ var Window = function Window(props) {
     });
   };
 
-  console.log(props);
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, dataList.length == 0 && visibility.list ? /*#__PURE__*/_react.default.createElement("div", {
+  return props.history.location.state.permission ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, dataList.length == 0 && visibility.list ? /*#__PURE__*/_react.default.createElement("div", {
     className: "question-container"
   }, /*#__PURE__*/_react.default.createElement("h1", {
     className: "no-list-text"
@@ -28526,7 +28525,7 @@ var Window = function Window(props) {
   }) : null, visibility.post ? /*#__PURE__*/_react.default.createElement("div", {
     className: "btn",
     onClick: handlePostVisibility
-  }, "Post a Question...") : null);
+  }, "Post a Question...") : null) : /*#__PURE__*/_react.default.createElement("div", null, "Error 404 not found!");
 };
 
 var _default = Window;
@@ -32521,20 +32520,28 @@ var _reactRouterDom = require("react-router-dom");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CreateRoom = function CreateRoom() {
+var CreateRoom = function CreateRoom(props) {
+  console.log(props);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "center-wrapper"
   }, /*#__PURE__*/_react.default.createElement("input", {
     className: "room-input",
     placeholder: "Room Name"
   }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "btn"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/questions"
-  }, "Create Room")));
+    className: "btn",
+    onClick: function onClick() {
+      props.history.push({
+        pathname: "/questions",
+        state: {
+          permission: true
+        }
+      });
+    }
+  }, "Create Room"));
 };
 
-var _default = CreateRoom;
+var _default = (0, _reactRouterDom.withRouter)(CreateRoom);
+
 exports.default = _default;
 },{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js"}],"Nav.js":[function(require,module,exports) {
 "use strict";
@@ -32629,7 +32636,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38197" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46435" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

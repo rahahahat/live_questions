@@ -52,8 +52,7 @@ const Window = (props) => {
   const handlePostVisibility = () => {
     setVisibility({ form: true, list: false, post: false });
   };
-  console.log(props);
-  return (
+  return props.history.location.state.permission ? (
     <React.Fragment>
       {/*---------- Conditionally rendering the Question List both initially and after recieving data---------- */}
       {dataList.length == 0 && visibility.list ? (
@@ -85,6 +84,8 @@ const Window = (props) => {
 				Log State
 			</div> */}
     </React.Fragment>
+  ) : (
+    <div>Error 404 not found!</div>
   );
 };
 export default Window;
