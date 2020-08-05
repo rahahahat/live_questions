@@ -28312,7 +28312,7 @@ var _default = Question; // <div className="btn-voteup" onClick={handleVoteUp}>
 // </div>
 
 exports.default = _default;
-},{"react":"node_modules/react/index.js"}],"Window.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js"}],"List.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28323,6 +28323,90 @@ exports.default = void 0;
 var _react = _interopRequireDefault(require("react"));
 
 var _Question = _interopRequireDefault(require("./Question.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var List = function List(_ref) {
+  var dataList = _ref.dataList,
+      handleVote = _ref.handleVote,
+      handleDelete = _ref.handleDelete;
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "question-container"
+  }, dataList.sort(function (a, b) {
+    return b.score - a.score;
+  }).map(function (data, index) {
+    return /*#__PURE__*/_react.default.createElement("li", {
+      key: index
+    }, /*#__PURE__*/_react.default.createElement("div", {
+      className: "question-box"
+    }, /*#__PURE__*/_react.default.createElement(_Question.default, {
+      val: data
+    }), /*#__PURE__*/_react.default.createElement("div", {
+      className: "btn-voteup",
+      onClick: function onClick() {
+        return handleVote(index);
+      }
+    }, "Vote Up"), /*#__PURE__*/_react.default.createElement("div", {
+      className: "btn-delete",
+      onClick: function onClick() {
+        return handleDelete(index);
+      }
+    }, "Delete")));
+  }));
+};
+
+var _default = List;
+exports.default = _default;
+},{"react":"node_modules/react/index.js","./Question.js":"Question.js"}],"Form.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Form = function Form(_ref) {
+  var obj = _ref.obj,
+      handleOnChange = _ref.handleOnChange,
+      handleSubmit = _ref.handleSubmit;
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "form-area"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "textbox-shell"
+  }, /*#__PURE__*/_react.default.createElement("textarea", {
+    name: "texts",
+    type: "text",
+    className: "text-area",
+    onChange: handleOnChange,
+    value: obj.texts,
+    rows: "1",
+    cols: "80",
+    placeholder: "Ask a question..."
+  })), /*#__PURE__*/_react.default.createElement("div", {
+    className: "btn",
+    onClick: handleSubmit
+  }, "Submit"));
+};
+
+var _default = Form;
+exports.default = _default;
+},{"react":"node_modules/react/index.js"}],"Window.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _List = _interopRequireDefault(require("./List.js"));
+
+var _Form = _interopRequireDefault(require("./Form.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28430,56 +28514,33 @@ var Window = function Window() {
     className: "question-container"
   }, /*#__PURE__*/_react.default.createElement("h1", {
     className: "no-list-text"
-  }, " No Questions Yet...")) : visibility.list ? /*#__PURE__*/_react.default.createElement("div", {
-    className: "question-container"
-  }, dataList.sort(function (a, b) {
-    return b.score - a.score;
-  }).map(function (data, index) {
-    return /*#__PURE__*/_react.default.createElement("li", {
-      key: index
-    }, /*#__PURE__*/_react.default.createElement("div", {
-      className: "question-box"
-    }, /*#__PURE__*/_react.default.createElement(_Question.default, {
-      val: data
-    }), /*#__PURE__*/_react.default.createElement("div", {
-      className: "btn-voteup",
-      onClick: function onClick() {
-        return handleVote(index);
-      }
-    }, "Vote Up"), /*#__PURE__*/_react.default.createElement("div", {
-      className: "btn-delete",
-      onClick: function onClick() {
-        return handleDelete(index);
-      }
-    }, "Delete")));
-  })) : null, visibility.form ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "form-area"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "textbox-shell"
-  }, /*#__PURE__*/_react.default.createElement("textarea", {
-    name: "texts",
-    type: "text",
-    className: "text-area",
-    onChange: handleOnChange,
-    value: obj.texts,
-    rows: "1",
-    cols: "80",
-    placeholder: "Ask a question..."
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  }, " No Questions Yet...")) : visibility.list ? /*#__PURE__*/_react.default.createElement(_List.default, {
+    dataList: dataList,
+    handleVote: handleVote,
+    handleDelete: handleDelete
+  }) : null, visibility.form ? /*#__PURE__*/_react.default.createElement(_Form.default, {
+    obj: obj,
+    handleOnChange: handleOnChange,
+    handleSubmit: handleSubmit
+  }) : null, visibility.post ? /*#__PURE__*/_react.default.createElement("div", {
     className: "btn",
-    onClick: handleSubmit
-  }, "Submit"))) : null, visibility.post ? /*#__PURE__*/_react.default.createElement("div", {
-    className: "".concat(visibility.post, " btn"),
     onClick: handlePostVisibility
-  }, "Post a Question...") : null);
+  }, "Post a Question...") : null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "btn",
+    onClick: function onClick() {
+      return console.log(dataList);
+    }
+  }, "Log State"));
 };
 
-var _default = Window; // <div className={`btn`} onClick={() => console.log(dataList)}>
-// Log State
-// </div>
-
+var _default = Window;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","./Question.js":"Question.js"}],"App.js":[function(require,module,exports) {
+{
+  /* <div className={`btn`} onClick={() => console.log(dataList)}>
+  Log State
+  </div> */
+}
+},{"react":"node_modules/react/index.js","./List.js":"List.js","./Form.js":"Form.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -28523,7 +28584,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45043" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41677" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

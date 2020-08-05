@@ -1,5 +1,6 @@
 import React from 'react';
-import Question from './Question.js';
+import List from './List.js';
+import Form from './Form.js';
 const Window = () => {
 	const [ visibility, setVisibility ] = React.useState({
 		form: false,
@@ -59,55 +60,26 @@ const Window = () => {
 					<h1 className="no-list-text"> No Questions Yet...</h1>
 				</div>
 			) : visibility.list ? (
-				<div className={`question-container`}>
-					{dataList.sort((a, b) => b.score - a.score).map((data, index) => (
-						<li key={index}>
-							<div className={`question-box`}>
-								<Question val={data} />
-								<div className="btn-voteup" onClick={() => handleVote(index)}>
-									Vote Up
-								</div>
-								<div className="btn-delete" onClick={() => handleDelete(index)}>
-									Delete
-								</div>
-							</div>
-						</li>
-					))}
-				</div>
+				<List dataList={dataList} handleVote={handleVote} handleDelete={handleDelete} />
 			) : null}
 
-			{/*--------------------- conditionally rendering the form -----------------*/}
-			{visibility.form ? (
-				<React.Fragment>
-					<div className={`form-area`}>
-						<div className={`textbox-shell`}>
-							<textarea
-								name="texts"
-								type="text"
-								className={`text-area`}
-								onChange={handleOnChange}
-								value={obj.texts}
-								rows="1"
-								cols="80"
-								placeholder="Ask a question..."
-							/>
-						</div>
-						<div className={`btn`} onClick={handleSubmit}>
-							Submit
-						</div>
-					</div>
-				</React.Fragment>
-			) : null}
+			{/*------------------------------------- conditionally rendering the form ------------------------------*/}
+			{visibility.form ? <Form obj={obj} handleOnChange={handleOnChange} handleSubmit={handleSubmit} /> : null}
 			{visibility.post ? (
-				<div className={`${visibility.post} btn`} onClick={handlePostVisibility}>
+				<div className={`btn`} onClick={handlePostVisibility}>
 					Post a Question...
 				</div>
 			) : null}
+			<div className={`btn`} onClick={() => console.log(dataList)}>
+				Log State
+			</div>
 		</React.Fragment>
 	);
 };
 export default Window;
 
-// <div className={`btn`} onClick={() => console.log(dataList)}>
-// Log State
-// </div>
+{
+	/* <div className={`btn`} onClick={() => console.log(dataList)}>
+Log State
+</div> */
+}
