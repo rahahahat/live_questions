@@ -28437,6 +28437,8 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var Window = function Window(props) {
+  console.log(props);
+
   var _React$useState = _react.default.useState({
     form: false,
     list: true,
@@ -28452,8 +28454,8 @@ var Window = function Window(props) {
       setDataList = _React$useState4[1];
 
   var _React$useState5 = _react.default.useState({
-    author: "//fetch from server//",
-    texts: "",
+    author: '//fetch from server//',
+    texts: '',
     score: 0
   }),
       _React$useState6 = _slicedToArray(_React$useState5, 2),
@@ -28465,12 +28467,12 @@ var Window = function Window(props) {
   };
 
   var handleSubmit = function handleSubmit() {
-    if (obj.texts != "") {
+    if (obj.texts != '') {
       dataList.push(obj);
       setDataList(dataList);
       setObj({
-        author: "//fetch from server//",
-        texts: "",
+        author: '//fetch from server//',
+        texts: '',
         score: 0
       });
     }
@@ -32531,7 +32533,7 @@ var CreateRoom = function CreateRoom(props) {
     className: "btn",
     onClick: function onClick() {
       props.history.push({
-        pathname: "/questions",
+        pathname: '/questions',
         state: {
           permission: true
         }
@@ -32566,18 +32568,47 @@ var Nav = function Nav() {
     className: "btn-fixed"
   }, "Create Room")), /*#__PURE__*/_react.default.createElement("div", {
     style: {
-      textAlign: "center"
+      textAlign: 'center'
     }
   }, "or"), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/join-room"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "btn-fixed"
-  }, "Join Room - TODO")));
+  }, "Join Room")));
 };
 
 var _default = Nav;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js"}],"App.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js"}],"JoinRoom.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var JoinRoom = function JoinRoom() {
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "center-wrapper"
+  }, /*#__PURE__*/_react.default.createElement("input", {
+    className: "for-input",
+    placeholder: "Room name"
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    type: "password",
+    className: "for-input",
+    placeholder: "Password"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "btn"
+  }, "Submit"));
+};
+
+var _default = JoinRoom;
+exports.default = _default;
+},{"react":"node_modules/react/index.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -32590,12 +32621,17 @@ var _CreateRoom = _interopRequireDefault(require("./CreateRoom"));
 
 var _Nav = _interopRequireDefault(require("./Nav.js"));
 
+var _JoinRoom = _interopRequireDefault(require("./JoinRoom.js"));
+
 var _reactRouterDom = require("react-router-dom");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
   return /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Switch, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: "/join-room",
+    component: _JoinRoom.default
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/questions",
     component: _Window.default
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
@@ -32607,8 +32643,8 @@ var App = function App() {
   })));
 };
 
-_reactDom.default.render( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById("root"));
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./Window.js":"Window.js","./CreateRoom":"CreateRoom.js","./Nav.js":"Nav.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+_reactDom.default.render( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById('root'));
+},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./Window.js":"Window.js","./CreateRoom":"CreateRoom.js","./Nav.js":"Nav.js","./JoinRoom.js":"JoinRoom.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -32636,7 +32672,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46435" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37535" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
