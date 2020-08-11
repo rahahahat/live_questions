@@ -117,7 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"node_modules/object-assign/index.js":[function(require,module,exports) {
+})({"../node_modules/object-assign/index.js":[function(require,module,exports) {
 /*
 object-assign
 (c) Sindre Sorhus
@@ -213,7 +213,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
   return to;
 };
-},{}],"node_modules/prop-types/lib/ReactPropTypesSecret.js":[function(require,module,exports) {
+},{}],"../node_modules/prop-types/lib/ReactPropTypesSecret.js":[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -227,7 +227,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
 
-},{}],"node_modules/prop-types/checkPropTypes.js":[function(require,module,exports) {
+},{}],"../node_modules/prop-types/checkPropTypes.js":[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -323,7 +323,7 @@ checkPropTypes.resetWarningCache = function () {
 };
 
 module.exports = checkPropTypes;
-},{"./lib/ReactPropTypesSecret":"node_modules/prop-types/lib/ReactPropTypesSecret.js"}],"node_modules/react/cjs/react.development.js":[function(require,module,exports) {
+},{"./lib/ReactPropTypesSecret":"../node_modules/prop-types/lib/ReactPropTypesSecret.js"}],"../node_modules/react/cjs/react.development.js":[function(require,module,exports) {
 /** @license React v16.13.1
  * react.development.js
  *
@@ -2200,7 +2200,7 @@ if ("development" !== "production") {
     exports.version = ReactVersion;
   })();
 }
-},{"object-assign":"node_modules/object-assign/index.js","prop-types/checkPropTypes":"node_modules/prop-types/checkPropTypes.js"}],"node_modules/react/index.js":[function(require,module,exports) {
+},{"object-assign":"../node_modules/object-assign/index.js","prop-types/checkPropTypes":"../node_modules/prop-types/checkPropTypes.js"}],"../node_modules/react/index.js":[function(require,module,exports) {
 'use strict';
 
 if ("development" === 'production') {
@@ -2208,7 +2208,7 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react.development.js');
 }
-},{"./cjs/react.development.js":"node_modules/react/cjs/react.development.js"}],"node_modules/scheduler/cjs/scheduler.development.js":[function(require,module,exports) {
+},{"./cjs/react.development.js":"../node_modules/react/cjs/react.development.js"}],"../node_modules/scheduler/cjs/scheduler.development.js":[function(require,module,exports) {
 /** @license React v0.19.1
  * scheduler.development.js
  *
@@ -3063,7 +3063,7 @@ if ("development" !== "production") {
     exports.unstable_wrapCallback = unstable_wrapCallback;
   })();
 }
-},{}],"node_modules/scheduler/index.js":[function(require,module,exports) {
+},{}],"../node_modules/scheduler/index.js":[function(require,module,exports) {
 'use strict';
 
 if ("development" === 'production') {
@@ -3071,7 +3071,7 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/scheduler.development.js');
 }
-},{"./cjs/scheduler.development.js":"node_modules/scheduler/cjs/scheduler.development.js"}],"node_modules/scheduler/cjs/scheduler-tracing.development.js":[function(require,module,exports) {
+},{"./cjs/scheduler.development.js":"../node_modules/scheduler/cjs/scheduler.development.js"}],"../node_modules/scheduler/cjs/scheduler-tracing.development.js":[function(require,module,exports) {
 /** @license React v0.19.1
  * scheduler-tracing.development.js
  *
@@ -3419,7 +3419,7 @@ if ("development" !== "production") {
     exports.unstable_wrap = unstable_wrap;
   })();
 }
-},{}],"node_modules/scheduler/tracing.js":[function(require,module,exports) {
+},{}],"../node_modules/scheduler/tracing.js":[function(require,module,exports) {
 'use strict';
 
 if ("development" === 'production') {
@@ -3427,7 +3427,7 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/scheduler-tracing.development.js');
 }
-},{"./cjs/scheduler-tracing.development.js":"node_modules/scheduler/cjs/scheduler-tracing.development.js"}],"node_modules/react-dom/cjs/react-dom.development.js":[function(require,module,exports) {
+},{"./cjs/scheduler-tracing.development.js":"../node_modules/scheduler/cjs/scheduler-tracing.development.js"}],"../node_modules/react-dom/cjs/react-dom.development.js":[function(require,module,exports) {
 /** @license React v16.13.1
  * react-dom.development.js
  *
@@ -28247,7 +28247,7 @@ if ("development" !== "production") {
     exports.version = ReactVersion;
   })();
 }
-},{"react":"node_modules/react/index.js","object-assign":"node_modules/object-assign/index.js","scheduler":"node_modules/scheduler/index.js","prop-types/checkPropTypes":"node_modules/prop-types/checkPropTypes.js","scheduler/tracing":"node_modules/scheduler/tracing.js"}],"node_modules/react-dom/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","object-assign":"../node_modules/object-assign/index.js","scheduler":"../node_modules/scheduler/index.js","prop-types/checkPropTypes":"../node_modules/prop-types/checkPropTypes.js","scheduler/tracing":"../node_modules/scheduler/tracing.js"}],"../node_modules/react-dom/index.js":[function(require,module,exports) {
 'use strict';
 
 function checkDCE() {
@@ -28285,7 +28285,7 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"node_modules/react-dom/cjs/react-dom.development.js"}],"Question.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"components/Question.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28312,89 +28312,7 @@ var _default = Question; // <div className="btn-voteup" onClick={handleVoteUp}>
 // </div>
 
 exports.default = _default;
-},{"react":"node_modules/react/index.js"}],"List.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _Question = _interopRequireDefault(require("./Question.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var List = function List(_ref) {
-  var dataList = _ref.dataList,
-      handleVote = _ref.handleVote,
-      handleDelete = _ref.handleDelete;
-  return /*#__PURE__*/_react.default.createElement("div", {
-    className: "question-container"
-  }, dataList.sort(function (a, b) {
-    return b.score - a.score;
-  }).map(function (data, index) {
-    return /*#__PURE__*/_react.default.createElement("li", {
-      key: index
-    }, /*#__PURE__*/_react.default.createElement("div", {
-      className: "question-box"
-    }, /*#__PURE__*/_react.default.createElement(_Question.default, {
-      val: data
-    }), /*#__PURE__*/_react.default.createElement("div", {
-      className: "btn-voteup",
-      onClick: function onClick() {
-        return handleVote(index);
-      }
-    }, "Vote Up"), /*#__PURE__*/_react.default.createElement("div", {
-      className: "btn-delete",
-      onClick: function onClick() {
-        return handleDelete(index);
-      }
-    }, "Delete")));
-  }));
-};
-
-var _default = List;
-exports.default = _default;
-},{"react":"node_modules/react/index.js","./Question.js":"Question.js"}],"Form.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Form = function Form(_ref) {
-  var obj = _ref.obj,
-      handleOnChange = _ref.handleOnChange,
-      handleSubmit = _ref.handleSubmit;
-  return /*#__PURE__*/_react.default.createElement("div", {
-    className: "form-area"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "textbox-shell"
-  }, /*#__PURE__*/_react.default.createElement("textarea", {
-    name: "texts",
-    type: "text",
-    className: "text-area",
-    onChange: handleOnChange,
-    value: obj.texts,
-    rows: "1",
-    cols: "80",
-    placeholder: "Ask a question..."
-  })), /*#__PURE__*/_react.default.createElement("div", {
-    className: "btn",
-    onClick: handleSubmit
-  }, "Submit"));
-};
-
-var _default = Form;
-exports.default = _default;
-},{"react":"node_modules/react/index.js"}],"node_modules/parseuri/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"../node_modules/parseuri/index.js":[function(require,module,exports) {
 /**
  * Parses an URI
  *
@@ -28435,7 +28353,7 @@ module.exports = function parseuri(str) {
     return uri;
 };
 
-},{}],"node_modules/ms/index.js":[function(require,module,exports) {
+},{}],"../node_modules/ms/index.js":[function(require,module,exports) {
 /**
  * Helpers.
  */
@@ -28599,7 +28517,7 @@ function plural(ms, msAbs, n, name) {
   return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
 }
 
-},{}],"node_modules/debug/src/common.js":[function(require,module,exports) {
+},{}],"../node_modules/debug/src/common.js":[function(require,module,exports) {
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -28867,7 +28785,7 @@ function setup(env) {
 
 module.exports = setup;
 
-},{"ms":"node_modules/ms/index.js"}],"node_modules/process/browser.js":[function(require,module,exports) {
+},{"ms":"../node_modules/ms/index.js"}],"../node_modules/process/browser.js":[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
@@ -29076,7 +28994,7 @@ process.chdir = function (dir) {
 process.umask = function () {
   return 0;
 };
-},{}],"node_modules/debug/src/browser.js":[function(require,module,exports) {
+},{}],"../node_modules/debug/src/browser.js":[function(require,module,exports) {
 var process = require("process");
 /* eslint-env browser */
 
@@ -29253,7 +29171,7 @@ formatters.j = function (v) {
     return '[UnexpectedJSONParseError]: ' + error.message;
   }
 };
-},{"./common":"node_modules/debug/src/common.js","process":"node_modules/process/browser.js"}],"node_modules/socket.io-client/lib/url.js":[function(require,module,exports) {
+},{"./common":"../node_modules/debug/src/common.js","process":"../node_modules/process/browser.js"}],"../node_modules/socket.io-client/lib/url.js":[function(require,module,exports) {
 
 /**
  * Module dependencies.
@@ -29330,7 +29248,7 @@ function url (uri, loc) {
   return obj;
 }
 
-},{"parseuri":"node_modules/parseuri/index.js","debug":"node_modules/debug/src/browser.js"}],"node_modules/socket.io-parser/node_modules/ms/index.js":[function(require,module,exports) {
+},{"parseuri":"../node_modules/parseuri/index.js","debug":"../node_modules/debug/src/browser.js"}],"../node_modules/socket.io-parser/node_modules/ms/index.js":[function(require,module,exports) {
 /**
  * Helpers.
  */
@@ -29484,7 +29402,7 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
-},{}],"node_modules/socket.io-parser/node_modules/debug/src/debug.js":[function(require,module,exports) {
+},{}],"../node_modules/socket.io-parser/node_modules/debug/src/debug.js":[function(require,module,exports) {
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -29711,7 +29629,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":"node_modules/socket.io-parser/node_modules/ms/index.js"}],"node_modules/socket.io-parser/node_modules/debug/src/browser.js":[function(require,module,exports) {
+},{"ms":"../node_modules/socket.io-parser/node_modules/ms/index.js"}],"../node_modules/socket.io-parser/node_modules/debug/src/browser.js":[function(require,module,exports) {
 var process = require("process");
 /**
  * This is the web browser implementation of `debug()`.
@@ -29875,7 +29793,7 @@ function localstorage() {
     return window.localStorage;
   } catch (e) {}
 }
-},{"./debug":"node_modules/socket.io-parser/node_modules/debug/src/debug.js","process":"node_modules/process/browser.js"}],"node_modules/socket.io-parser/node_modules/component-emitter/index.js":[function(require,module,exports) {
+},{"./debug":"../node_modules/socket.io-parser/node_modules/debug/src/debug.js","process":"../node_modules/process/browser.js"}],"../node_modules/socket.io-parser/node_modules/component-emitter/index.js":[function(require,module,exports) {
 
 /**
  * Expose `Emitter`.
@@ -30040,14 +29958,14 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],"node_modules/socket.io-parser/node_modules/isarray/index.js":[function(require,module,exports) {
+},{}],"../node_modules/socket.io-parser/node_modules/isarray/index.js":[function(require,module,exports) {
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],"node_modules/base64-js/index.js":[function(require,module,exports) {
+},{}],"../node_modules/base64-js/index.js":[function(require,module,exports) {
 'use strict'
 
 exports.byteLength = byteLength
@@ -30201,7 +30119,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],"node_modules/ieee754/index.js":[function(require,module,exports) {
+},{}],"../node_modules/ieee754/index.js":[function(require,module,exports) {
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -30287,14 +30205,14 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],"node_modules/isarray/index.js":[function(require,module,exports) {
+},{}],"../node_modules/isarray/index.js":[function(require,module,exports) {
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],"node_modules/buffer/index.js":[function(require,module,exports) {
+},{}],"../node_modules/buffer/index.js":[function(require,module,exports) {
 
 var global = arguments[3];
 /*!
@@ -32087,7 +32005,7 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":"node_modules/base64-js/index.js","ieee754":"node_modules/ieee754/index.js","isarray":"node_modules/isarray/index.js","buffer":"node_modules/buffer/index.js"}],"node_modules/socket.io-parser/is-buffer.js":[function(require,module,exports) {
+},{"base64-js":"../node_modules/base64-js/index.js","ieee754":"../node_modules/ieee754/index.js","isarray":"../node_modules/isarray/index.js","buffer":"../node_modules/buffer/index.js"}],"../node_modules/socket.io-parser/is-buffer.js":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
 
 module.exports = isBuf;
@@ -32110,7 +32028,7 @@ function isBuf(obj) {
           (withNativeArrayBuffer && (obj instanceof ArrayBuffer || isView(obj)));
 }
 
-},{"buffer":"node_modules/buffer/index.js"}],"node_modules/socket.io-parser/binary.js":[function(require,module,exports) {
+},{"buffer":"../node_modules/buffer/index.js"}],"../node_modules/socket.io-parser/binary.js":[function(require,module,exports) {
 /*global Blob,File*/
 
 /**
@@ -32253,7 +32171,7 @@ exports.removeBlobs = function(data, callback) {
   }
 };
 
-},{"isarray":"node_modules/socket.io-parser/node_modules/isarray/index.js","./is-buffer":"node_modules/socket.io-parser/is-buffer.js"}],"node_modules/socket.io-parser/index.js":[function(require,module,exports) {
+},{"isarray":"../node_modules/socket.io-parser/node_modules/isarray/index.js","./is-buffer":"../node_modules/socket.io-parser/is-buffer.js"}],"../node_modules/socket.io-parser/index.js":[function(require,module,exports) {
 
 /**
  * Module dependencies.
@@ -32670,7 +32588,7 @@ function error(msg) {
   };
 }
 
-},{"debug":"node_modules/socket.io-parser/node_modules/debug/src/browser.js","component-emitter":"node_modules/socket.io-parser/node_modules/component-emitter/index.js","./binary":"node_modules/socket.io-parser/binary.js","isarray":"node_modules/socket.io-parser/node_modules/isarray/index.js","./is-buffer":"node_modules/socket.io-parser/is-buffer.js"}],"node_modules/has-cors/index.js":[function(require,module,exports) {
+},{"debug":"../node_modules/socket.io-parser/node_modules/debug/src/browser.js","component-emitter":"../node_modules/socket.io-parser/node_modules/component-emitter/index.js","./binary":"../node_modules/socket.io-parser/binary.js","isarray":"../node_modules/socket.io-parser/node_modules/isarray/index.js","./is-buffer":"../node_modules/socket.io-parser/is-buffer.js"}],"../node_modules/has-cors/index.js":[function(require,module,exports) {
 
 /**
  * Module exports.
@@ -32689,7 +32607,7 @@ try {
   module.exports = false;
 }
 
-},{}],"node_modules/engine.io-client/lib/globalThis.browser.js":[function(require,module,exports) {
+},{}],"../node_modules/engine.io-client/lib/globalThis.browser.js":[function(require,module,exports) {
 module.exports = (function () {
   if (typeof self !== 'undefined') {
     return self;
@@ -32700,7 +32618,7 @@ module.exports = (function () {
   }
 })();
 
-},{}],"node_modules/engine.io-client/lib/xmlhttprequest.js":[function(require,module,exports) {
+},{}],"../node_modules/engine.io-client/lib/xmlhttprequest.js":[function(require,module,exports) {
 // browser shim for xmlhttprequest module
 
 var hasCORS = require('has-cors');
@@ -32740,7 +32658,7 @@ module.exports = function (opts) {
   }
 };
 
-},{"has-cors":"node_modules/has-cors/index.js","./globalThis":"node_modules/engine.io-client/lib/globalThis.browser.js"}],"node_modules/engine.io-parser/lib/keys.js":[function(require,module,exports) {
+},{"has-cors":"../node_modules/has-cors/index.js","./globalThis":"../node_modules/engine.io-client/lib/globalThis.browser.js"}],"../node_modules/engine.io-parser/lib/keys.js":[function(require,module,exports) {
 
 /**
  * Gets the keys for an object.
@@ -32761,14 +32679,14 @@ module.exports = Object.keys || function keys (obj){
   return arr;
 };
 
-},{}],"node_modules/has-binary2/node_modules/isarray/index.js":[function(require,module,exports) {
+},{}],"../node_modules/has-binary2/node_modules/isarray/index.js":[function(require,module,exports) {
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],"node_modules/has-binary2/index.js":[function(require,module,exports) {
+},{}],"../node_modules/has-binary2/index.js":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
 /* global Blob File */
 
@@ -32835,7 +32753,7 @@ function hasBinary (obj) {
   return false;
 }
 
-},{"isarray":"node_modules/has-binary2/node_modules/isarray/index.js","buffer":"node_modules/buffer/index.js"}],"node_modules/arraybuffer.slice/index.js":[function(require,module,exports) {
+},{"isarray":"../node_modules/has-binary2/node_modules/isarray/index.js","buffer":"../node_modules/buffer/index.js"}],"../node_modules/arraybuffer.slice/index.js":[function(require,module,exports) {
 /**
  * An abstraction for slicing an arraybuffer even when
  * ArrayBuffer.prototype.slice is not supported
@@ -32866,7 +32784,7 @@ module.exports = function(arraybuffer, start, end) {
   return result.buffer;
 };
 
-},{}],"node_modules/after/index.js":[function(require,module,exports) {
+},{}],"../node_modules/after/index.js":[function(require,module,exports) {
 module.exports = after
 
 function after(count, callback, err_cb) {
@@ -32896,7 +32814,7 @@ function after(count, callback, err_cb) {
 
 function noop() {}
 
-},{}],"node_modules/engine.io-parser/lib/utf8.js":[function(require,module,exports) {
+},{}],"../node_modules/engine.io-parser/lib/utf8.js":[function(require,module,exports) {
 /*! https://mths.be/utf8js v2.1.2 by @mathias */
 
 var stringFromCharCode = String.fromCharCode;
@@ -33108,7 +33026,7 @@ module.exports = {
 	decode: utf8decode
 };
 
-},{}],"node_modules/base64-arraybuffer/lib/base64-arraybuffer.js":[function(require,module,exports) {
+},{}],"../node_modules/base64-arraybuffer/lib/base64-arraybuffer.js":[function(require,module,exports) {
 /*
  * base64-arraybuffer
  * https://github.com/niklasvh/base64-arraybuffer
@@ -33183,7 +33101,7 @@ module.exports = {
     return arraybuffer;
   };
 })();
-},{}],"node_modules/blob/index.js":[function(require,module,exports) {
+},{}],"../node_modules/blob/index.js":[function(require,module,exports) {
 /**
  * Create a blob builder even when vendor prefixes exist
  */
@@ -33285,7 +33203,7 @@ module.exports = (function() {
   }
 })();
 
-},{}],"node_modules/engine.io-parser/lib/browser.js":[function(require,module,exports) {
+},{}],"../node_modules/engine.io-parser/lib/browser.js":[function(require,module,exports) {
 /**
  * Module dependencies.
  */
@@ -33892,7 +33810,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
   });
 };
 
-},{"./keys":"node_modules/engine.io-parser/lib/keys.js","has-binary2":"node_modules/has-binary2/index.js","arraybuffer.slice":"node_modules/arraybuffer.slice/index.js","after":"node_modules/after/index.js","./utf8":"node_modules/engine.io-parser/lib/utf8.js","base64-arraybuffer":"node_modules/base64-arraybuffer/lib/base64-arraybuffer.js","blob":"node_modules/blob/index.js"}],"node_modules/component-emitter/index.js":[function(require,module,exports) {
+},{"./keys":"../node_modules/engine.io-parser/lib/keys.js","has-binary2":"../node_modules/has-binary2/index.js","arraybuffer.slice":"../node_modules/arraybuffer.slice/index.js","after":"../node_modules/after/index.js","./utf8":"../node_modules/engine.io-parser/lib/utf8.js","base64-arraybuffer":"../node_modules/base64-arraybuffer/lib/base64-arraybuffer.js","blob":"../node_modules/blob/index.js"}],"../node_modules/component-emitter/index.js":[function(require,module,exports) {
 
 /**
  * Expose `Emitter`.
@@ -34069,7 +33987,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],"node_modules/engine.io-client/lib/transport.js":[function(require,module,exports) {
+},{}],"../node_modules/engine.io-client/lib/transport.js":[function(require,module,exports) {
 /**
  * Module dependencies.
  */
@@ -34232,7 +34150,7 @@ Transport.prototype.onClose = function () {
   this.emit('close');
 };
 
-},{"engine.io-parser":"node_modules/engine.io-parser/lib/browser.js","component-emitter":"node_modules/component-emitter/index.js"}],"node_modules/parseqs/index.js":[function(require,module,exports) {
+},{"engine.io-parser":"../node_modules/engine.io-parser/lib/browser.js","component-emitter":"../node_modules/component-emitter/index.js"}],"../node_modules/parseqs/index.js":[function(require,module,exports) {
 /**
  * Compiles a querystring
  * Returns string representation of the object
@@ -34271,7 +34189,7 @@ exports.decode = function(qs){
   return qry;
 };
 
-},{}],"node_modules/component-inherit/index.js":[function(require,module,exports) {
+},{}],"../node_modules/component-inherit/index.js":[function(require,module,exports) {
 
 module.exports = function(a, b){
   var fn = function(){};
@@ -34279,7 +34197,7 @@ module.exports = function(a, b){
   a.prototype = new fn;
   a.prototype.constructor = a;
 };
-},{}],"node_modules/yeast/index.js":[function(require,module,exports) {
+},{}],"../node_modules/yeast/index.js":[function(require,module,exports) {
 'use strict';
 
 var alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'.split('')
@@ -34349,7 +34267,7 @@ yeast.encode = encode;
 yeast.decode = decode;
 module.exports = yeast;
 
-},{}],"node_modules/engine.io-client/lib/transports/polling.js":[function(require,module,exports) {
+},{}],"../node_modules/engine.io-client/lib/transports/polling.js":[function(require,module,exports) {
 /**
  * Module dependencies.
  */
@@ -34596,7 +34514,7 @@ Polling.prototype.uri = function () {
   return schema + '://' + (ipv6 ? '[' + this.hostname + ']' : this.hostname) + port + this.path + query;
 };
 
-},{"../transport":"node_modules/engine.io-client/lib/transport.js","parseqs":"node_modules/parseqs/index.js","engine.io-parser":"node_modules/engine.io-parser/lib/browser.js","component-inherit":"node_modules/component-inherit/index.js","yeast":"node_modules/yeast/index.js","debug":"node_modules/debug/src/browser.js","xmlhttprequest-ssl":"node_modules/engine.io-client/lib/xmlhttprequest.js"}],"node_modules/engine.io-client/lib/transports/polling-xhr.js":[function(require,module,exports) {
+},{"../transport":"../node_modules/engine.io-client/lib/transport.js","parseqs":"../node_modules/parseqs/index.js","engine.io-parser":"../node_modules/engine.io-parser/lib/browser.js","component-inherit":"../node_modules/component-inherit/index.js","yeast":"../node_modules/yeast/index.js","debug":"../node_modules/debug/src/browser.js","xmlhttprequest-ssl":"../node_modules/engine.io-client/lib/xmlhttprequest.js"}],"../node_modules/engine.io-client/lib/transports/polling-xhr.js":[function(require,module,exports) {
 /* global attachEvent */
 
 /**
@@ -35016,7 +34934,7 @@ function unloadHandler () {
   }
 }
 
-},{"xmlhttprequest-ssl":"node_modules/engine.io-client/lib/xmlhttprequest.js","./polling":"node_modules/engine.io-client/lib/transports/polling.js","component-emitter":"node_modules/component-emitter/index.js","component-inherit":"node_modules/component-inherit/index.js","debug":"node_modules/debug/src/browser.js","../globalThis":"node_modules/engine.io-client/lib/globalThis.browser.js"}],"node_modules/engine.io-client/lib/transports/polling-jsonp.js":[function(require,module,exports) {
+},{"xmlhttprequest-ssl":"../node_modules/engine.io-client/lib/xmlhttprequest.js","./polling":"../node_modules/engine.io-client/lib/transports/polling.js","component-emitter":"../node_modules/component-emitter/index.js","component-inherit":"../node_modules/component-inherit/index.js","debug":"../node_modules/debug/src/browser.js","../globalThis":"../node_modules/engine.io-client/lib/globalThis.browser.js"}],"../node_modules/engine.io-client/lib/transports/polling-jsonp.js":[function(require,module,exports) {
 /**
  * Module requirements.
  */
@@ -35248,9 +35166,9 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
   }
 };
 
-},{"./polling":"node_modules/engine.io-client/lib/transports/polling.js","component-inherit":"node_modules/component-inherit/index.js","../globalThis":"node_modules/engine.io-client/lib/globalThis.browser.js"}],"node_modules/parcel-bundler/src/builtins/_empty.js":[function(require,module,exports) {
+},{"./polling":"../node_modules/engine.io-client/lib/transports/polling.js","component-inherit":"../node_modules/component-inherit/index.js","../globalThis":"../node_modules/engine.io-client/lib/globalThis.browser.js"}],"../node_modules/parcel-bundler/src/builtins/_empty.js":[function(require,module,exports) {
 
-},{}],"node_modules/engine.io-client/lib/transports/websocket.js":[function(require,module,exports) {
+},{}],"../node_modules/engine.io-client/lib/transports/websocket.js":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
 /**
  * Module dependencies.
@@ -35552,7 +35470,7 @@ WS.prototype.check = function () {
   return !!WebSocketImpl && !('__initialize' in WebSocketImpl && this.name === WS.prototype.name);
 };
 
-},{"../transport":"node_modules/engine.io-client/lib/transport.js","engine.io-parser":"node_modules/engine.io-parser/lib/browser.js","parseqs":"node_modules/parseqs/index.js","component-inherit":"node_modules/component-inherit/index.js","yeast":"node_modules/yeast/index.js","debug":"node_modules/debug/src/browser.js","ws":"node_modules/parcel-bundler/src/builtins/_empty.js","buffer":"node_modules/buffer/index.js"}],"node_modules/engine.io-client/lib/transports/index.js":[function(require,module,exports) {
+},{"../transport":"../node_modules/engine.io-client/lib/transport.js","engine.io-parser":"../node_modules/engine.io-parser/lib/browser.js","parseqs":"../node_modules/parseqs/index.js","component-inherit":"../node_modules/component-inherit/index.js","yeast":"../node_modules/yeast/index.js","debug":"../node_modules/debug/src/browser.js","ws":"../node_modules/parcel-bundler/src/builtins/_empty.js","buffer":"../node_modules/buffer/index.js"}],"../node_modules/engine.io-client/lib/transports/index.js":[function(require,module,exports) {
 /**
  * Module dependencies
  */
@@ -35607,7 +35525,7 @@ function polling (opts) {
   }
 }
 
-},{"xmlhttprequest-ssl":"node_modules/engine.io-client/lib/xmlhttprequest.js","./polling-xhr":"node_modules/engine.io-client/lib/transports/polling-xhr.js","./polling-jsonp":"node_modules/engine.io-client/lib/transports/polling-jsonp.js","./websocket":"node_modules/engine.io-client/lib/transports/websocket.js"}],"node_modules/indexof/index.js":[function(require,module,exports) {
+},{"xmlhttprequest-ssl":"../node_modules/engine.io-client/lib/xmlhttprequest.js","./polling-xhr":"../node_modules/engine.io-client/lib/transports/polling-xhr.js","./polling-jsonp":"../node_modules/engine.io-client/lib/transports/polling-jsonp.js","./websocket":"../node_modules/engine.io-client/lib/transports/websocket.js"}],"../node_modules/indexof/index.js":[function(require,module,exports) {
 
 var indexOf = [].indexOf;
 
@@ -35618,7 +35536,7 @@ module.exports = function(arr, obj){
   }
   return -1;
 };
-},{}],"node_modules/engine.io-client/lib/socket.js":[function(require,module,exports) {
+},{}],"../node_modules/engine.io-client/lib/socket.js":[function(require,module,exports) {
 /**
  * Module dependencies.
  */
@@ -36368,7 +36286,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
   return filteredUpgrades;
 };
 
-},{"./transports/index":"node_modules/engine.io-client/lib/transports/index.js","component-emitter":"node_modules/component-emitter/index.js","debug":"node_modules/debug/src/browser.js","indexof":"node_modules/indexof/index.js","engine.io-parser":"node_modules/engine.io-parser/lib/browser.js","parseuri":"node_modules/parseuri/index.js","parseqs":"node_modules/parseqs/index.js","./transport":"node_modules/engine.io-client/lib/transport.js"}],"node_modules/engine.io-client/lib/index.js":[function(require,module,exports) {
+},{"./transports/index":"../node_modules/engine.io-client/lib/transports/index.js","component-emitter":"../node_modules/component-emitter/index.js","debug":"../node_modules/debug/src/browser.js","indexof":"../node_modules/indexof/index.js","engine.io-parser":"../node_modules/engine.io-parser/lib/browser.js","parseuri":"../node_modules/parseuri/index.js","parseqs":"../node_modules/parseqs/index.js","./transport":"../node_modules/engine.io-client/lib/transport.js"}],"../node_modules/engine.io-client/lib/index.js":[function(require,module,exports) {
 
 module.exports = require('./socket');
 
@@ -36380,7 +36298,7 @@ module.exports = require('./socket');
  */
 module.exports.parser = require('engine.io-parser');
 
-},{"./socket":"node_modules/engine.io-client/lib/socket.js","engine.io-parser":"node_modules/engine.io-parser/lib/browser.js"}],"node_modules/socket.io-client/node_modules/component-emitter/index.js":[function(require,module,exports) {
+},{"./socket":"../node_modules/engine.io-client/lib/socket.js","engine.io-parser":"../node_modules/engine.io-parser/lib/browser.js"}],"../node_modules/socket.io-client/node_modules/component-emitter/index.js":[function(require,module,exports) {
 
 /**
  * Expose `Emitter`.
@@ -36545,7 +36463,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],"node_modules/to-array/index.js":[function(require,module,exports) {
+},{}],"../node_modules/to-array/index.js":[function(require,module,exports) {
 module.exports = toArray
 
 function toArray(list, index) {
@@ -36560,7 +36478,7 @@ function toArray(list, index) {
     return array
 }
 
-},{}],"node_modules/socket.io-client/lib/on.js":[function(require,module,exports) {
+},{}],"../node_modules/socket.io-client/lib/on.js":[function(require,module,exports) {
 
 /**
  * Module exports.
@@ -36586,7 +36504,7 @@ function on (obj, ev, fn) {
   };
 }
 
-},{}],"node_modules/component-bind/index.js":[function(require,module,exports) {
+},{}],"../node_modules/component-bind/index.js":[function(require,module,exports) {
 /**
  * Slice reference.
  */
@@ -36611,7 +36529,7 @@ module.exports = function(obj, fn){
   }
 };
 
-},{}],"node_modules/socket.io-client/lib/socket.js":[function(require,module,exports) {
+},{}],"../node_modules/socket.io-client/lib/socket.js":[function(require,module,exports) {
 
 /**
  * Module dependencies.
@@ -37051,7 +36969,7 @@ Socket.prototype.binary = function (binary) {
   return this;
 };
 
-},{"socket.io-parser":"node_modules/socket.io-parser/index.js","component-emitter":"node_modules/socket.io-client/node_modules/component-emitter/index.js","to-array":"node_modules/to-array/index.js","./on":"node_modules/socket.io-client/lib/on.js","component-bind":"node_modules/component-bind/index.js","debug":"node_modules/debug/src/browser.js","parseqs":"node_modules/parseqs/index.js","has-binary2":"node_modules/has-binary2/index.js"}],"node_modules/backo2/index.js":[function(require,module,exports) {
+},{"socket.io-parser":"../node_modules/socket.io-parser/index.js","component-emitter":"../node_modules/socket.io-client/node_modules/component-emitter/index.js","to-array":"../node_modules/to-array/index.js","./on":"../node_modules/socket.io-client/lib/on.js","component-bind":"../node_modules/component-bind/index.js","debug":"../node_modules/debug/src/browser.js","parseqs":"../node_modules/parseqs/index.js","has-binary2":"../node_modules/has-binary2/index.js"}],"../node_modules/backo2/index.js":[function(require,module,exports) {
 
 /**
  * Expose `Backoff`.
@@ -37138,7 +37056,7 @@ Backoff.prototype.setJitter = function(jitter){
 };
 
 
-},{}],"node_modules/socket.io-client/lib/manager.js":[function(require,module,exports) {
+},{}],"../node_modules/socket.io-client/lib/manager.js":[function(require,module,exports) {
 
 /**
  * Module dependencies.
@@ -37713,7 +37631,7 @@ Manager.prototype.onreconnect = function () {
   this.emitAll('reconnect', attempt);
 };
 
-},{"engine.io-client":"node_modules/engine.io-client/lib/index.js","./socket":"node_modules/socket.io-client/lib/socket.js","component-emitter":"node_modules/socket.io-client/node_modules/component-emitter/index.js","socket.io-parser":"node_modules/socket.io-parser/index.js","./on":"node_modules/socket.io-client/lib/on.js","component-bind":"node_modules/component-bind/index.js","debug":"node_modules/debug/src/browser.js","indexof":"node_modules/indexof/index.js","backo2":"node_modules/backo2/index.js"}],"node_modules/socket.io-client/lib/index.js":[function(require,module,exports) {
+},{"engine.io-client":"../node_modules/engine.io-client/lib/index.js","./socket":"../node_modules/socket.io-client/lib/socket.js","component-emitter":"../node_modules/socket.io-client/node_modules/component-emitter/index.js","socket.io-parser":"../node_modules/socket.io-parser/index.js","./on":"../node_modules/socket.io-client/lib/on.js","component-bind":"../node_modules/component-bind/index.js","debug":"../node_modules/debug/src/browser.js","indexof":"../node_modules/indexof/index.js","backo2":"../node_modules/backo2/index.js"}],"../node_modules/socket.io-client/lib/index.js":[function(require,module,exports) {
 
 /**
  * Module dependencies.
@@ -37809,7 +37727,93 @@ exports.connect = lookup;
 exports.Manager = require('./manager');
 exports.Socket = require('./socket');
 
-},{"./url":"node_modules/socket.io-client/lib/url.js","socket.io-parser":"node_modules/socket.io-parser/index.js","./manager":"node_modules/socket.io-client/lib/manager.js","debug":"node_modules/debug/src/browser.js","./socket":"node_modules/socket.io-client/lib/socket.js"}],"Window.js":[function(require,module,exports) {
+},{"./url":"../node_modules/socket.io-client/lib/url.js","socket.io-parser":"../node_modules/socket.io-parser/index.js","./manager":"../node_modules/socket.io-client/lib/manager.js","debug":"../node_modules/debug/src/browser.js","./socket":"../node_modules/socket.io-client/lib/socket.js"}],"components/List.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _Question = _interopRequireDefault(require("./Question.js"));
+
+var _socket = _interopRequireDefault(require("socket.io-client"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// const socket = io('http://localhost:3000');
+var List = function List(_ref) {
+  var dataList = _ref.dataList,
+      handleVote = _ref.handleVote,
+      handleDelete = _ref.handleDelete;
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "question-container"
+  }, dataList.sort(function (a, b) {
+    return b.score - a.score;
+  }).map(function (data, index) {
+    return /*#__PURE__*/_react.default.createElement("li", {
+      key: index
+    }, /*#__PURE__*/_react.default.createElement("div", {
+      className: "question-box"
+    }, /*#__PURE__*/_react.default.createElement(_Question.default, {
+      val: data
+    }), !data.voted ? /*#__PURE__*/_react.default.createElement("div", {
+      className: "btn-voteup",
+      onClick: function onClick() {
+        handleVote(index);
+      }
+    }, "Vote Up") : null, /*#__PURE__*/_react.default.createElement("div", {
+      className: "btn-delete",
+      onClick: function onClick() {
+        handleDelete(index);
+      }
+    }, "Delete")));
+  }));
+};
+
+var _default = List;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","./Question.js":"components/Question.js","socket.io-client":"../node_modules/socket.io-client/lib/index.js"}],"components/Form.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Form = function Form(_ref) {
+  var obj = _ref.obj,
+      handleOnChange = _ref.handleOnChange,
+      handleSubmit = _ref.handleSubmit,
+      socket = _ref.socket;
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "form-area"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "textbox-shell"
+  }, /*#__PURE__*/_react.default.createElement("textarea", {
+    name: "texts",
+    type: "text",
+    className: "text-area",
+    onChange: handleOnChange,
+    value: obj.texts,
+    rows: "1",
+    cols: "80",
+    placeholder: "Ask a question..."
+  })), /*#__PURE__*/_react.default.createElement("div", {
+    className: "btn",
+    onClick: handleSubmit
+  }, "Submit"));
+};
+
+var _default = Form;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"components/Window.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37853,7 +37857,7 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var socket = (0, _socket.default)("http://localhost:3000");
+var socket;
 
 var Window = function Window(props) {
   // State that handles conditional rendering for components -----------------------------------------------
@@ -37874,75 +37878,82 @@ var Window = function Window(props) {
 
 
   var _React$useState5 = _react.default.useState({
-    author: "//fetch from server//",
-    texts: "",
-    score: 0
+    author: '//fetch from server//',
+    texts: '',
+    score: 0,
+    voted: false
   }),
       _React$useState6 = _slicedToArray(_React$useState5, 2),
       obj = _React$useState6[0],
       setObj = _React$useState6[1]; // ---------------------------------------------- Handler Functions ----------------------------------------
 
   /* Handles the change in the form component.
-  # Updates the tempObj using setObj everytime a change happens in the Question Form
-  */
+   # Updates the tempObj using setObj everytime a change happens in the Question Form
+   */
 
 
   var handleOnChange = function handleOnChange(event) {
     setObj(_objectSpread(_objectSpread({}, obj), {}, _defineProperty({}, event.target.name, event.target.value)));
   };
   /* Handles the submit in the form component.
-  # Gets the Obj and pushes it to the dataList
-  # Uses setDataList to update dataList and render
-  # Uses setObj and pushes and empty question-object to be used by handleOnchange
-  # Sets specified visibility and emits the new state.
-  */
+   # Gets the Obj and pushes it to the dataList
+   # Uses setDataList to update dataList and render
+   # Uses setObj and pushes and empty question-object to be used by handleOnchange
+   # Sets specified visibility.
+   */
 
 
   var handleSubmit = function handleSubmit() {
-    if (obj.texts != "") {
-      dataList.push(obj);
-      setDataList(dataList);
+    if (obj.texts != '') {
+      socket.emit('add-question', obj);
+      setDataList(function (dataList) {
+        return [obj].concat(_toConsumableArray(dataList));
+      });
       setObj({
-        author: "//fetch from server//",
-        texts: "",
-        score: 0
+        author: '//fetch from server//',
+        texts: '',
+        score: 0,
+        voted: false
       });
     }
 
     handleSubmitVisibility();
-    socket.emit("update-to-questions", dataList);
+    console.log('render from handleSubmit');
   };
   /* Handles changing the vote of a particular Question.
-  # Gets the index of arrays.map
-  # Creates a mutable copy of dataList
-  # Increments the vote of the particular object queried by the index.
-  # Uses setDataList to update the state
-  */
+   # Gets the index of arrays.map
+   # Creates a mutable copy of dataList
+   # Increments the vote of the particular object queried by the index.
+   # Uses setDataList to update the state
+   */
 
 
   var handleVote = function handleVote(index) {
+    socket.emit('queue-vote-up', index);
+
     var state = _toConsumableArray(dataList);
 
     state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
-      score: state[index].score + 1
+      score: state[index].score + 1,
+      voted: true
     });
     setDataList(state);
-    socket.emit("update-to-questions", state);
   };
   /* Handles deleting a particular question object from dataList.
-  # Gets the index of arrays.map
-  # Creates a mutable copy of dataList
-  # Deletes the desired Object using index.
-  # Uses setDataList to update the state and emit to emit the change to server.
-  */
+   # Gets the index of arrays.map
+   # Creates a mutable copy of dataList
+   # Deletes the desired Object using index.
+   # Uses setDataList to update the state.
+   */
 
 
   var handleDelete = function handleDelete(index) {
+    socket.emit('queue-delete', index);
+
     var state = _toConsumableArray(dataList);
 
     state.splice(index, 1);
     setDataList(state);
-    socket.emit("update-to-questions", state);
   }; //Handles the Visibility after submit of form is clicked.
 
 
@@ -37961,19 +37972,50 @@ var Window = function Window(props) {
       list: false,
       post: false
     });
+  };
+
+  var setVote = function setVote(dataList, index) {
+    var state = _toConsumableArray(dataList);
+
+    state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
+      score: state[index].score + 1
+    });
+    return state;
+  };
+
+  var deleteItem = function deleteItem(dataList, index) {
+    var state = _toConsumableArray(dataList);
+
+    state.splice(index, 1);
+    return state;
   }; // --------------------------------------------------------------SOCKETS ------------------------------------------------
-  // Listens for a to-update message from the server, where-in the data is the dataList that is served to every-client.
 
 
-  socket.on("to-update", function (data) {
-    setDataList(data);
-  }); // --------------------------------------------------------------SOCKETS ------------------------------------------------
+  _react.default.useEffect(function () {
+    socket = (0, _socket.default)('http://localhost:3000');
+    socket.on('add-this-question', function (data) {
+      setDataList(function (dataList) {
+        return [data].concat(_toConsumableArray(dataList));
+      });
+    });
+    socket.on('vote-up-onIndex', function (index) {
+      setDataList(function (dataList) {
+        return setVote(dataList, index);
+      });
+    });
+    socket.on('delete-question-onIndex', function (index) {
+      setDataList(function (dataList) {
+        return deleteItem(dataList, index);
+      });
+    });
+  }, []); // --------------------------------------------------------------SOCKETS ------------------------------------------------
+
 
   return props.history.location.state.permission ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, dataList.length == 0 && visibility.list ? /*#__PURE__*/_react.default.createElement("div", {
     className: "question-container"
-  }, /*#__PURE__*/_react.default.createElement("h1", {
+  }, /*#__PURE__*/_react.default.createElement("div", {
     className: "no-list-text"
-  }, " No Questions Yet...")) : visibility.list ? /*#__PURE__*/_react.default.createElement(_List.default, {
+  }, " No Questions Yet")) : visibility.list ? /*#__PURE__*/_react.default.createElement(_List.default, {
     dataList: dataList,
     handleVote: handleVote,
     handleDelete: handleDelete
@@ -37981,20 +38023,20 @@ var Window = function Window(props) {
     obj: obj,
     handleOnChange: handleOnChange,
     handleSubmit: handleSubmit
-  }) : null, visibility.post ? /*#__PURE__*/_react.default.createElement("div", {
+  }) : null, visibility.post ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "btn",
     onClick: handlePostVisibility
-  }, "Post a Question...") : null) : /*#__PURE__*/_react.default.createElement("div", null, "Error 404 not found!");
+  }, "Post a Question..."), /*#__PURE__*/_react.default.createElement("div", {
+    className: "btn",
+    onClick: function onClick() {
+      return console.log(dataList);
+    }
+  }, "Log State")) : null) : /*#__PURE__*/_react.default.createElement("div", null, "Error 404 not found!");
 };
 
 var _default = Window;
 exports.default = _default;
-{
-  /* <div className={`btn`} onClick={() => console.log(dataList)}>
-  Log State
-  </div> */
-}
-},{"react":"node_modules/react/index.js","./List.js":"List.js","./Form.js":"Form.js","socket.io-client":"node_modules/socket.io-client/lib/index.js"}],"node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./List.js":"components/List.js","./Form.js":"components/Form.js","socket.io-client":"../node_modules/socket.io-client/lib/index.js"}],"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38007,7 +38049,7 @@ function _inheritsLoose(subClass, superClass) {
   subClass.prototype.constructor = subClass;
   subClass.__proto__ = superClass;
 }
-},{}],"node_modules/react-is/cjs/react-is.development.js":[function(require,module,exports) {
+},{}],"../node_modules/react-is/cjs/react-is.development.js":[function(require,module,exports) {
 /** @license React v16.13.1
  * react-is.development.js
  *
@@ -38197,7 +38239,7 @@ if ("development" !== "production") {
     exports.typeOf = typeOf;
   })();
 }
-},{}],"node_modules/react-is/index.js":[function(require,module,exports) {
+},{}],"../node_modules/react-is/index.js":[function(require,module,exports) {
 'use strict';
 
 if ("development" === 'production') {
@@ -38205,7 +38247,7 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-is.development.js');
 }
-},{"./cjs/react-is.development.js":"node_modules/react-is/cjs/react-is.development.js"}],"node_modules/prop-types/factoryWithTypeCheckers.js":[function(require,module,exports) {
+},{"./cjs/react-is.development.js":"../node_modules/react-is/cjs/react-is.development.js"}],"../node_modules/prop-types/factoryWithTypeCheckers.js":[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -38849,7 +38891,7 @@ module.exports = function (isValidElement, throwOnDirectAccess) {
   ReactPropTypes.PropTypes = ReactPropTypes;
   return ReactPropTypes;
 };
-},{"react-is":"node_modules/react-is/index.js","object-assign":"node_modules/object-assign/index.js","./lib/ReactPropTypesSecret":"node_modules/prop-types/lib/ReactPropTypesSecret.js","./checkPropTypes":"node_modules/prop-types/checkPropTypes.js"}],"node_modules/prop-types/index.js":[function(require,module,exports) {
+},{"react-is":"../node_modules/react-is/index.js","object-assign":"../node_modules/object-assign/index.js","./lib/ReactPropTypesSecret":"../node_modules/prop-types/lib/ReactPropTypesSecret.js","./checkPropTypes":"../node_modules/prop-types/checkPropTypes.js"}],"../node_modules/prop-types/index.js":[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -38868,7 +38910,7 @@ if ("development" !== 'production') {
   // http://fb.me/prop-types-in-prod
   module.exports = require('./factoryWithThrowingShims')();
 }
-},{"react-is":"node_modules/react-is/index.js","./factoryWithTypeCheckers":"node_modules/prop-types/factoryWithTypeCheckers.js"}],"node_modules/@babel/runtime/helpers/esm/extends.js":[function(require,module,exports) {
+},{"react-is":"../node_modules/react-is/index.js","./factoryWithTypeCheckers":"../node_modules/prop-types/factoryWithTypeCheckers.js"}],"../node_modules/@babel/runtime/helpers/esm/extends.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38893,7 +38935,7 @@ function _extends() {
 
   return _extends.apply(this, arguments);
 }
-},{}],"node_modules/resolve-pathname/esm/resolve-pathname.js":[function(require,module,exports) {
+},{}],"../node_modules/resolve-pathname/esm/resolve-pathname.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38967,7 +39009,7 @@ function resolvePathname(to, from) {
 
 var _default = resolvePathname;
 exports.default = _default;
-},{}],"node_modules/value-equal/esm/value-equal.js":[function(require,module,exports) {
+},{}],"../node_modules/value-equal/esm/value-equal.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39005,7 +39047,7 @@ function valueEqual(a, b) {
 
 var _default = valueEqual;
 exports.default = _default;
-},{}],"node_modules/tiny-warning/dist/tiny-warning.esm.js":[function(require,module,exports) {
+},{}],"../node_modules/tiny-warning/dist/tiny-warning.esm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39034,7 +39076,7 @@ function warning(condition, message) {
 
 var _default = warning;
 exports.default = _default;
-},{}],"node_modules/tiny-invariant/dist/tiny-invariant.esm.js":[function(require,module,exports) {
+},{}],"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39058,7 +39100,7 @@ function invariant(condition, message) {
 
 var _default = invariant;
 exports.default = _default;
-},{}],"node_modules/history/esm/history.js":[function(require,module,exports) {
+},{}],"../node_modules/history/esm/history.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40004,7 +40046,7 @@ function createMemoryHistory(props) {
   };
   return history;
 }
-},{"@babel/runtime/helpers/esm/extends":"node_modules/@babel/runtime/helpers/esm/extends.js","resolve-pathname":"node_modules/resolve-pathname/esm/resolve-pathname.js","value-equal":"node_modules/value-equal/esm/value-equal.js","tiny-warning":"node_modules/tiny-warning/dist/tiny-warning.esm.js","tiny-invariant":"node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"node_modules/mini-create-react-context/dist/esm/index.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","resolve-pathname":"../node_modules/resolve-pathname/esm/resolve-pathname.js","value-equal":"../node_modules/value-equal/esm/value-equal.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"../node_modules/mini-create-react-context/dist/esm/index.js":[function(require,module,exports) {
 var global = arguments[3];
 "use strict";
 
@@ -40198,12 +40240,12 @@ function createReactContext(defaultValue, calculateChangedBits) {
 var index = _react.default.createContext || createReactContext;
 var _default = index;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","@babel/runtime/helpers/esm/inheritsLoose":"node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","prop-types":"node_modules/prop-types/index.js","tiny-warning":"node_modules/tiny-warning/dist/tiny-warning.esm.js"}],"node_modules/path-to-regexp/node_modules/isarray/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js"}],"../node_modules/path-to-regexp/node_modules/isarray/index.js":[function(require,module,exports) {
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
 
-},{}],"node_modules/path-to-regexp/index.js":[function(require,module,exports) {
+},{}],"../node_modules/path-to-regexp/index.js":[function(require,module,exports) {
 var isarray = require('isarray')
 
 /**
@@ -40631,7 +40673,7 @@ function pathToRegexp (path, keys, options) {
   return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
 }
 
-},{"isarray":"node_modules/path-to-regexp/node_modules/isarray/index.js"}],"node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js":[function(require,module,exports) {
+},{"isarray":"../node_modules/path-to-regexp/node_modules/isarray/index.js"}],"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40653,7 +40695,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
   return target;
 }
-},{}],"node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js":[function(require,module,exports) {
+},{}],"../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js":[function(require,module,exports) {
 'use strict';
 
 var reactIs = require('react-is');
@@ -40758,7 +40800,7 @@ function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
 
 module.exports = hoistNonReactStatics;
 
-},{"react-is":"node_modules/react-is/index.js"}],"node_modules/react-router/esm/react-router.js":[function(require,module,exports) {
+},{"react-is":"../node_modules/react-is/index.js"}],"../node_modules/react-router/esm/react-router.js":[function(require,module,exports) {
 var global = arguments[3];
 "use strict";
 
@@ -41553,7 +41595,7 @@ if ("development" !== "production") {
     global[key] = "esm";
   }
 }
-},{"@babel/runtime/helpers/esm/inheritsLoose":"node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js","history":"node_modules/history/esm/history.js","tiny-warning":"node_modules/tiny-warning/dist/tiny-warning.esm.js","mini-create-react-context":"node_modules/mini-create-react-context/dist/esm/index.js","tiny-invariant":"node_modules/tiny-invariant/dist/tiny-invariant.esm.js","@babel/runtime/helpers/esm/extends":"node_modules/@babel/runtime/helpers/esm/extends.js","path-to-regexp":"node_modules/path-to-regexp/index.js","react-is":"node_modules/react-is/index.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","hoist-non-react-statics":"node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js"}],"node_modules/react-router-dom/esm/react-router-dom.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","history":"../node_modules/history/esm/history.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","mini-create-react-context":"../node_modules/mini-create-react-context/dist/esm/index.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","path-to-regexp":"../node_modules/path-to-regexp/index.js","react-is":"../node_modules/react-is/index.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","hoist-non-react-statics":"../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js"}],"../node_modules/react-router-dom/esm/react-router-dom.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41965,7 +42007,7 @@ if ("development" !== "production") {
     style: _propTypes.default.object
   });
 }
-},{"react-router":"node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"node_modules/react/index.js","history":"node_modules/history/esm/history.js","prop-types":"node_modules/prop-types/index.js","tiny-warning":"node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"CreateRoom.js":[function(require,module,exports) {
+},{"react-router":"../node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","history":"../node_modules/history/esm/history.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"components/CreateRoom.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42002,7 +42044,7 @@ var CreateRoom = function CreateRoom(props) {
 var _default = (0, _reactRouterDom.withRouter)(CreateRoom);
 
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js"}],"Nav.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/Nav.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42036,7 +42078,7 @@ var Nav = function Nav() {
 
 var _default = Nav;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js"}],"JoinRoom.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/JoinRoom.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42065,20 +42107,20 @@ var JoinRoom = function JoinRoom() {
 
 var _default = JoinRoom;
 exports.default = _default;
-},{"react":"node_modules/react/index.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
 
 var _reactDom = _interopRequireDefault(require("react-dom"));
 
-var _Window = _interopRequireDefault(require("./Window.js"));
+var _Window = _interopRequireDefault(require("./components/Window.js"));
 
-var _CreateRoom = _interopRequireDefault(require("./CreateRoom"));
+var _CreateRoom = _interopRequireDefault(require("./components/CreateRoom"));
 
-var _Nav = _interopRequireDefault(require("./Nav.js"));
+var _Nav = _interopRequireDefault(require("./components/Nav.js"));
 
-var _JoinRoom = _interopRequireDefault(require("./JoinRoom.js"));
+var _JoinRoom = _interopRequireDefault(require("./components/JoinRoom.js"));
 
 var _reactRouterDom = require("react-router-dom");
 
@@ -42102,8 +42144,8 @@ var App = function App() {
   })));
 };
 
-_reactDom.default.render( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById("root"));
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./Window.js":"Window.js","./CreateRoom":"CreateRoom.js","./Nav.js":"Nav.js","./JoinRoom.js":"JoinRoom.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","socket.io-client":"node_modules/socket.io-client/lib/index.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+_reactDom.default.render( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById('root'));
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/Window.js":"components/Window.js","./components/CreateRoom":"components/CreateRoom.js","./components/Nav.js":"components/Nav.js","./components/JoinRoom.js":"components/JoinRoom.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","socket.io-client":"../node_modules/socket.io-client/lib/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -42131,7 +42173,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40599" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33439" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -42307,5 +42349,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","App.js"], null)
+},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","App.js"], null)
 //# sourceMappingURL=/App.d36a57b6.js.map
