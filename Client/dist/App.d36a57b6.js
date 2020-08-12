@@ -37813,230 +37813,7 @@ var Form = function Form(_ref) {
 
 var _default = Form;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"components/Window.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _List = _interopRequireDefault(require("./List.js"));
-
-var _Form = _interopRequireDefault(require("./Form.js"));
-
-var _socket = _interopRequireDefault(require("socket.io-client"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var socket;
-
-var Window = function Window(props) {
-  // State that handles conditional rendering for components -----------------------------------------------
-  var _React$useState = _react.default.useState({
-    form: false,
-    list: true,
-    post: true
-  }),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      visibility = _React$useState2[0],
-      setVisibility = _React$useState2[1]; // The dataList State which handles all the questions -----------------------------------------------------
-
-
-  var _React$useState3 = _react.default.useState([]),
-      _React$useState4 = _slicedToArray(_React$useState3, 2),
-      dataList = _React$useState4[0],
-      setDataList = _React$useState4[1]; // Temporary state for appending new entries to dataList --------------------------------------------------
-
-
-  var _React$useState5 = _react.default.useState({
-    author: '//fetch from server//',
-    texts: '',
-    score: 0,
-    voted: false
-  }),
-      _React$useState6 = _slicedToArray(_React$useState5, 2),
-      obj = _React$useState6[0],
-      setObj = _React$useState6[1]; // ---------------------------------------------- Handler Functions ----------------------------------------
-
-  /* Handles the change in the form component.
-   # Updates the tempObj using setObj everytime a change happens in the Question Form
-   */
-
-
-  var handleOnChange = function handleOnChange(event) {
-    setObj(_objectSpread(_objectSpread({}, obj), {}, _defineProperty({}, event.target.name, event.target.value)));
-  };
-  /* Handles the submit in the form component.
-   # Gets the Obj and pushes it to the dataList
-   # Uses setDataList to update dataList and render
-   # Uses setObj and pushes and empty question-object to be used by handleOnchange
-   # Sets specified visibility.
-   */
-
-
-  var handleSubmit = function handleSubmit() {
-    if (obj.texts != '') {
-      socket.emit('add-question', obj);
-      setDataList(function (dataList) {
-        return [obj].concat(_toConsumableArray(dataList));
-      });
-      setObj({
-        author: '//fetch from server//',
-        texts: '',
-        score: 0,
-        voted: false
-      });
-    }
-
-    handleSubmitVisibility();
-    console.log('render from handleSubmit');
-  };
-  /* Handles changing the vote of a particular Question.
-   # Gets the index of arrays.map
-   # Creates a mutable copy of dataList
-   # Increments the vote of the particular object queried by the index.
-   # Uses setDataList to update the state
-   */
-
-
-  var handleVote = function handleVote(index) {
-    socket.emit('queue-vote-up', index);
-
-    var state = _toConsumableArray(dataList);
-
-    state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
-      score: state[index].score + 1,
-      voted: true
-    });
-    setDataList(state);
-  };
-  /* Handles deleting a particular question object from dataList.
-   # Gets the index of arrays.map
-   # Creates a mutable copy of dataList
-   # Deletes the desired Object using index.
-   # Uses setDataList to update the state.
-   */
-
-
-  var handleDelete = function handleDelete(index) {
-    socket.emit('queue-delete', index);
-
-    var state = _toConsumableArray(dataList);
-
-    state.splice(index, 1);
-    setDataList(state);
-  }; //Handles the Visibility after submit of form is clicked.
-
-
-  var handleSubmitVisibility = function handleSubmitVisibility() {
-    setVisibility({
-      form: false,
-      list: true,
-      post: true
-    });
-  }; // Handles the visibility after Post a question is clicked.
-
-
-  var handlePostVisibility = function handlePostVisibility() {
-    setVisibility({
-      form: true,
-      list: false,
-      post: false
-    });
-  };
-
-  var setVote = function setVote(dataList, index) {
-    var state = _toConsumableArray(dataList);
-
-    state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
-      score: state[index].score + 1
-    });
-    return state;
-  };
-
-  var deleteItem = function deleteItem(dataList, index) {
-    var state = _toConsumableArray(dataList);
-
-    state.splice(index, 1);
-    return state;
-  }; // --------------------------------------------------------------SOCKETS ------------------------------------------------
-
-
-  _react.default.useEffect(function () {
-    socket = (0, _socket.default)('http://localhost:3000');
-    socket.on('add-this-question', function (data) {
-      setDataList(function (dataList) {
-        return [data].concat(_toConsumableArray(dataList));
-      });
-    });
-    socket.on('vote-up-onIndex', function (index) {
-      setDataList(function (dataList) {
-        return setVote(dataList, index);
-      });
-    });
-    socket.on('delete-question-onIndex', function (index) {
-      setDataList(function (dataList) {
-        return deleteItem(dataList, index);
-      });
-    });
-  }, []); // --------------------------------------------------------------SOCKETS ------------------------------------------------
-
-
-  return props.history.location.state.permission ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, dataList.length == 0 && visibility.list ? /*#__PURE__*/_react.default.createElement("div", {
-    className: "question-container"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "no-list-text"
-  }, " No Questions Yet")) : visibility.list ? /*#__PURE__*/_react.default.createElement(_List.default, {
-    dataList: dataList,
-    handleVote: handleVote,
-    handleDelete: handleDelete
-  }) : null, visibility.form ? /*#__PURE__*/_react.default.createElement(_Form.default, {
-    obj: obj,
-    handleOnChange: handleOnChange,
-    handleSubmit: handleSubmit
-  }) : null, visibility.post ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "btn",
-    onClick: handlePostVisibility
-  }, "Post a Question..."), /*#__PURE__*/_react.default.createElement("div", {
-    className: "btn",
-    onClick: function onClick() {
-      return console.log(dataList);
-    }
-  }, "Log State")) : null) : /*#__PURE__*/_react.default.createElement("div", null, "Error 404 not found!");
-};
-
-var _default = Window;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js","./List.js":"components/List.js","./Form.js":"components/Form.js","socket.io-client":"../node_modules/socket.io-client/lib/index.js"}],"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42007,7 +41784,244 @@ if ("development" !== "production") {
     style: _propTypes.default.object
   });
 }
-},{"react-router":"../node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","history":"../node_modules/history/esm/history.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"components/CreateRoom.js":[function(require,module,exports) {
+},{"react-router":"../node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","history":"../node_modules/history/esm/history.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"components/Window.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _List = _interopRequireDefault(require("./List.js"));
+
+var _Form = _interopRequireDefault(require("./Form.js"));
+
+var _socket = _interopRequireDefault(require("socket.io-client"));
+
+var _reactRouterDom = require("react-router-dom");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var socket;
+var roomName;
+
+var Window = function Window(props) {
+  // State that handles conditional rendering for components -----------------------------------------------
+  var _React$useState = _react.default.useState({
+    form: false,
+    list: true,
+    post: true
+  }),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      visibility = _React$useState2[0],
+      setVisibility = _React$useState2[1]; // The dataList State which handles all the questions -----------------------------------------------------
+
+
+  var _React$useState3 = _react.default.useState([]),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      dataList = _React$useState4[0],
+      setDataList = _React$useState4[1]; // Temporary state for appending new entries to dataList --------------------------------------------------
+
+
+  var _React$useState5 = _react.default.useState({
+    author: '//fetch from server//',
+    texts: '',
+    score: 0,
+    voted: false
+  }),
+      _React$useState6 = _slicedToArray(_React$useState5, 2),
+      obj = _React$useState6[0],
+      setObj = _React$useState6[1]; // ---------------------------------------------- Handler Functions ----------------------------------------
+
+  /* Handles the change in the form component.
+   # Updates the tempObj using setObj everytime a change happens in the Question Form
+   */
+
+
+  var handleOnChange = function handleOnChange(event) {
+    setObj(_objectSpread(_objectSpread({}, obj), {}, _defineProperty({}, event.target.name, event.target.value)));
+  };
+  /* Handles the submit in the form component.
+   # Gets the Obj and pushes it to the dataList
+   # Uses setDataList to update dataList and render
+   # Uses setObj and pushes and empty question-object to be used by handleOnchange
+   # Sets specified visibility.
+   */
+
+
+  var handleSubmit = function handleSubmit() {
+    if (obj.texts != '') {
+      socket.emit('add-question', {
+        obj: obj,
+        roomName: roomName
+      });
+      setDataList(function (dataList) {
+        return [obj].concat(_toConsumableArray(dataList));
+      });
+      setObj({
+        author: '//fetch from server//',
+        texts: '',
+        score: 0,
+        voted: false
+      });
+    }
+
+    handleSubmitVisibility();
+    console.log('render from handleSubmit');
+  };
+  /* Handles changing the vote of a particular Question.
+   # Gets the index of arrays.map
+   # Creates a mutable copy of dataList
+   # Increments the vote of the particular object queried by the index.
+   # Uses setDataList to update the state
+   */
+
+
+  var handleVote = function handleVote(index) {
+    socket.emit('queue-vote-up', {
+      index: index,
+      roomName: roomName
+    });
+
+    var state = _toConsumableArray(dataList);
+
+    state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
+      score: state[index].score + 1,
+      voted: true
+    });
+    setDataList(state);
+  };
+  /* Handles deleting a particular question object from dataList.
+   # Gets the index of arrays.map
+   # Creates a mutable copy of dataList
+   # Deletes the desired Object using index.
+   # Uses setDataList to update the state.
+   */
+
+
+  var handleDelete = function handleDelete(index) {
+    socket.emit('queue-delete', {
+      index: index,
+      roomName: roomName
+    });
+
+    var state = _toConsumableArray(dataList);
+
+    state.splice(index, 1);
+    setDataList(state);
+  }; //Handles the Visibility after submit of form is clicked.
+
+
+  var handleSubmitVisibility = function handleSubmitVisibility() {
+    setVisibility({
+      form: false,
+      list: true,
+      post: true
+    });
+  }; // Handles the visibility after Post a question is clicked.
+
+
+  var handlePostVisibility = function handlePostVisibility() {
+    setVisibility({
+      form: true,
+      list: false,
+      post: false
+    });
+  };
+
+  var setVote = function setVote(dataList, index) {
+    var state = _toConsumableArray(dataList);
+
+    state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
+      score: state[index].score + 1
+    });
+    return state;
+  };
+
+  var deleteItem = function deleteItem(dataList, index) {
+    var state = _toConsumableArray(dataList);
+
+    state.splice(index, 1);
+    return state;
+  }; // --------------------------------------------------------------SOCKETS ------------------------------------------------
+
+
+  _react.default.useEffect(function () {
+    roomName = props.match.params.room;
+    socket = (0, _socket.default)('http://localhost:3000');
+    socket.emit('join-room', roomName);
+    socket.on('add-this-question', function (data) {
+      setDataList(function (dataList) {
+        return [data].concat(_toConsumableArray(dataList));
+      });
+    });
+    socket.on('vote-up-onIndex', function (index) {
+      setDataList(function (dataList) {
+        return setVote(dataList, index);
+      });
+    });
+    socket.on('delete-question-onIndex', function (index) {
+      setDataList(function (dataList) {
+        return deleteItem(dataList, index);
+      });
+    });
+  }, []); // --------------------------------------------------------------SOCKETS ------------------------------------------------
+
+
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, dataList.length == 0 && visibility.list ? /*#__PURE__*/_react.default.createElement("div", {
+    className: "question-container"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "no-list-text"
+  }, " No Questions Yet")) : visibility.list ? /*#__PURE__*/_react.default.createElement(_List.default, {
+    dataList: dataList,
+    handleVote: handleVote,
+    handleDelete: handleDelete
+  }) : null, visibility.form ? /*#__PURE__*/_react.default.createElement(_Form.default, {
+    obj: obj,
+    handleOnChange: handleOnChange,
+    handleSubmit: handleSubmit
+  }) : null, visibility.post ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "btn",
+    onClick: handlePostVisibility
+  }, "Post a Question..."), /*#__PURE__*/_react.default.createElement("div", {
+    className: "btn",
+    onClick: function onClick() {
+      return console.log(dataList);
+    }
+  }, "Log State")) : null);
+};
+
+var _default = Window;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","./List.js":"components/List.js","./Form.js":"components/Form.js","socket.io-client":"../node_modules/socket.io-client/lib/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/CreateRoom.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42021,21 +42035,42 @@ var _reactRouterDom = require("react-router-dom");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 var CreateRoom = function CreateRoom(props) {
-  console.log(props);
+  var _React$useState = _react.default.useState({
+    path: '/'
+  }),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      state = _React$useState2[0],
+      setState = _React$useState2[1];
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "center-wrapper"
   }, /*#__PURE__*/_react.default.createElement("input", {
     className: "room-input",
-    placeholder: "Room Name"
+    placeholder: "Room Name",
+    onChange: function onChange(event) {
+      setState(_defineProperty({}, event.target.name, event.target.value));
+    },
+    name: "path"
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "btn",
     onClick: function onClick() {
       props.history.push({
-        pathname: "/questions",
-        state: {
-          permission: true
-        }
+        pathname: "/questions/".concat(state.path)
       });
     }
   }, "Create Room"));
@@ -42096,10 +42131,6 @@ var JoinRoom = function JoinRoom() {
   }, /*#__PURE__*/_react.default.createElement("input", {
     className: "for-input",
     placeholder: "Room name"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "password",
-    className: "for-input",
-    placeholder: "Password"
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "btn"
   }, "Submit"));
@@ -42133,7 +42164,7 @@ var App = function App() {
     path: "/join-room",
     component: _JoinRoom.default
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
-    path: "/questions",
+    path: "/questions/:room",
     component: _Window.default
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/create-room",
@@ -42173,7 +42204,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33439" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43079" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

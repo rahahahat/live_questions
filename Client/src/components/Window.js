@@ -2,7 +2,9 @@ import React from 'react';
 import List from './List.js';
 import Form from './Form.js';
 import io from 'socket.io-client';
+import { useParams } from 'react-router-dom';
 let socket;
+let roomName;
 const Window = (props) => {
 	// State that handles conditional rendering for components -----------------------------------------------
 	const [ visibility, setVisibility ] = React.useState({
@@ -39,7 +41,7 @@ const Window = (props) => {
   */
 	const handleSubmit = () => {
 		if (obj.texts != '') {
-			socket.emit('add-question', obj);
+			socket.emit('add-question', { obj, roomName });
 			setDataList((dataList) => [ obj, ...dataList ]);
 			setObj({
 				author: '//fetch from server//',
@@ -58,9 +60,13 @@ const Window = (props) => {
   # Uses setDataList to update the state
   */
 	const handleVote = (index) => {
-		socket.emit('queue-vote-up', index);
+		socket.emit('queue-vote-up', { index, roomName });
 		let state = [ ...dataList ];
-		state[index] = { ...state[index], score: state[index].score + 1, voted: true };
+		state[index] = {
+			...state[index],
+			score: state[index].score + 1,
+			voted: true
+		};
 		setDataList(state);
 	};
 	/* Handles deleting a particular question object from dataList.
@@ -70,7 +76,7 @@ const Window = (props) => {
   # Uses setDataList to update the state.
   */
 	const handleDelete = (index) => {
-		socket.emit('queue-delete', index);
+		socket.emit('queue-delete', { index, roomName });
 		let state = [ ...dataList ];
 		state.splice(index, 1);
 		setDataList(state);
@@ -97,7 +103,9 @@ const Window = (props) => {
 	};
 	// --------------------------------------------------------------SOCKETS ------------------------------------------------
 	React.useEffect(() => {
+		roomName = props.match.params.room;
 		socket = io('http://localhost:3000');
+		socket.emit('join-room', roomName);
 		socket.on('add-this-question', (data) => {
 			setDataList((dataList) => [ data, ...dataList ]);
 		});
@@ -110,7 +118,7 @@ const Window = (props) => {
 	}, []);
 	// --------------------------------------------------------------SOCKETS ------------------------------------------------
 
-	return props.history.location.state.permission ? (
+	return (
 		<React.Fragment>
 			{/*---------- Conditionally rendering the Question List both initially and after recieving data---------- */}
 			{dataList.length == 0 && visibility.list ? (
@@ -134,8 +142,6 @@ const Window = (props) => {
 				</React.Fragment>
 			) : null}
 		</React.Fragment>
-	) : (
-		<div>Error 404 not found!</div>
 	);
 };
 export default Window;
