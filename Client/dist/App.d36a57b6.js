@@ -41955,7 +41955,8 @@ var Window = function Window(props) {
       list: false,
       post: false
     });
-  };
+  }; // Helper function for socket to update vote.
+
 
   var setVote = function setVote(dataList, index) {
     var state = _toConsumableArray(dataList);
@@ -41964,7 +41965,8 @@ var Window = function Window(props) {
       score: state[index].score + 1
     });
     return state;
-  };
+  }; // helper function for sokcet to delete item.
+
 
   var deleteItem = function deleteItem(dataList, index) {
     var state = _toConsumableArray(dataList);
@@ -41975,7 +41977,7 @@ var Window = function Window(props) {
 
 
   _react.default.useEffect(function () {
-    roomName = props.match.params.room;
+    roomName = "".concat(props.match.params.roomName, "/").concat(props.match.params.id);
     socket = (0, _socket.default)('http://localhost:3000');
     socket.emit('join-room', roomName);
     socket.on('add-this-question', function (data) {
@@ -42000,7 +42002,7 @@ var Window = function Window(props) {
     className: "question-container"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "no-list-text"
-  }, " No Questions Yet")) : visibility.list ? /*#__PURE__*/_react.default.createElement(_List.default, {
+  }, " No questions yet")) : visibility.list ? /*#__PURE__*/_react.default.createElement(_List.default, {
     dataList: dataList,
     handleVote: handleVote,
     handleDelete: handleDelete
@@ -42011,12 +42013,7 @@ var Window = function Window(props) {
   }) : null, visibility.post ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "btn",
     onClick: handlePostVisibility
-  }, "Post a Question..."), /*#__PURE__*/_react.default.createElement("div", {
-    className: "btn",
-    onClick: function onClick() {
-      return console.log(dataList);
-    }
-  }, "Log State")) : null);
+  }, "Post a Question...")) : null);
 };
 
 var _default = Window;
@@ -42070,7 +42067,7 @@ var CreateRoom = function CreateRoom(props) {
     className: "btn",
     onClick: function onClick() {
       props.history.push({
-        pathname: "/questions/".concat(state.path)
+        pathname: "/questions/".concat(state.path, "/").concat(Date.now())
       });
     }
   }, "Create Room"));
@@ -42123,22 +42120,53 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _reactRouterDom = require("react-router-dom");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var JoinRoom = function JoinRoom() {
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var JoinRoom = function JoinRoom(props) {
+  var _React$useState = _react.default.useState('/'),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      state = _React$useState2[0],
+      setState = _React$useState2[1];
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "center-wrapper"
   }, /*#__PURE__*/_react.default.createElement("input", {
     className: "for-input",
-    placeholder: "Room name"
+    placeholder: "Room name",
+    name: "room",
+    onChange: function onChange(event) {
+      setState(_defineProperty({}, event.target.name, event.target.value));
+    }
   }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "btn"
+    className: "btn",
+    onClick: function onClick() {
+      props.history.push({
+        pathname: "/questions/".concat(state.room)
+      });
+    }
   }, "Submit"));
 };
 
-var _default = JoinRoom;
+var _default = (0, _reactRouterDom.withRouter)(JoinRoom);
+
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -42164,7 +42192,7 @@ var App = function App() {
     path: "/join-room",
     component: _JoinRoom.default
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
-    path: "/questions/:room",
+    path: "/questions/:room/:id",
     component: _Window.default
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/create-room",
@@ -42204,7 +42232,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43079" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43713" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

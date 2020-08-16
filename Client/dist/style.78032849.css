@@ -2,13 +2,39 @@ body {
 	box-sizing: border-box;
 	font-family: "Source Code Pro", monospace;
 }
+.question-container {
+	margin: 10px auto;
+	margin-top: 20px;
+	width: 90%;
+	padding: 1px;
+	height: fit-content;
+	background-color: #d9d9d9;
+	border-radius: 5px;
+}
+
+.no-list-text {
+	text-align: center;
+	font-size: 30px;
+	color: gray;
+	height: fit-content;
+	margin: 0px;
+	padding: 10px;
+}
+.no-list-text::after {
+	display: inline-block;
+	height: 0px;
+	font-size: 35px;
+	content: '.';
+	animation: dots 1.5s steps(5, end) infinite;
+}
 
 .question-box {
-	margin: 10px;
-	padding: 15px;
+	margin: 9px;
+	padding: 10px;
 	background-color: #f7f7f7;
-	border-radius: 20px;
+	border-radius: 5px;
 }
+
 .btn-voteup {
 	cursor: pointer;
 	color: #6e6a69;
@@ -23,7 +49,7 @@ li {
 .btn-fixed {
 	margin: 10px auto;
 	padding: 15px 30px;
-	border-radius: 20px;
+	border-radius: 10px;
 	background-color: #f7f7f7;
 	text-align: center;
 	width: fit-content;
@@ -81,29 +107,6 @@ li {
 	left: 0px;
 }
 
-.question-container {
-	margin: 30px auto;
-	width: 90%;
-	padding: 10px;
-	height: fit-content;
-	background-color: #d9d9d9;
-	border-radius: 30px;
-}
-
-.no-list-text {
-	text-align: center;
-	font-size: 35px;
-	color: gray;
-	height: fit-content;
-}
-.no-list-text:after {
-	margin: 0px;
-	padding: 0px;
-	font-size: 40px;
-	content: '.';
-	animation: dots 1.5s steps(5, end) infinite;
-}
-
 @keyframes dots {
 	0%,
 	20% {
@@ -122,6 +125,8 @@ li {
 		text-shadow: .25em 0 0 white, .5em 0 0 white;
 	}
 }
+
+/* --------------------------------------------------------------------------------- */
 
 
 /*# sourceMappingURL=/style.78032849.css.map */

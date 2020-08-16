@@ -16,7 +16,7 @@ const CreateRoom = (props) => {
 				className="btn"
 				onClick={() => {
 					props.history.push({
-						pathname: `/questions/${state.path}`
+						pathname: `/questions/${state.path}/${Date.now()}`
 					});
 				}}
 			>

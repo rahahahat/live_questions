@@ -90,12 +90,13 @@ const Window = (props) => {
 	const handlePostVisibility = () => {
 		setVisibility({ form: true, list: false, post: false });
 	};
+	// Helper function for socket to update vote.
 	const setVote = (dataList, index) => {
 		let state = [ ...dataList ];
 		state[index] = { ...state[index], score: state[index].score + 1 };
 		return state;
 	};
-
+	// helper function for sokcet to delete item.
 	const deleteItem = (dataList, index) => {
 		let state = [ ...dataList ];
 		state.splice(index, 1);
@@ -103,7 +104,7 @@ const Window = (props) => {
 	};
 	// --------------------------------------------------------------SOCKETS ------------------------------------------------
 	React.useEffect(() => {
-		roomName = props.match.params.room;
+		roomName = `${props.match.params.roomName}/${props.match.params.id}`;
 		socket = io('http://localhost:3000');
 		socket.emit('join-room', roomName);
 		socket.on('add-this-question', (data) => {
@@ -123,7 +124,7 @@ const Window = (props) => {
 			{/*---------- Conditionally rendering the Question List both initially and after recieving data---------- */}
 			{dataList.length == 0 && visibility.list ? (
 				<div className={`question-container`}>
-					<div className="no-list-text"> No Questions Yet</div>
+					<div className="no-list-text"> No questions yet</div>
 				</div>
 			) : visibility.list ? (
 				<List dataList={dataList} handleVote={handleVote} handleDelete={handleDelete} />
@@ -136,9 +137,9 @@ const Window = (props) => {
 					<div className={`btn`} onClick={handlePostVisibility}>
 						Post a Question...
 					</div>
-					<div className={`btn`} onClick={() => console.log(dataList)}>
+					{/* <div className={`btn`} onClick={() => console.log(dataList)}>
 						Log State
-					</div>
+					</div> */}
 				</React.Fragment>
 			) : null}
 		</React.Fragment>

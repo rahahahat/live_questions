@@ -11,7 +11,7 @@ const App = () => {
 		<Router>
 			<Switch>
 				<Route path="/join-room" component={JoinRoom} />
-				<Route path="/questions/:room" component={Window} />
+				<Route path="/questions/:room/:id" component={Window} />
 				<Route path="/create-room" component={CreateRoom} />
 				<Route path="/" component={Nav} />
 			</Switch>
