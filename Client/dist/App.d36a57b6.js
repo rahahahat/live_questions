@@ -42108,6 +42108,7 @@ var _reactRouterDom = require("react-router-dom");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Nav = function Nav() {
+  console.log('HI');
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "center-wrapper"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
@@ -42249,7 +42250,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41445" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36859" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
