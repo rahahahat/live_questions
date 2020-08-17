@@ -41834,7 +41834,8 @@ var socket;
 var roomName;
 
 var Window = function Window(props) {
-  // State that handles conditional rendering for components -----------------------------------------------
+  console.log(props.match.params); // State that handles conditional rendering for components -----------------------------------------------
+
   var _React$useState = _react.default.useState({
     form: false,
     list: true,
@@ -41852,8 +41853,8 @@ var Window = function Window(props) {
 
 
   var _React$useState5 = _react.default.useState({
-    author: '//fetch from server//',
-    texts: '',
+    author: "//fetch from server//",
+    texts: "",
     score: 0,
     voted: false
   }),
@@ -41862,26 +41863,26 @@ var Window = function Window(props) {
       setObj = _React$useState6[1]; // ---------------------------------------------- Handler Functions ----------------------------------------
 
   /* Handles the change in the form component.
-   # Updates the tempObj using setObj everytime a change happens in the Question Form
-   */
+  # Updates the tempObj using setObj everytime a change happens in the Question Form
+  */
 
 
   var handleOnChange = function handleOnChange(event) {
     setObj(_objectSpread(_objectSpread({}, obj), {}, _defineProperty({}, event.target.name, event.target.value)));
   };
   /* Handles the submit in the form component.
-   # Gets the Obj and pushes it to the dataList
-   # Uses setDataList to update dataList and render
-   # Uses setObj and pushes and empty question-object to be used by handleOnchange
-   # Sets specified visibility.
-   */
+  # Gets the Obj and pushes it to the dataList
+  # Uses setDataList to update dataList and render
+  # Uses setObj and pushes and empty question-object to be used by handleOnchange
+  # Sets specified visibility.
+  */
 
 
   var handleSubmit = function handleSubmit() {
-    console.log('addition to state');
+    console.log("addition to state");
 
-    if (obj.texts != '') {
-      socket.emit('add-question', {
+    if (obj.texts != "") {
+      socket.emit("add-question", {
         obj: obj,
         roomName: roomName
       });
@@ -41889,26 +41890,26 @@ var Window = function Window(props) {
         return [obj].concat(_toConsumableArray(dataList));
       });
       setObj({
-        author: '//fetch from server//',
-        texts: '',
+        author: "//fetch from server//",
+        texts: "",
         score: 0,
         voted: false
       });
     }
 
     handleSubmitVisibility();
-    console.log('render from handleSubmit');
+    console.log("render from handleSubmit");
   };
   /* Handles changing the vote of a particular Question.
-   # Gets the index of arrays.map
-   # Creates a mutable copy of dataList
-   # Increments the vote of the particular object queried by the index.
-   # Uses setDataList to update the state
-   */
+  # Gets the index of arrays.map
+  # Creates a mutable copy of dataList
+  # Increments the vote of the particular object queried by the index.
+  # Uses setDataList to update the state
+  */
 
 
   var handleVote = function handleVote(index) {
-    socket.emit('queue-vote-up', {
+    socket.emit("queue-vote-up", {
       index: index,
       roomName: roomName
     });
@@ -41922,15 +41923,15 @@ var Window = function Window(props) {
     setDataList(state);
   };
   /* Handles deleting a particular question object from dataList.
-   # Gets the index of arrays.map
-   # Creates a mutable copy of dataList
-   # Deletes the desired Object using index.
-   # Uses setDataList to update the state.
-   */
+  # Gets the index of arrays.map
+  # Creates a mutable copy of dataList
+  # Deletes the desired Object using index.
+  # Uses setDataList to update the state.
+  */
 
 
   var handleDelete = function handleDelete(index) {
-    socket.emit('queue-delete', {
+    socket.emit("queue-delete", {
       index: index,
       roomName: roomName
     });
@@ -41981,21 +41982,21 @@ var Window = function Window(props) {
   _react.default.useEffect(function () {
     roomName = "".concat(props.match.params.roomName, "/").concat(props.match.params.id); // Initiate client-side connection----------------------------
 
-    socket = (0, _socket.default)('http://localhost:3000');
-    socket.emit('join-room', roomName); // Listening Sockets------------------------------------------
+    socket = (0, _socket.default)("http://localhost:3000");
+    socket.emit("join-room", roomName); // Listening Sockets------------------------------------------
 
-    socket.on('add-this-question', function (data) {
-      console.log('addition from server');
+    socket.on("add-this-question", function (data) {
+      console.log("addition from server");
       setDataList(function (dataList) {
         return [data].concat(_toConsumableArray(dataList));
       });
     });
-    socket.on('vote-up-onIndex', function (index) {
+    socket.on("vote-up-onIndex", function (index) {
       setDataList(function (dataList) {
         return setVote(dataList, index);
       });
     });
-    socket.on('delete-question-onIndex', function (index) {
+    socket.on("delete-question-onIndex", function (index) {
       setDataList(function (dataList) {
         return deleteItem(dataList, index);
       });
@@ -42250,7 +42251,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36859" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39293" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
