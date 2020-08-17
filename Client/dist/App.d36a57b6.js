@@ -41878,6 +41878,8 @@ var Window = function Window(props) {
 
 
   var handleSubmit = function handleSubmit() {
+    console.log('addition to state');
+
     if (obj.texts != '') {
       socket.emit('add-question', {
         obj: obj,
@@ -41965,7 +41967,7 @@ var Window = function Window(props) {
       score: state[index].score + 1
     });
     return state;
-  }; // helper function for sokcet to delete item.
+  }; // Helper function for sokcet to delete item.
 
 
   var deleteItem = function deleteItem(dataList, index) {
@@ -41977,10 +41979,13 @@ var Window = function Window(props) {
 
 
   _react.default.useEffect(function () {
-    roomName = "".concat(props.match.params.roomName, "/").concat(props.match.params.id);
+    roomName = "".concat(props.match.params.roomName, "/").concat(props.match.params.id); // Initiate client-side connection----------------------------
+
     socket = (0, _socket.default)('http://localhost:3000');
-    socket.emit('join-room', roomName);
+    socket.emit('join-room', roomName); // Listening Sockets------------------------------------------
+
     socket.on('add-this-question', function (data) {
+      console.log('addition from server');
       setDataList(function (dataList) {
         return [data].concat(_toConsumableArray(dataList));
       });
@@ -42013,7 +42018,12 @@ var Window = function Window(props) {
   }) : null, visibility.post ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "btn",
     onClick: handlePostVisibility
-  }, "Post a Question...")) : null);
+  }, "Post a Question..."), /*#__PURE__*/_react.default.createElement("div", {
+    className: "btn",
+    onClick: function onClick() {
+      return console.log(dataList);
+    }
+  }, "Log State")) : null);
 };
 
 var _default = Window;
@@ -42048,7 +42058,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var CreateRoom = function CreateRoom(props) {
   var _React$useState = _react.default.useState({
-    path: '/'
+    path: '/create-room'
   }),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       state = _React$useState2[0],
@@ -42074,6 +42084,13 @@ var CreateRoom = function CreateRoom(props) {
 };
 
 var _default = (0, _reactRouterDom.withRouter)(CreateRoom);
+/*
+1) create a room
+2) register a room object to the database and the database assigns it a unique id
+3) we query that unique id from the database
+4) and use it a routing parameter
+*/
+
 
 exports.default = _default;
 },{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/Nav.js":[function(require,module,exports) {
@@ -42232,7 +42249,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43713" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41445" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

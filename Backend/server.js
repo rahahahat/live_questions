@@ -11,7 +11,7 @@ io.on('connection', (socket) => {
 	socket.on('disconnect', () => {
 		console.log('disconnect');
 	});
-	// Exclusive client sockets for handling the question object.
+	// --Exclusive client sockets for handling the question object--
 	socket.on('add-question', (data) => {
 		socket.to(data.roomName).broadcast.emit('add-this-question', data.obj);
 	});
@@ -24,7 +24,7 @@ io.on('connection', (socket) => {
 	socket.on('join-room', (roomName) => {
 		socket.join(roomName);
 	});
-	// -----------------------------------------------------------
+	// --------------------------------------------------------------
 });
 // -----------s--------------------------------
 server.listen(3000, () => {

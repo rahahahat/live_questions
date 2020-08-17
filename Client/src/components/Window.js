@@ -40,6 +40,7 @@ const Window = (props) => {
   # Sets specified visibility.
   */
 	const handleSubmit = () => {
+		console.log('addition to state');
 		if (obj.texts != '') {
 			socket.emit('add-question', { obj, roomName });
 			setDataList((dataList) => [ obj, ...dataList ]);
@@ -96,7 +97,7 @@ const Window = (props) => {
 		state[index] = { ...state[index], score: state[index].score + 1 };
 		return state;
 	};
-	// helper function for sokcet to delete item.
+	// Helper function for sokcet to delete item.
 	const deleteItem = (dataList, index) => {
 		let state = [ ...dataList ];
 		state.splice(index, 1);
@@ -105,9 +106,12 @@ const Window = (props) => {
 	// --------------------------------------------------------------SOCKETS ------------------------------------------------
 	React.useEffect(() => {
 		roomName = `${props.match.params.roomName}/${props.match.params.id}`;
+		// Initiate client-side connection----------------------------
 		socket = io('http://localhost:3000');
 		socket.emit('join-room', roomName);
+		// Listening Sockets------------------------------------------
 		socket.on('add-this-question', (data) => {
+			console.log('addition from server');
 			setDataList((dataList) => [ data, ...dataList ]);
 		});
 		socket.on('vote-up-onIndex', (index) => {
@@ -137,9 +141,9 @@ const Window = (props) => {
 					<div className={`btn`} onClick={handlePostVisibility}>
 						Post a Question...
 					</div>
-					{/* <div className={`btn`} onClick={() => console.log(dataList)}>
+					<div className={`btn`} onClick={() => console.log(dataList)}>
 						Log State
-					</div> */}
+					</div>
 				</React.Fragment>
 			) : null}
 		</React.Fragment>
