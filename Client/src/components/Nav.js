@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 const Nav = () => {
+	console.log('HI');
 	return (
 		<div className="center-wrapper">
 			<Link to="/create-room">
