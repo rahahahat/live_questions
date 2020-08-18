@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 let socket;
 let roomName;
 const Window = (props) => {
+  console.log(props);
   // State that handles conditional rendering for components -----------------------------------------------
   const [visibility, setVisibility] = React.useState({
     form: false,
@@ -21,7 +22,14 @@ const Window = (props) => {
     texts: "",
     score: 0,
     voted: false,
+    roomName: "",
   });
+  // State for holding username ------------------------------------------------------------------------------
+  const [userName, setUserName] = React.useState({
+    username: "",
+    assigned: false,
+  });
+
   // ---------------------------------------------- Handler Functions ----------------------------------------
 
   /* Handles the change in the form component.
@@ -42,13 +50,15 @@ const Window = (props) => {
   const handleSubmit = () => {
     console.log("addition to state");
     if (obj.texts != "") {
-      socket.emit("add-question", { obj, roomName });
-      setDataList((dataList) => [obj, ...dataList]);
+      socket.emit("add-question", obj);
+      // setDataList((dataList) => [obj, ...dataList]);
       setObj({
+        ...obj,
         author: "//fetch from server//",
         texts: "",
         score: 0,
         voted: false,
+        room: roomName,
       });
     }
     handleSubmitVisibility();
@@ -61,14 +71,15 @@ const Window = (props) => {
   # Uses setDataList to update the state
   */
   const handleVote = (index) => {
-    socket.emit("queue-vote-up", { index, roomName });
     let state = [...dataList];
-    state[index] = {
-      ...state[index],
-      score: state[index].score + 1,
-      voted: true,
-    };
-    setDataList(state);
+    let id = state[index]._id;
+    socket.emit("queue-vote-up", { index, roomName, id });
+    // state[index] = {
+    //   ...state[index],
+    //   score: state[index].score + 1,
+    //   voted: true,
+    // };
+    // setDataList(state);
   };
   /* Handles deleting a particular question object from dataList.
   # Gets the index of arrays.map
@@ -105,10 +116,12 @@ const Window = (props) => {
   };
   // --------------------------------------------------------------SOCKETS ------------------------------------------------
   React.useEffect(() => {
-    roomName = `${props.match.params.roomName}/${props.match.params.id}`;
+    roomName = `${props.match.params.room}`;
+    setObj({ ...obj, room: roomName });
+    let username = `${props.history.location.state.username}`;
     // Initiate client-side connection----------------------------
     socket = io("http://localhost:3000");
-    socket.emit("join-room", roomName);
+    socket.emit("join-room", { name: username, room: roomName });
     // Listening Sockets------------------------------------------
     socket.on("add-this-question", (data) => {
       console.log("addition from server");
@@ -126,6 +139,7 @@ const Window = (props) => {
   return (
     <React.Fragment>
       {/*---------- Conditionally rendering the Question List both initially and after recieving data---------- */}
+
       {dataList.length == 0 && visibility.list ? (
         <div className={`question-container`}>
           <div className="no-list-text"> No questions yet</div>

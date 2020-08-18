@@ -41834,7 +41834,8 @@ var socket;
 var roomName;
 
 var Window = function Window(props) {
-  // State that handles conditional rendering for components -----------------------------------------------
+  console.log(props); // State that handles conditional rendering for components -----------------------------------------------
+
   var _React$useState = _react.default.useState({
     form: false,
     list: true,
@@ -41855,11 +41856,21 @@ var Window = function Window(props) {
     author: "//fetch from server//",
     texts: "",
     score: 0,
-    voted: false
+    voted: false,
+    roomName: ""
   }),
       _React$useState6 = _slicedToArray(_React$useState5, 2),
       obj = _React$useState6[0],
-      setObj = _React$useState6[1]; // ---------------------------------------------- Handler Functions ----------------------------------------
+      setObj = _React$useState6[1]; // State for holding username ------------------------------------------------------------------------------
+
+
+  var _React$useState7 = _react.default.useState({
+    username: "",
+    assigned: false
+  }),
+      _React$useState8 = _slicedToArray(_React$useState7, 2),
+      userName = _React$useState8[0],
+      setUserName = _React$useState8[1]; // ---------------------------------------------- Handler Functions ----------------------------------------
 
   /* Handles the change in the form component.
   # Updates the tempObj using setObj everytime a change happens in the Question Form
@@ -41881,19 +41892,15 @@ var Window = function Window(props) {
     console.log("addition to state");
 
     if (obj.texts != "") {
-      socket.emit("add-question", {
-        obj: obj,
-        roomName: roomName
-      });
-      setDataList(function (dataList) {
-        return [obj].concat(_toConsumableArray(dataList));
-      });
-      setObj({
+      socket.emit("add-question", obj); // setDataList((dataList) => [obj, ...dataList]);
+
+      setObj(_objectSpread(_objectSpread({}, obj), {}, {
         author: "//fetch from server//",
         texts: "",
         score: 0,
-        voted: false
-      });
+        voted: false,
+        room: roomName
+      }));
     }
 
     handleSubmitVisibility();
@@ -41908,18 +41915,19 @@ var Window = function Window(props) {
 
 
   var handleVote = function handleVote(index) {
-    socket.emit("queue-vote-up", {
-      index: index,
-      roomName: roomName
-    });
-
     var state = _toConsumableArray(dataList);
 
-    state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
-      score: state[index].score + 1,
-      voted: true
-    });
-    setDataList(state);
+    var id = state[index]._id;
+    socket.emit("queue-vote-up", {
+      index: index,
+      roomName: roomName,
+      id: id
+    }); // state[index] = {
+    //   ...state[index],
+    //   score: state[index].score + 1,
+    //   voted: true,
+    // };
+    // setDataList(state);
   };
   /* Handles deleting a particular question object from dataList.
   # Gets the index of arrays.map
@@ -41979,10 +41987,17 @@ var Window = function Window(props) {
 
 
   _react.default.useEffect(function () {
-    roomName = "".concat(props.match.params.roomName, "/").concat(props.match.params.id); // Initiate client-side connection----------------------------
+    roomName = "".concat(props.match.params.room);
+    setObj(_objectSpread(_objectSpread({}, obj), {}, {
+      room: roomName
+    }));
+    var username = "".concat(props.history.location.state.username); // Initiate client-side connection----------------------------
 
     socket = (0, _socket.default)("http://localhost:3000");
-    socket.emit("join-room", roomName); // Listening Sockets------------------------------------------
+    socket.emit("join-room", {
+      name: username,
+      room: roomName
+    }); // Listening Sockets------------------------------------------
 
     socket.on("add-this-question", function (data) {
       console.log("addition from server");
@@ -42058,7 +42073,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var CreateRoom = function CreateRoom(props) {
   var _React$useState = _react.default.useState({
-    path: '/create-room'
+    path: "/create-room"
   }),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       state = _React$useState2[0],
@@ -42250,7 +42265,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45523" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36407" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
