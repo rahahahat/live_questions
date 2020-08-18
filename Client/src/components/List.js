@@ -1,5 +1,5 @@
 import React from "react";
-import Question from "./Questions.js";
+import Question from "./Question.js";
 import io from "socket.io-client";
 // const socket = io('http://localhost:3000');
 const List = ({ dataList, handleVote, handleDelete }) => {
