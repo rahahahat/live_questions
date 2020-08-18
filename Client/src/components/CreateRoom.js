@@ -26,12 +26,4 @@ const CreateRoom = (props) => {
     </div>
   );
 };
-
 export default withRouter(CreateRoom);
-
-/*
-1) create a room
-2) register a room object to the database and the database assigns it a unique id
-3) we query that unique id from the database
-4) and use it a routing parameter
-*/
