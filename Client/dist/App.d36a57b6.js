@@ -41908,17 +41908,19 @@ var Window = function Window() {
 
 
   var handleVote = function handleVote(index) {
-    socket.emit("queue-vote-up", {
-      index: index,
-      roomName: roomName
-    });
-
     var state = _toConsumableArray(dataList);
 
+    var id = state[index]._id;
+    socket.emit("queue-vote-up", {
+      index: index,
+      roomName: roomName,
+      id: id
+    });
     state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
       score: state[index].score + 1,
       voted: true
     });
+    console.log("vote up from onclick");
     setDataList(state);
   };
   /* Handles deleting a particular question object from dataList.
@@ -42006,6 +42008,7 @@ var Window = function Window() {
       });
     });
     socket.on("vote-up-onIndex", function (index) {
+      console.log("vote up from socket");
       setDataList(function (dataList) {
         return setVote(dataList, index);
       });
@@ -42191,7 +42194,7 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var API_URL = 'http://localhost:3000';
+var API_URL = "http://localhost:3000";
 
 var JoinRoom = function JoinRoom() {
   var history = (0, _reactRouterDom.useHistory)();
@@ -42205,7 +42208,7 @@ var JoinRoom = function JoinRoom() {
     event.preventDefault();
     fetch("".concat(API_URL, "/").concat(state.room)).then(function (res) {
       if (!res.ok) {
-        console.log('Error joining room!');
+        console.log("Error joining room!");
       }
 
       history.push({
@@ -42376,7 +42379,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35223" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37607" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

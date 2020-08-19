@@ -80,7 +80,8 @@ app.get("/:roomcode", (req, res) => {
     if (result != null) {
       //if rooms exist
       res.locals.roomcode = req.params.roomcode;
-      res.render("instance");
+      //   res.render("instance");
+      res.send(true);
     } else {
       //otherwise redirect to home
       res.redirect("/");
@@ -118,7 +119,7 @@ io.on("connection", (socket) => {
   console.log(`${Date.now()}: someone connected`);
 
   //Triggered when joinform is submitted
-  socket.on("joinRoom", (user) => {
+  socket.on("join-room", (user) => {
     socket.join(user.roomName);
 
     console.log(`${Date.now()}: ${user.userName} joined room ${user.roomName}`);
@@ -158,7 +159,7 @@ io.on("connection", (socket) => {
     io.to(newQuestion.room).emit("add-this-question", question);
   });
 
-  socket.on("voteUp", ({ room, id }) => {
+  socket.on("queue-vote-up", ({ index, roomName, id }) => {
     //increment question score in DB
     incrementQuestionScore(id);
 
@@ -167,7 +168,7 @@ io.on("connection", (socket) => {
         console.error("Could not update score");
       } else {
         //update the question on clientside
-        io.to(room).emit("updateQuestionScore", record);
+        socket.to(roomName).broadcast.emit("vote-up-onIndex", index);
       }
     });
   });

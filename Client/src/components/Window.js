@@ -69,13 +69,15 @@ const Window = () => {
   # Uses setDataList to update the state
   */
   const handleVote = (index) => {
-    socket.emit("queue-vote-up", { index, roomName });
     let state = [...dataList];
+    const id = state[index]._id;
+    socket.emit("queue-vote-up", { index, roomName, id });
     state[index] = {
       ...state[index],
       score: state[index].score + 1,
       voted: true,
     };
+    console.log("vote up from onclick");
     setDataList(state);
   };
   /* Handles deleting a particular question object from dataList.
@@ -132,6 +134,7 @@ const Window = () => {
       setDataList((dataList) => [data, ...dataList]);
     });
     socket.on("vote-up-onIndex", (index) => {
+      console.log("vote up from socket");
       setDataList((dataList) => setVote(dataList, index));
     });
     socket.on("delete-question-onIndex", (index) => {
