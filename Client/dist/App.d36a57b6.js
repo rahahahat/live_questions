@@ -28302,7 +28302,7 @@ var Question = function Question(props) {
     className: "author"
   }, "Author: ", props.val.author), /*#__PURE__*/_react.default.createElement("div", {
     className: "text"
-  }, "Question: ", props.val.texts), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Question: ", props.val.text), /*#__PURE__*/_react.default.createElement("div", {
     className: "score"
   }, "Votes: ", props.val.score));
 };
@@ -37797,7 +37797,7 @@ var Form = function Form(_ref) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "textbox-shell"
   }, /*#__PURE__*/_react.default.createElement("textarea", {
-    name: "texts",
+    name: "text",
     type: "text",
     className: "text-area",
     onChange: handleOnChange,
@@ -41837,8 +41837,7 @@ var userName = "DEFAULT_USERNAME";
 
 var Window = function Window() {
   var history = (0, _reactRouterDom.useHistory)();
-  var room = (0, _reactRouterDom.useParams)();
-  console.log(room); // State that handles conditional rendering for components -----------------------------------------------
+  var room = (0, _reactRouterDom.useParams)(); // State that handles conditional rendering for components -----------------------------------------------
 
   var _React$useState = _react.default.useState({
     form: false,
@@ -41858,7 +41857,7 @@ var Window = function Window() {
 
   var _React$useState5 = _react.default.useState({
     author: "//fetch from server//",
-    texts: "",
+    text: "",
     score: 0,
     voted: false,
     room: ""
@@ -41891,7 +41890,7 @@ var Window = function Window() {
       console.log(obj); // setDataList((dataList) => [obj, ...dataList]);
 
       setObj(_objectSpread(_objectSpread({}, obj), {}, {
-        texts: "",
+        text: "",
         score: 0,
         voted: false
       }));
@@ -41980,7 +41979,8 @@ var Window = function Window() {
 
 
   _react.default.useEffect(function () {
-    // roomName = `${props.match.params.roomName}/${props.match.params.id}`;
+    socket = (0, _socket.default)("http://localhost:3000"); // roomName = `${props.match.params.roomName}/${props.match.params.id}`;
+
     roomName = room.roomName;
     userName = history.location.state.username;
     setObj(_objectSpread(_objectSpread({}, obj), {}, {
@@ -41988,10 +41988,9 @@ var Window = function Window() {
       room: roomName
     })); // Initiate client-side connection----------------------------
 
-    socket = (0, _socket.default)("http://localhost:3000");
     socket.emit("join-room", {
-      room: roomName,
-      name: userName
+      roomName: roomName,
+      userName: userName
     }); // Listening Sockets------------------------------------------
 
     socket.on("acknowledgeJoin", function (roomData) {
@@ -42000,6 +41999,7 @@ var Window = function Window() {
       setDataList(roomData.questions);
     });
     socket.on("add-this-question", function (data) {
+      console.log(data);
       console.log("addition from server");
       setDataList(function (dataList) {
         return [data].concat(_toConsumableArray(dataList));
@@ -42376,7 +42376,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33727" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35223" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

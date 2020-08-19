@@ -12,7 +12,6 @@ let userName = "DEFAULT_USERNAME";
 const Window = () => {
   const history = useHistory();
   const room = useParams();
-  console.log(room);
   // State that handles conditional rendering for components -----------------------------------------------
   const [visibility, setVisibility] = React.useState({
     form: false,
@@ -25,7 +24,7 @@ const Window = () => {
   // Temporary state for appending new entries to dataList --------------------------------------------------
   const [obj, setObj] = React.useState({
     author: "//fetch from server//",
-    texts: "",
+    text: "",
     score: 0,
     voted: false,
     room: "",
@@ -55,7 +54,7 @@ const Window = () => {
       // setDataList((dataList) => [obj, ...dataList]);
       setObj({
         ...obj,
-        texts: "",
+        text: "",
         score: 0,
         voted: false,
       });
@@ -114,13 +113,13 @@ const Window = () => {
   };
   // --------------------------------------------------------------SOCKETS ------------------------------------------------
   React.useEffect(() => {
+    socket = io("http://localhost:3000");
     // roomName = `${props.match.params.roomName}/${props.match.params.id}`;
     roomName = room.roomName;
     userName = history.location.state.username;
     setObj({ ...obj, author: userName, room: roomName });
     // Initiate client-side connection----------------------------
-    socket = io("http://localhost:3000");
-    socket.emit("join-room", { room: roomName, name: userName });
+    socket.emit("join-room", { roomName, userName });
     // Listening Sockets------------------------------------------
     socket.on("acknowledgeJoin", (roomData) => {
       console.log("Socket Acknowledged");
@@ -128,6 +127,7 @@ const Window = () => {
       setDataList(roomData.questions);
     });
     socket.on("add-this-question", (data) => {
+      console.log(data);
       console.log("addition from server");
       setDataList((dataList) => [data, ...dataList]);
     });

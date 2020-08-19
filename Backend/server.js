@@ -119,12 +119,12 @@ io.on("connection", (socket) => {
 
   //Triggered when joinform is submitted
   socket.on("joinRoom", (user) => {
-    socket.join(user.room);
+    socket.join(user.roomName);
 
-    console.log(`${Date.now()}: ${user.name} joined room ${user.room}`);
+    console.log(`${Date.now()}: ${user.userName} joined room ${user.roomName}`);
 
     //fetch and send the messages so far, also providing a response from server to confirm success
-    fetchInstanceFromUrl(user.room)
+    fetchInstanceFromUrl(user.roomName)
       .then((foundInstance) => {
         socket.emit("acknowledgeJoin", foundInstance);
       })
@@ -135,7 +135,7 @@ io.on("connection", (socket) => {
   socket.on("add-question", (newQuestion) => {
     //console.log(newQuestion);
     console.log(
-      `${Date.now()}: ${newQuestion.author} asks ${newQuestion.texts} in room ${
+      `${Date.now()}: ${newQuestion.author} asks ${newQuestion.text} in room ${
         newQuestion.room
       }`
     );
