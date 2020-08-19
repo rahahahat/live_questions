@@ -1,24 +1,27 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import { useLayoutEffect } from "react";
 const CreateRoom = (props) => {
-  console.log(props);
-  const [state, setState] = React.useState({});
+  const history = useHistory();
+  // const location = useLocation();
+  console.log(history);
+  // const [state, setState] = React.useState({});
   return (
     <div className="center-wrapper">
       <input
         className="room-input"
         placeholder="Room Name"
-        onChange={(event) => {
-          setState({ [event.target.name]: event.target.value });
-        }}
+        // onChange={(event) => {
+        //   setState({ [event.target.name]: event.target.value });
+        // }}
         name="room"
       />
       <div
         className="btn"
         onClick={() => {
-          props.history.push({
-            pathname: `/set-user-name`,
-            state: { room_name: state.room },
+          history.push({
+            pathname: "/set-username",
+            state: { status: false },
           });
         }}
       >
@@ -28,4 +31,4 @@ const CreateRoom = (props) => {
   );
 };
 
-export default withRouter(CreateRoom);
+export default CreateRoom;

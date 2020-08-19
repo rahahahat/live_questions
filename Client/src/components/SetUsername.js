@@ -1,39 +1,42 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import InputForm from "./InputForm.js";
 
 var room_name = "DEFAULT_USERNAME";
 
-const SetUsername = (props) => {
-  console.log(props);
+const SetUsername = () => {
+  const history = useHistory();
+  console.log(history);
+  // const history = useHistory();
+  // console.log(history);
   React.useEffect(() => {
-    room_name = props.history.location.state.room_name;
+    room_name = history.location.state.status;
   }, []);
-  const [username, SetUsername] = React.useState({});
+  const [username, setUsername] = React.useState({});
   const handleChange = (event) => {
-    SetUsername({ [event.target.name]: event.target.value });
+    setUsername({ [event.target.name]: event.target.value });
   };
   const handleSubmit = () => {
-    props.history.push({
+    history.push({
       pathname: `/questions/${room_name}`,
       state: { username: username.username },
     });
   };
+  console.log(room_name);
+  console.log(username.username);
   return (
-    <InputForm
-      inp_placeholder={"Enter a display name"}
-      pass_placeholder={undefined}
-      inp_className={"for-input"}
-      pass_className={undefined}
-      onChange={handleChange}
-      onClick={handleSubmit}
-      inputName={"username"}
-      passName={undefined}
-      inputRequired={true}
-      passRequired={false}
-      buttonText={"submit"}
-    />
+    <div className="center-wrapper">
+      <input
+        className="room-input"
+        placeholder="Enter a display name"
+        name="username"
+        onChange={handleChange}
+      />
+      <div className="btn" onClick={handleSubmit}>
+        Submit
+      </div>
+    </div>
   );
 };
 
-export default withRouter(SetUsername);
+export default SetUsername;

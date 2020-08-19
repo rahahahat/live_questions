@@ -5,17 +5,16 @@ import CreateRoom from "./components/CreateRoom";
 import Nav from "./components/Nav.js";
 import JoinRoom from "./components/JoinRoom.js";
 import SetUsername from "./components/SetUsername.js";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import io from "socket.io-client";
 const App = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/join-room" component={JoinRoom} />
-        <Route path="/questions/:room" component={Window} />
-        <Route path="/create-room" component={CreateRoom} />
+        <Route path="/set-username" component={SetUsername} />
+        <Route path="/Join" component={JoinRoom} />
+        <Route path="/create" component={CreateRoom} />
         <Route path="/" component={Nav} />
-        <Route path="set-user-name" component={SetUsername} />
       </Switch>
     </Router>
   );
