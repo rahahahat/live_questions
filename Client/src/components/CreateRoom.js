@@ -1,7 +1,8 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 const CreateRoom = (props) => {
-  const [state, setState] = React.useState({ path: "/create-room" });
+  console.log(props);
+  const [state, setState] = React.useState({});
   return (
     <div className="center-wrapper">
       <input
@@ -10,13 +11,14 @@ const CreateRoom = (props) => {
         onChange={(event) => {
           setState({ [event.target.name]: event.target.value });
         }}
-        name="path"
+        name="room"
       />
       <div
         className="btn"
         onClick={() => {
           props.history.push({
-            pathname: `/questions/${state.path}/${Date.now()}`,
+            pathname: `/set-user-name`,
+            state: { room_name: state.room },
           });
         }}
       >

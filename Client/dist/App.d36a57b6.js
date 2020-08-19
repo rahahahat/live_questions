@@ -41834,8 +41834,7 @@ var socket;
 var roomName;
 
 var Window = function Window(props) {
-  console.log(props.match.params); // State that handles conditional rendering for components -----------------------------------------------
-
+  // State that handles conditional rendering for components -----------------------------------------------
   var _React$useState = _react.default.useState({
     form: false,
     list: true,
@@ -41980,7 +41979,8 @@ var Window = function Window(props) {
 
 
   _react.default.useEffect(function () {
-    roomName = "".concat(props.match.params.roomName, "/").concat(props.match.params.id); // Initiate client-side connection----------------------------
+    // roomName = `${props.match.params.roomName}/${props.match.params.id}`;
+    roomName = "".concat(props.match.params.room); // Initiate client-side connection----------------------------
 
     socket = (0, _socket.default)("http://localhost:3000");
     socket.emit("join-room", roomName); // Listening Sockets------------------------------------------
@@ -42058,9 +42058,9 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var CreateRoom = function CreateRoom(props) {
-  var _React$useState = _react.default.useState({
-    path: '/create-room'
-  }),
+  console.log(props);
+
+  var _React$useState = _react.default.useState({}),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       state = _React$useState2[0],
       setState = _React$useState2[1];
@@ -42073,25 +42073,21 @@ var CreateRoom = function CreateRoom(props) {
     onChange: function onChange(event) {
       setState(_defineProperty({}, event.target.name, event.target.value));
     },
-    name: "path"
+    name: "room"
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "btn",
     onClick: function onClick() {
       props.history.push({
-        pathname: "/questions/".concat(state.path, "/").concat(Date.now())
+        pathname: "/set-user-name",
+        state: {
+          room_name: state.room
+        }
       });
     }
   }, "Create Room"));
 };
 
 var _default = (0, _reactRouterDom.withRouter)(CreateRoom);
-/*
-1) create a room
-2) register a room object to the database and the database assigns it a unique id
-3) we query that unique id from the database
-4) and use it a routing parameter
-*/
-
 
 exports.default = _default;
 },{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/Nav.js":[function(require,module,exports) {
@@ -42109,7 +42105,6 @@ var _reactRouterDom = require("react-router-dom");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Nav = function Nav() {
-  console.log('HI');
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "center-wrapper"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
@@ -42118,7 +42113,7 @@ var Nav = function Nav() {
     className: "btn-fixed"
   }, "Create Room")), /*#__PURE__*/_react.default.createElement("div", {
     style: {
-      textAlign: 'center'
+      textAlign: "center"
     }
   }, "or"), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/join-room"
@@ -42185,7 +42180,168 @@ var JoinRoom = function JoinRoom(props) {
 var _default = (0, _reactRouterDom.withRouter)(JoinRoom);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/InputForm.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var inputReq = false;
+var passReq = false;
+
+var InputForm = function InputForm(_ref) {
+  var inp_placeholder = _ref.inp_placeholder,
+      pass_placeholder = _ref.pass_placeholder,
+      inp_className = _ref.inp_className,
+      pass_className = _ref.pass_className,
+      onChange = _ref.onChange,
+      onClick = _ref.onClick,
+      inputName = _ref.inputName,
+      passName = _ref.passName,
+      inputRequired = _ref.inputRequired,
+      passRequired = _ref.passRequired,
+      buttonText = _ref.buttonText;
+
+  _react.default.useEffect(function () {
+    if (inputRequired == undefined) inputReq = false;
+    if (passRequired == undefined) passReq = false;
+  }, []);
+
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "center-wrapper"
+  }, inputReq && passReq ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("input", {
+    className: inp_className,
+    placeholder: inp_placeholder,
+    onChange: onChange,
+    name: inputName,
+    type: "text"
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    className: pass_className,
+    placeholder: pass_placeholder,
+    onChange: onChange,
+    name: passName,
+    type: "password"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "btn",
+    onClick: onClick
+  }, buttonText)) : inputReq && !passReq ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("input", {
+    className: inp_className,
+    placeholder: inp_placeholder,
+    onChange: onChange,
+    name: inputName,
+    type: "text"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "btn",
+    onClick: onClick
+  }, buttonText)) : !inputReq && passReq ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("input", {
+    className: pass_className,
+    placeholder: pass_placeholder,
+    onChange: onChange,
+    name: passName,
+    type: "password"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "btn",
+    onClick: onClick
+  }, buttonText)) : null);
+};
+
+var _default = InputForm; // <InputForm
+//   inp_placeholder={}
+//   pass_placeholder={}
+//   inp_className={}
+//   pass_className={}
+//   onChange={}
+//   onClick={}
+//   inputName={}
+//   passName={}
+//   inputRequired={}
+//   passRequired={}
+//   buttonText={}
+// />
+
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"components/SetUsername.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactRouterDom = require("react-router-dom");
+
+var _InputForm = _interopRequireDefault(require("./InputForm.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var room_name = "DEFAULT_USERNAME";
+
+var SetUsername = function SetUsername(props) {
+  console.log(props);
+
+  _react.default.useEffect(function () {
+    room_name = props.history.location.state.room_name;
+  }, []);
+
+  var _React$useState = _react.default.useState({}),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      username = _React$useState2[0],
+      SetUsername = _React$useState2[1];
+
+  var handleChange = function handleChange(event) {
+    SetUsername(_defineProperty({}, event.target.name, event.target.value));
+  };
+
+  var handleSubmit = function handleSubmit() {
+    props.history.push({
+      pathname: "/questions/".concat(room_name),
+      state: {
+        username: username.username
+      }
+    });
+  };
+
+  return /*#__PURE__*/_react.default.createElement(_InputForm.default, {
+    inp_placeholder: "Enter a display name",
+    pass_placeholder: undefined,
+    inp_className: "for-input",
+    pass_className: undefined,
+    onChange: handleChange,
+    onClick: handleSubmit,
+    inputName: "username",
+    passName: undefined,
+    inputRequired: true,
+    passRequired: false,
+    buttonText: "submit"
+  });
+};
+
+var _default = (0, _reactRouterDom.withRouter)(SetUsername);
+
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./InputForm.js":"components/InputForm.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -42200,6 +42356,8 @@ var _Nav = _interopRequireDefault(require("./components/Nav.js"));
 
 var _JoinRoom = _interopRequireDefault(require("./components/JoinRoom.js"));
 
+var _SetUsername = _interopRequireDefault(require("./components/SetUsername.js"));
+
 var _reactRouterDom = require("react-router-dom");
 
 var _socket = _interopRequireDefault(require("socket.io-client"));
@@ -42211,7 +42369,7 @@ var App = function App() {
     path: "/join-room",
     component: _JoinRoom.default
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
-    path: "/questions/:room/:id",
+    path: "/questions/:room",
     component: _Window.default
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/create-room",
@@ -42219,11 +42377,14 @@ var App = function App() {
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/",
     component: _Nav.default
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: "set-user-name",
+    component: _SetUsername.default
   })));
 };
 
-_reactDom.default.render( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById('root'));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/Window.js":"components/Window.js","./components/CreateRoom":"components/CreateRoom.js","./components/Nav.js":"components/Nav.js","./components/JoinRoom.js":"components/JoinRoom.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","socket.io-client":"../node_modules/socket.io-client/lib/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+_reactDom.default.render( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById("root"));
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/Window.js":"components/Window.js","./components/CreateRoom":"components/CreateRoom.js","./components/Nav.js":"components/Nav.js","./components/JoinRoom.js":"components/JoinRoom.js","./components/SetUsername.js":"components/SetUsername.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","socket.io-client":"../node_modules/socket.io-client/lib/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -42251,7 +42412,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39293" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46655" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -105,7 +105,8 @@ const Window = (props) => {
   };
   // --------------------------------------------------------------SOCKETS ------------------------------------------------
   React.useEffect(() => {
-    roomName = `${props.match.params.roomName}/${props.match.params.id}`;
+    // roomName = `${props.match.params.roomName}/${props.match.params.id}`;
+    roomName = `${props.match.params.room}`;
     // Initiate client-side connection----------------------------
     socket = io("http://localhost:3000");
     socket.emit("join-room", roomName);
