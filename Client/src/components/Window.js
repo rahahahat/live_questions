@@ -2,10 +2,17 @@ import React from "react";
 import List from "./List.js";
 import Form from "./Form.js";
 import io from "socket.io-client";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+
+const API_URL = "http://localhost:3000";
 let socket;
-let roomName;
-const Window = (props) => {
+let roomName = "DEFAULT";
+let userName = "DEFAULT_USERNAME";
+
+const Window = () => {
+  const history = useHistory();
+  const room = useParams();
+  console.log(room);
   // State that handles conditional rendering for components -----------------------------------------------
   const [visibility, setVisibility] = React.useState({
     form: false,
@@ -21,6 +28,7 @@ const Window = (props) => {
     texts: "",
     score: 0,
     voted: false,
+    room: "",
   });
   // ---------------------------------------------- Handler Functions ----------------------------------------
 
@@ -42,10 +50,11 @@ const Window = (props) => {
   const handleSubmit = () => {
     console.log("addition to state");
     if (obj.texts != "") {
-      socket.emit("add-question", { obj, roomName });
-      setDataList((dataList) => [obj, ...dataList]);
+      socket.emit("add-question", obj);
+      console.log(obj);
+      // setDataList((dataList) => [obj, ...dataList]);
       setObj({
-        author: "//fetch from server//",
+        ...obj,
         texts: "",
         score: 0,
         voted: false,
@@ -106,11 +115,18 @@ const Window = (props) => {
   // --------------------------------------------------------------SOCKETS ------------------------------------------------
   React.useEffect(() => {
     // roomName = `${props.match.params.roomName}/${props.match.params.id}`;
-    roomName = `${props.match.params.room}`;
+    roomName = room.roomName;
+    userName = history.location.state.username;
+    setObj({ ...obj, author: userName, room: roomName });
     // Initiate client-side connection----------------------------
     socket = io("http://localhost:3000");
-    socket.emit("join-room", roomName);
+    socket.emit("join-room", { room: roomName, name: userName });
     // Listening Sockets------------------------------------------
+    socket.on("acknowledgeJoin", (roomData) => {
+      console.log("Socket Acknowledged");
+      // add error boundary for invalid roomData--
+      setDataList(roomData.questions);
+    });
     socket.on("add-this-question", (data) => {
       console.log("addition from server");
       setDataList((dataList) => [data, ...dataList]);
