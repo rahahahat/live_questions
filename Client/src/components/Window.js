@@ -2,10 +2,16 @@ import React from "react";
 import List from "./List.js";
 import Form from "./Form.js";
 import io from "socket.io-client";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+
+const API_URL = "http://localhost:3000";
 let socket;
-let roomName;
-const Window = (props) => {
+let roomName = "DEFAULT";
+let userName = "DEFAULT_USERNAME";
+
+const Window = () => {
+  const history = useHistory();
+  const room = useParams();
   // State that handles conditional rendering for components -----------------------------------------------
   const [visibility, setVisibility] = React.useState({
     form: false,
@@ -18,9 +24,10 @@ const Window = (props) => {
   // Temporary state for appending new entries to dataList --------------------------------------------------
   const [obj, setObj] = React.useState({
     author: "//fetch from server//",
-    texts: "",
+    text: "",
     score: 0,
     voted: false,
+    room: "",
   });
   // ---------------------------------------------- Handler Functions ----------------------------------------
 
@@ -42,11 +49,12 @@ const Window = (props) => {
   const handleSubmit = () => {
     console.log("addition to state");
     if (obj.texts != "") {
-      socket.emit("add-question", { obj, roomName });
-      setDataList((dataList) => [obj, ...dataList]);
+      socket.emit("add-question", obj);
+      console.log(obj);
+      // setDataList((dataList) => [obj, ...dataList]);
       setObj({
-        author: "//fetch from server//",
-        texts: "",
+        ...obj,
+        text: "",
         score: 0,
         voted: false,
       });
@@ -61,13 +69,15 @@ const Window = (props) => {
   # Uses setDataList to update the state
   */
   const handleVote = (index) => {
-    socket.emit("queue-vote-up", { index, roomName });
     let state = [...dataList];
+    const id = state[index]._id;
+    socket.emit("queue-vote-up", { index, roomName, id });
     state[index] = {
       ...state[index],
       score: state[index].score + 1,
       voted: true,
     };
+    console.log("vote up from onclick");
     setDataList(state);
   };
   /* Handles deleting a particular question object from dataList.
@@ -105,16 +115,26 @@ const Window = (props) => {
   };
   // --------------------------------------------------------------SOCKETS ------------------------------------------------
   React.useEffect(() => {
-    roomName = `${props.match.params.roomName}/${props.match.params.id}`;
-    // Initiate client-side connection----------------------------
     socket = io("http://localhost:3000");
-    socket.emit("join-room", roomName);
+    // roomName = `${props.match.params.roomName}/${props.match.params.id}`;
+    roomName = room.roomName;
+    userName = history.location.state.username;
+    setObj({ ...obj, author: userName, room: roomName });
+    // Initiate client-side connection----------------------------
+    socket.emit("join-room", { roomName, userName });
     // Listening Sockets------------------------------------------
+    socket.on("acknowledgeJoin", (roomData) => {
+      console.log("Socket Acknowledged");
+      // add error boundary for invalid roomData--
+      setDataList(roomData.questions);
+    });
     socket.on("add-this-question", (data) => {
+      console.log(data);
       console.log("addition from server");
       setDataList((dataList) => [data, ...dataList]);
     });
     socket.on("vote-up-onIndex", (index) => {
+      console.log("vote up from socket");
       setDataList((dataList) => setVote(dataList, index));
     });
     socket.on("delete-question-onIndex", (index) => {
