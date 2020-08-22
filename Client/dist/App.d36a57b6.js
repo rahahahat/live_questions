@@ -42089,7 +42089,7 @@ var CreateRoom = function CreateRoom() {
 
   var handleSubmit = function handleSubmit() {
     event.preventDefault();
-    fetch(API_URL + "/instance", {
+    fetch(API_URL + "/room", {
       method: "POST",
       body: JSON.stringify({
         url: state.room,
@@ -42379,7 +42379,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37607" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41807" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

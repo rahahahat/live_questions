@@ -42,7 +42,7 @@ var io = require("socket.io").listen(http);
 var cors = require("cors");
 const bodyParser = require("body-parser");
 
-const Instance = require("./models/instance");
+const Room = require("./models/room");
 const Question = require("./models/question");
 
 app.use(cors());
@@ -68,19 +68,19 @@ db.once("open", () => console.log("Connected to mongose"));
 
 //renders homepage
 app.get("/", (req, res) => {
-  res.render("index");
+  res.send("hello");
 });
 
-//if :roomcode is a valid instance redirects and connects
+//if :roomcode is a valid room redirects and connects
 app.get("/:roomcode", (req, res) => {
   //find room in db
-  Instance.findOne({
+  Room.findOne({
     url: req.params.roomcode,
   }).then((result) => {
     if (result != null) {
       //if rooms exist
       res.locals.roomcode = req.params.roomcode;
-      //   res.render("instance");
+      //   res.render("room");
       res.send(true);
     } else {
       //otherwise redirect to home
@@ -89,23 +89,23 @@ app.get("/:roomcode", (req, res) => {
   });
 });
 
-//inserts a new instance into db
-app.post("/instance", (req, res, next) => {
+//inserts a new room into db
+app.post("/room", (req, res, next) => {
   console.log(req.body);
   if (isValid(req.body)) {
-    const instance = new Instance({
+    const room = new Room({
       url: req.body.url.toString().trim(),
       owner: req.body.owner.toString().trim(),
       created: new Date(),
     });
 
-    console.log("creating new instance: ", instance.url);
+    console.log("creating new room: ", room.url);
 
-    instance.save(function (err) {
+    room.save(function (err) {
       if (err) return console.error(err);
     });
 
-    res.json(JSON.stringify(instance));
+    res.json(JSON.stringify(room));
   } else {
     res.json({
       message: "Something went wrong! ",
@@ -125,9 +125,9 @@ io.on("connection", (socket) => {
     console.log(`${Date.now()}: ${user.userName} joined room ${user.roomName}`);
 
     //fetch and send the messages so far, also providing a response from server to confirm success
-    fetchInstanceFromUrl(user.roomName)
-      .then((foundInstance) => {
-        socket.emit("acknowledgeJoin", foundInstance);
+    fetchRoomFromUrl(user.roomName)
+      .then((foundRoom) => {
+        socket.emit("acknowledgeJoin", foundRoom);
       })
       .catch((err) => console.error(err));
   });
@@ -147,7 +147,7 @@ io.on("connection", (socket) => {
       score: 0,
     });
 
-    Instance.findOne({
+    Room.findOne({
       url: newQuestion.room,
     })
       .then((record) => {
@@ -174,12 +174,12 @@ io.on("connection", (socket) => {
   });
 });
 
-const createQuestion = function (instanceId, question) {
+const createQuestion = function (roomId, question) {
   return Question.create(question).then((docQuestion) => {
     //console.log("\n>> Created Question:\n", docQuestion);
 
-    return Instance.findByIdAndUpdate(
-      instanceId,
+    return Room.findByIdAndUpdate(
+      roomId,
       {
         $push: {
           questions: docQuestion._id,
@@ -214,10 +214,10 @@ function incrementQuestionScore(questionId) {
   );
 }
 
-function fetchInstanceFromUrl(instanceUrl) {
+function fetchRoomFromUrl(roomUrl) {
   //returns a promise
-  return Instance.findOne({
-    url: instanceUrl,
+  return Room.findOne({
+    url: roomUrl,
   }).populate("questions");
 }
 

@@ -9,7 +9,7 @@ const CreateRoom = () => {
 
   const handleSubmit = () => {
     event.preventDefault();
-    fetch(API_URL + "/instance", {
+    fetch(API_URL + "/room", {
       method: "POST",
       body: JSON.stringify({
         url: state.room,
