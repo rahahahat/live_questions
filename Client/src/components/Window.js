@@ -105,6 +105,7 @@ const Window = () => {
   // Helper function for socket to update vote.
   const setVote = (dataList, id) => {
     let state = [...dataList];
+    //locate the question in the state by id
     let index = state.findIndex((question) => {
       return question._id == id;
     });
@@ -115,6 +116,7 @@ const Window = () => {
   // Helper function for sokcet to delete item.
   const deleteItem = (dataList, id) => {
     let state = [...dataList];
+    //locate the question in the state by id
     let index = state.findIndex((question) => {
       return question._id == id;
     });
@@ -138,14 +140,19 @@ const Window = () => {
       setDataList(roomData.questions);
     });
 
+    //add a question
     socket.on("add-question", (data) => {
       console.log("new question", data);
       setDataList((dataList) => [data, ...dataList]);
     });
+
+    //vote up question
     socket.on("vote-up", (id) => {
       console.log("vote up from socket");
       setDataList((dataList) => setVote(dataList, id));
     });
+
+    //delete question
     socket.on("delete-question", (id) => {
       console.log("delete from socket");
       setDataList((dataList) => deleteItem(dataList, id));
