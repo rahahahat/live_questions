@@ -23,6 +23,7 @@ const Window = () => {
 
   // Temporary state for appending new entries to dataList --------------------------------------------------
   const [obj, setObj] = React.useState({
+    _id: "0",
     author: "//fetch from server//",
     text: "",
     score: 0,
@@ -47,11 +48,9 @@ const Window = () => {
   # Sets specified visibility.
   */
   const handleSubmit = () => {
-    console.log("addition to state");
-    if (obj.texts != "") {
+    if (obj.text != "") {
       socket.emit("add-question", obj);
       console.log(obj);
-      // setDataList((dataList) => [obj, ...dataList]);
       setObj({
         ...obj,
         text: "",
@@ -60,7 +59,6 @@ const Window = () => {
       });
     }
     handleSubmitVisibility();
-    console.log("render from handleSubmit");
   };
   /* Handles changing the vote of a particular Question.
   # Gets the index of arrays.map
@@ -71,13 +69,13 @@ const Window = () => {
   const handleVote = (index) => {
     let state = [...dataList];
     const id = state[index]._id;
-    socket.emit("queue-vote-up", { index, roomName, id });
+    console.log("Upvoting", id);
+    socket.emit("vote-up", { id, roomName });
     state[index] = {
       ...state[index],
       score: state[index].score + 1,
       voted: true,
     };
-    console.log("vote up from onclick");
     setDataList(state);
   };
   /* Handles deleting a particular question object from dataList.
@@ -87,8 +85,11 @@ const Window = () => {
   # Uses setDataList to update the state.
   */
   const handleDelete = (index) => {
-    socket.emit("queue-delete", { index, roomName });
     let state = [...dataList];
+    const id = state[index]._id;
+    console.log("Deleting", id);
+    console.log(roomName);
+    socket.emit("delete-question", { id, roomName });
     state.splice(index, 1);
     setDataList(state);
   };
@@ -102,17 +103,25 @@ const Window = () => {
     setVisibility({ form: true, list: false, post: false });
   };
   // Helper function for socket to update vote.
-  const setVote = (dataList, index) => {
+  const setVote = (dataList, id) => {
     let state = [...dataList];
+    let index = state.findIndex((question) => {
+      return question._id == id;
+    });
     state[index] = { ...state[index], score: state[index].score + 1 };
     return state;
   };
+
   // Helper function for sokcet to delete item.
-  const deleteItem = (dataList, index) => {
+  const deleteItem = (dataList, id) => {
     let state = [...dataList];
+    let index = state.findIndex((question) => {
+      return question._id == id;
+    });
     state.splice(index, 1);
     return state;
   };
+
   // --------------------------------------------------------------SOCKETS ------------------------------------------------
   React.useEffect(() => {
     socket = io("http://localhost:3000");
@@ -128,17 +137,18 @@ const Window = () => {
       // add error boundary for invalid roomData--
       setDataList(roomData.questions);
     });
-    socket.on("add-this-question", (data) => {
-      console.log(data);
-      console.log("addition from server");
+
+    socket.on("add-question", (data) => {
+      console.log("new question", data);
       setDataList((dataList) => [data, ...dataList]);
     });
-    socket.on("vote-up-onIndex", (index) => {
+    socket.on("vote-up", (id) => {
       console.log("vote up from socket");
-      setDataList((dataList) => setVote(dataList, index));
+      setDataList((dataList) => setVote(dataList, id));
     });
-    socket.on("delete-question-onIndex", (index) => {
-      setDataList((dataList) => deleteItem(dataList, index));
+    socket.on("delete-question", (id) => {
+      console.log("delete from socket");
+      setDataList((dataList) => deleteItem(dataList, id));
     });
   }, []);
   // --------------------------------------------------------------SOCKETS ------------------------------------------------

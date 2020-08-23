@@ -113,11 +113,8 @@ app.post("/room", (req, res, next) => {
   }
 });
 
-//---------REACT SOCKET START HERE-------------
 //global entry point for io connections
 io.on("connection", (socket) => {
-  console.log(`${Date.now()}: someone connected`);
-
   //Triggered when joinform is submitted
   socket.on("join-room", (user) => {
     socket.join(user.roomName);
@@ -156,10 +153,12 @@ io.on("connection", (socket) => {
       .catch((err) => {
         console.error(err);
       });
-    io.to(newQuestion.room).emit("add-this-question", question);
+
+    //emit question to room
+    io.to(newQuestion.room).emit("add-question", question);
   });
 
-  socket.on("queue-vote-up", ({ index, roomName, id }) => {
+  socket.on("vote-up", ({ id, roomName }) => {
     //increment question score in DB
     incrementQuestionScore(id);
 
@@ -168,9 +167,33 @@ io.on("connection", (socket) => {
         console.error("Could not update score");
       } else {
         //update the question on clientside
-        socket.to(roomName).broadcast.emit("vote-up-onIndex", index);
+        socket.to(roomName).broadcast.emit("vote-up", id);
       }
     });
+  });
+
+  socket.on("delete-question", ({ id, roomName }) => {
+    console.log(`Deleting question ${id} from ${roomName}`);
+    //remove reference from room
+    Room.findOneAndUpdate(
+      { url: roomName },
+      { $pull: { questions: id } },
+      { new: true },
+      (err, doc) => {
+        if (err) {
+          console.error(err);
+        }
+      }
+    );
+
+    //then delete question from db
+    Question.findByIdAndRemove(id, (err, doc) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+
+    socket.to(roomName).emit("delete-question", id);
   });
 });
 
