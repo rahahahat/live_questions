@@ -4,8 +4,15 @@ A web service to allow live speakers, lecturers and teachers to manage their stu
 
 ### Tom Todo:
 - [x] change Instance to Room
-- [ ] handle question delete serverside
+- [x] handle question delete serverside
+- [ ] add user permissions so that only author/moderator can delete questions
+- [ ] figure out a way of making server.js more readable
+- [ ] create a uuid to use as room url rather than user defined - can still define a name for the room to be displayed like a "title"
 - [ ] question text sanitisation for security and bad word filtering
+- [ ] room passwords
+- [ ] room expires and is deleted after x hours of inactivity
+- [ ] moderator can mark questions as answered
 
 
 ### Rahat Todo:
+- [x] enjoy his breakfast
