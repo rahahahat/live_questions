@@ -41856,6 +41856,7 @@ var Window = function Window() {
 
 
   var _React$useState5 = _react.default.useState({
+    _id: "0",
     author: "//fetch from server//",
     text: "",
     score: 0,
@@ -41883,12 +41884,9 @@ var Window = function Window() {
 
 
   var handleSubmit = function handleSubmit() {
-    console.log("addition to state");
-
-    if (obj.texts != "") {
+    if (obj.text != "") {
       socket.emit("add-question", obj);
-      console.log(obj); // setDataList((dataList) => [obj, ...dataList]);
-
+      console.log(obj);
       setObj(_objectSpread(_objectSpread({}, obj), {}, {
         text: "",
         score: 0,
@@ -41897,7 +41895,6 @@ var Window = function Window() {
     }
 
     handleSubmitVisibility();
-    console.log("render from handleSubmit");
   };
   /* Handles changing the vote of a particular Question.
   # Gets the index of arrays.map
@@ -41911,16 +41908,15 @@ var Window = function Window() {
     var state = _toConsumableArray(dataList);
 
     var id = state[index]._id;
-    socket.emit("queue-vote-up", {
-      index: index,
-      roomName: roomName,
-      id: id
+    console.log("Upvoting", id);
+    socket.emit("vote-up", {
+      id: id,
+      roomName: roomName
     });
     state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
       score: state[index].score + 1,
       voted: true
     });
-    console.log("vote up from onclick");
     setDataList(state);
   };
   /* Handles deleting a particular question object from dataList.
@@ -41932,13 +41928,15 @@ var Window = function Window() {
 
 
   var handleDelete = function handleDelete(index) {
-    socket.emit("queue-delete", {
-      index: index,
-      roomName: roomName
-    });
-
     var state = _toConsumableArray(dataList);
 
+    var id = state[index]._id;
+    console.log("Deleting", id);
+    console.log(roomName);
+    socket.emit("delete-question", {
+      id: id,
+      roomName: roomName
+    });
     state.splice(index, 1);
     setDataList(state);
   }; //Handles the Visibility after submit of form is clicked.
@@ -41962,9 +41960,12 @@ var Window = function Window() {
   }; // Helper function for socket to update vote.
 
 
-  var setVote = function setVote(dataList, index) {
+  var setVote = function setVote(dataList, id) {
     var state = _toConsumableArray(dataList);
 
+    var index = state.findIndex(function (question) {
+      return question._id == id;
+    });
     state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
       score: state[index].score + 1
     });
@@ -41972,9 +41973,12 @@ var Window = function Window() {
   }; // Helper function for sokcet to delete item.
 
 
-  var deleteItem = function deleteItem(dataList, index) {
+  var deleteItem = function deleteItem(dataList, id) {
     var state = _toConsumableArray(dataList);
 
+    var index = state.findIndex(function (question) {
+      return question._id == id;
+    });
     state.splice(index, 1);
     return state;
   }; // --------------------------------------------------------------SOCKETS ------------------------------------------------
@@ -42000,22 +42004,22 @@ var Window = function Window() {
 
       setDataList(roomData.questions);
     });
-    socket.on("add-this-question", function (data) {
-      console.log(data);
-      console.log("addition from server");
+    socket.on("add-question", function (data) {
+      console.log("new question", data);
       setDataList(function (dataList) {
         return [data].concat(_toConsumableArray(dataList));
       });
     });
-    socket.on("vote-up-onIndex", function (index) {
+    socket.on("vote-up", function (id) {
       console.log("vote up from socket");
       setDataList(function (dataList) {
-        return setVote(dataList, index);
+        return setVote(dataList, id);
       });
     });
-    socket.on("delete-question-onIndex", function (index) {
+    socket.on("delete-question", function (id) {
+      console.log("delete from socket");
       setDataList(function (dataList) {
-        return deleteItem(dataList, index);
+        return deleteItem(dataList, id);
       });
     });
   }, []); // --------------------------------------------------------------SOCKETS ------------------------------------------------
