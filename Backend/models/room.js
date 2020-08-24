@@ -24,6 +24,12 @@ const roomSchema = new mongoose.Schema({
       ref: "Question",
     },
   ],
+
+  //-----settings-----
+  profanityFilter: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 module.exports = mongoose.model("Room", roomSchema);

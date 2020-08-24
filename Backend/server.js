@@ -8,6 +8,7 @@ var http = require("http").createServer(app);
 var io = require("socket.io").listen(http);
 var cors = require("cors");
 const bodyParser = require("body-parser");
+var Filter = require("bad-words");
 
 const Room = require("./models/room");
 const Question = require("./models/question");
@@ -73,24 +74,24 @@ io.on("connection", (socket) => {
   //Triggered when joinform is submitted
   socket.on("join-room", (user) => {
     //find room in db to check it exists before creating
-    Room.findOne(
-      {
-        url: user.roomName,
-      },
-      (err, result) => {
+    Room.findOne({
+      url: user.roomName,
+    })
+      .populate("questions")
+      .exec((err, result) => {
         if (err || !result) {
           err ? console.log(err) : console.log("Room not found", user.roomName);
           socket.emit("room-not-found");
         } else {
-          result.populate("questions");
+          //result = result.populate("questions");
           socket.join(user.roomName);
+          console.log(result);
           socket.emit("acknowledge-join", result);
           console.log(
             `${Date.now()}: ${user.userName} joined room ${user.roomName}`
           );
         }
-      }
-    );
+      });
   });
 
   //when someone submits a new question
@@ -102,24 +103,27 @@ io.on("connection", (socket) => {
       }`
     );
 
-    let question = new Question({
-      author: newQuestion.author,
-      text: newQuestion.text,
-      score: 0,
-    });
-
     Room.findOne({
       url: newQuestion.room,
     })
       .then((record) => {
+        let question = new Question({
+          author: newQuestion.author,
+          text: record.profanityFilter
+            ? new Filter().clean(newQuestion.text) //filter profanity if condition is set in room
+            : newQuestion.text,
+          score: 0,
+        });
+        console.log(question);
+
         createQuestion(record._id, question);
+
+        //emit question to room
+        io.to(record.url).emit("add-question", question);
       })
       .catch((err) => {
         console.error(err);
       });
-
-    //emit question to room
-    io.to(newQuestion.room).emit("add-question", question);
   });
 
   socket.on("vote-up", ({ id, roomName }) => {
