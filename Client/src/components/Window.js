@@ -102,9 +102,11 @@ const Window = () => {
   const handlePostVisibility = () => {
     setVisibility({ form: true, list: false, post: false });
   };
+
   // Helper function for socket to update vote.
   const setVote = (dataList, id) => {
     let state = [...dataList];
+    //locate the question in the state by id
     let index = state.findIndex((question) => {
       return question._id == id;
     });
@@ -115,6 +117,7 @@ const Window = () => {
   // Helper function for sokcet to delete item.
   const deleteItem = (dataList, id) => {
     let state = [...dataList];
+    //locate the question in the state by id
     let index = state.findIndex((question) => {
       return question._id == id;
     });
@@ -124,34 +127,53 @@ const Window = () => {
 
   // --------------------------------------------------------------SOCKETS ------------------------------------------------
   React.useEffect(() => {
-    socket = io("http://localhost:3000");
-    // roomName = `${props.match.params.roomName}/${props.match.params.id}`;
     roomName = room.roomName;
     userName = history.location.state.username;
+
+    socket = io("http://localhost:3000");
+
     setObj({ ...obj, author: userName, room: roomName });
+
     // Initiate client-side connection----------------------------
     socket.emit("join-room", { roomName, userName });
     // Listening Sockets------------------------------------------
-    socket.on("acknowledgeJoin", (roomData) => {
+    socket.on("connect", () => {
+      console.log("Connected to server: ", socket.connected); // true
+    });
+
+    socket.on("acknowledge-join", (roomData) => {
       console.log("Socket Acknowledged");
       // add error boundary for invalid roomData--
       setDataList(roomData.questions);
     });
 
+    //if server could not find room then redirect to home page
+    socket.on("room-not-found", () => {
+      history.push("/");
+    });
+
+    //add a question
     socket.on("add-question", (data) => {
       console.log("new question", data);
       setDataList((dataList) => [data, ...dataList]);
     });
+
+    //vote up question
     socket.on("vote-up", (id) => {
       console.log("vote up from socket");
       setDataList((dataList) => setVote(dataList, id));
     });
+
+    //delete question
     socket.on("delete-question", (id) => {
       console.log("delete from socket");
       setDataList((dataList) => deleteItem(dataList, id));
     });
+
+    socket.on("disconnect", () => {
+      console.log("Connected to server: ", socket.connected); // false
+    });
   }, []);
-  // --------------------------------------------------------------SOCKETS ------------------------------------------------
 
   return (
     <React.Fragment>

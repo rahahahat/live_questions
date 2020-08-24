@@ -1,5 +1,5 @@
 import React from "react";
-const Form = ({ obj, handleOnChange, handleSubmit, socket }) => {
+const Form = ({ obj, handleOnChange, handleSubmit }) => {
   return (
     <div className={`form-area`}>
       <div className={`textbox-shell`}>
