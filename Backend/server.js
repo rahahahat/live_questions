@@ -70,6 +70,12 @@ db.once("open", () => console.log("Connected to mongose"));
 app.get("/", (req, res) => {
   res.send("hello");
 });
+app.get("/info", (req, res) => {
+  let info = {
+    rooms: io.sockets.adapter.rooms,
+  };
+  res.json(info);
+});
 
 //if :roomcode is a valid room redirects and connects
 app.get("/:roomcode", (req, res) => {
@@ -117,16 +123,25 @@ app.post("/room", (req, res, next) => {
 io.on("connection", (socket) => {
   //Triggered when joinform is submitted
   socket.on("join-room", (user) => {
-    socket.join(user.roomName);
-
-    console.log(`${Date.now()}: ${user.userName} joined room ${user.roomName}`);
-
-    //fetch and send the messages so far, also providing a response from server to confirm success
-    fetchRoomFromUrl(user.roomName)
-      .then((foundRoom) => {
-        socket.emit("acknowledgeJoin", foundRoom);
-      })
-      .catch((err) => console.error(err));
+    //find room in db to check it exists before creating
+    Room.findOne(
+      {
+        url: user.roomName,
+      },
+      (err, result) => {
+        if (err || !result) {
+          err ? console.log(err) : console.log("Room not found", user.roomName);
+          socket.emit("room-not-found");
+        } else {
+          result.populate("questions");
+          socket.join(user.roomName);
+          socket.emit("acknowledge-join", result);
+          console.log(
+            `${Date.now()}: ${user.userName} joined room ${user.roomName}`
+          );
+        }
+      }
+    );
   });
 
   //when someone submits a new question
@@ -195,12 +210,14 @@ io.on("connection", (socket) => {
 
     socket.to(roomName).emit("delete-question", id);
   });
+
+  socket.on("disconnect", () => {
+    console.log("Someone disconnected");
+  });
 });
 
 const createQuestion = function (roomId, question) {
   return Question.create(question).then((docQuestion) => {
-    //console.log("\n>> Created Question:\n", docQuestion);
-
     return Room.findByIdAndUpdate(
       roomId,
       {
@@ -235,13 +252,6 @@ function incrementQuestionScore(questionId) {
       }
     }
   );
-}
-
-function fetchRoomFromUrl(roomUrl) {
-  //returns a promise
-  return Room.findOne({
-    url: roomUrl,
-  }).populate("questions");
 }
 
 function isValid(body) {
