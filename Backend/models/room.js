@@ -24,8 +24,16 @@ const roomSchema = new mongoose.Schema({
       ref: "Question",
     },
   ],
+  password: {
+    type: String,
+    required: false,
+  },
 
   //-----settings-----
+  requirePassword: {
+    type: Boolean,
+    default: false,
+  },
   profanityFilter: {
     type: Boolean,
     default: true,

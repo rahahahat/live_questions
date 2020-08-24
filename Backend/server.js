@@ -72,6 +72,8 @@ app.post("/room", (req, res, next) => {
 //global entry point for io connections
 io.on("connection", (socket) => {
   //Triggered when joinform is submitted
+  console.log(`Socket connected id ${socket.id}`);
+
   socket.on("join-room", (user) => {
     //find room in db to check it exists before creating
     Room.findOne({
@@ -85,11 +87,8 @@ io.on("connection", (socket) => {
         } else {
           //result = result.populate("questions");
           socket.join(user.roomName);
-          console.log(result);
           socket.emit("acknowledge-join", result);
-          console.log(
-            `${Date.now()}: ${user.userName} joined room ${user.roomName}`
-          );
+          console.log(`${Date.now()}: ${user.userName} joined room ${user.roomName}`);
         }
       });
   });
@@ -97,11 +96,7 @@ io.on("connection", (socket) => {
   //when someone submits a new question
   socket.on("add-question", (newQuestion) => {
     //console.log(newQuestion);
-    console.log(
-      `${Date.now()}: ${newQuestion.author} asks ${newQuestion.text} in room ${
-        newQuestion.room
-      }`
-    );
+    console.log(`${Date.now()}: ${newQuestion.author} asks ${newQuestion.text} in room ${newQuestion.room}`);
 
     Room.findOne({
       url: newQuestion.room,
@@ -143,16 +138,11 @@ io.on("connection", (socket) => {
   socket.on("delete-question", ({ id, roomName }) => {
     console.log(`Deleting question ${id} from ${roomName}`);
     //remove reference from room
-    Room.findOneAndUpdate(
-      { url: roomName },
-      { $pull: { questions: id } },
-      { new: true },
-      (err, doc) => {
-        if (err) {
-          console.error(err);
-        }
+    Room.findOneAndUpdate({ url: roomName }, { $pull: { questions: id } }, { new: true }, (err, doc) => {
+      if (err) {
+        console.error(err);
       }
-    );
+    });
 
     //then delete question from db
     Question.findByIdAndRemove(id, (err, doc) => {

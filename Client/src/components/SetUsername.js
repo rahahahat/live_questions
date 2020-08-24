@@ -21,17 +21,10 @@ const SetUsername = () => {
     });
   };
   return (
-    <div className="center-wrapper">
-      <input
-        className="room-input"
-        placeholder="Enter a display name"
-        name="username"
-        onChange={handleChange}
-      />
-      <div className="btn" onClick={handleSubmit}>
-        Submit
-      </div>
-    </div>
+    <form className="center-wrapper" onSubmit={handleSubmit}>
+      <input className="room-input" placeholder="Enter a display name" name="username" onChange={handleChange} />
+      <button className="btn">Submit</button>
+    </form>
   );
 };
 

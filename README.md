@@ -2,7 +2,7 @@
 
 ## A web service to allow live speakers, lecturers and teachers to manage their students' questions
 
-## Notes:
+## Notes
 
 You can now go to localhost:3000/info while server is running to see room data
 
@@ -19,6 +19,6 @@ You can now go to localhost:3000/info while server is running to see room data
 - [ ] room expires and is deleted after x hours of inactivity
 - [ ] moderator can mark questions as answered
 
-### Rahat Todo:
+### Rahat Todo
 
 - [x] enjoy his breakfast
