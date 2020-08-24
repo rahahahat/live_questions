@@ -2,6 +2,10 @@
 
 ## A web service to allow live speakers, lecturers and teachers to manage their students' questions
 
+## Notes:
+
+You can now go to localhost:3000/info while server is running to see room data
+
 ### Tom Todo
 
 - [x] change Instance to Room
@@ -17,4 +21,12 @@
 
 ### Rahat Todo
 
+<<<<<<< HEAD
+
+- [x] # enjoy his breakfast
+
+### Rahat Todo:
+
 - [x] enjoy his breakfast
+
+> > > > > > > 61d177cf0e8827629190ee0c8d5df776cd2adcdb
