@@ -19,14 +19,6 @@ You can now go to localhost:3000/info while server is running to see room data
 - [ ] room expires and is deleted after x hours of inactivity
 - [ ] moderator can mark questions as answered
 
-### Rahat Todo
-
-<<<<<<< HEAD
-
-- [x] # enjoy his breakfast
-
 ### Rahat Todo:
 
 - [x] enjoy his breakfast
-
-> > > > > > > 61d177cf0e8827629190ee0c8d5df776cd2adcdb
