@@ -42072,6 +42072,10 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -42095,7 +42099,16 @@ var CreateRoom = function CreateRoom() {
   var _React$useState = _react.default.useState({}),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       state = _React$useState2[0],
-      setState = _React$useState2[1];
+      setState = _React$useState2[1]; //todo: add state for password
+
+
+  var _React$useState3 = _react.default.useState({
+    profanityFilter: true,
+    requirePassword: false
+  }),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      settings = _React$useState4[0],
+      updateSettings = _React$useState4[1];
 
   var handleSubmit = function handleSubmit() {
     event.preventDefault();
@@ -42104,7 +42117,10 @@ var CreateRoom = function CreateRoom() {
       body: JSON.stringify({
         url: state.room,
         owner: "TODO",
-        created: new Date()
+        created: new Date(),
+        profanityFilter: settings.profanityFilter,
+        requirePassword: settings.requirePassword //todo: add password text here
+
       }),
       headers: {
         "Content-Type": "application/json"
@@ -42120,8 +42136,9 @@ var CreateRoom = function CreateRoom() {
     }).catch(console.error);
   };
 
-  return /*#__PURE__*/_react.default.createElement("div", {
-    className: "center-wrapper"
+  return /*#__PURE__*/_react.default.createElement("form", {
+    className: "center-wrapper",
+    onSubmit: handleSubmit
   }, /*#__PURE__*/_react.default.createElement("input", {
     className: "room-input",
     placeholder: "Enter a room name",
@@ -42129,10 +42146,43 @@ var CreateRoom = function CreateRoom() {
       setState(_defineProperty({}, event.target.name, event.target.value));
     },
     name: "room"
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "btn",
-    onClick: handleSubmit
-  }, "Create Room"));
+  }), /*#__PURE__*/_react.default.createElement("br", null), settings.requirePassword && /*#__PURE__*/_react.default.createElement("input", {
+    type: "password",
+    placeholder: "password",
+    name: "password",
+    className: "room-input"
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "profanityFilter"
+  }, "Use Profanity Filter: "), /*#__PURE__*/_react.default.createElement("input", {
+    type: "checkbox",
+    name: "profanityFilter",
+    defaultChecked: settings.profanityFilter,
+    onChange: function onChange(event) {
+      //update settings
+      event.target.checked ? updateSettings(Object.assign(_objectSpread({}, settings), {
+        profanityFilter: true
+      })) : updateSettings(Object.assign(_objectSpread({}, settings), {
+        profanityFilter: false
+      }));
+    }
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "passwordProtect"
+  }, "Password Protect Room: "), /*#__PURE__*/_react.default.createElement("input", {
+    type: "checkbox",
+    name: "passwordProtect",
+    defaultChecked: settings.requirePassword,
+    onChange: function onChange(event) {
+      //update settings - use {...settings} becase you should always work on copy of state then update
+      event.target.checked ? updateSettings(Object.assign(_objectSpread({}, settings), {
+        requirePassword: true
+      })) : updateSettings(Object.assign(_objectSpread({}, settings), {
+        requirePassword: false
+      }));
+    }
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("button", {
+    className: "btn"
+  }, "Create Room")) //end centre wrapper
+  ;
 };
 
 var _default = CreateRoom;
@@ -42230,8 +42280,9 @@ var JoinRoom = function JoinRoom() {
     });
   };
 
-  return /*#__PURE__*/_react.default.createElement("div", {
-    className: "center-wrapper"
+  return /*#__PURE__*/_react.default.createElement("form", {
+    className: "center-wrapper",
+    onSubmit: handleSubmit
   }, /*#__PURE__*/_react.default.createElement("input", {
     className: "for-input",
     placeholder: "Room to join",
@@ -42239,9 +42290,8 @@ var JoinRoom = function JoinRoom() {
     onChange: function onChange(event) {
       setState(_defineProperty({}, event.target.name, event.target.value));
     }
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "btn",
-    onClick: handleSubmit
+  }), /*#__PURE__*/_react.default.createElement("button", {
+    className: "btn"
   }, "Submit"));
 };
 
@@ -42303,16 +42353,16 @@ var SetUsername = function SetUsername() {
     });
   };
 
-  return /*#__PURE__*/_react.default.createElement("div", {
-    className: "center-wrapper"
+  return /*#__PURE__*/_react.default.createElement("form", {
+    className: "center-wrapper",
+    onSubmit: handleSubmit
   }, /*#__PURE__*/_react.default.createElement("input", {
     className: "room-input",
     placeholder: "Enter a display name",
     name: "username",
     onChange: handleChange
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "btn",
-    onClick: handleSubmit
+  }), /*#__PURE__*/_react.default.createElement("button", {
+    className: "btn"
   }, "Submit"));
 };
 

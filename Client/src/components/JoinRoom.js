@@ -17,7 +17,7 @@ const JoinRoom = () => {
     });
   };
   return (
-    <div className="center-wrapper">
+    <form className="center-wrapper" onSubmit={handleSubmit}>
       <input
         className="for-input"
         placeholder="Room to join"
@@ -27,10 +27,8 @@ const JoinRoom = () => {
         }}
       />
       {/* <input type="password" className="for-input" placeholder="Password" /> */}
-      <div className="btn" onClick={handleSubmit}>
-        Submit
-      </div>
-    </div>
+      <button className="btn">Submit</button>
+    </form>
   );
 };
 
