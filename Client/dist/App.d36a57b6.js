@@ -28307,10 +28307,89 @@ var Question = function Question(props) {
   }, "Votes: ", props.val.score));
 };
 
-var _default = Question; // <div className="btn-voteup" onClick={handleVoteUp}>
-// Vote Up
-// </div>
+var _default = Question;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"components/List.js":[function(require,module,exports) {
+"use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _Question = _interopRequireDefault(require("./Question.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var List = function List(_ref) {
+  var dataList = _ref.dataList,
+      handleVote = _ref.handleVote,
+      handleDelete = _ref.handleDelete;
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "question-container"
+  }, dataList.sort(function (a, b) {
+    return b.score - a.score;
+  }).map(function (data, index) {
+    return /*#__PURE__*/_react.default.createElement("li", {
+      key: index
+    }, /*#__PURE__*/_react.default.createElement("div", {
+      className: "question-box"
+    }, /*#__PURE__*/_react.default.createElement(_Question.default, {
+      val: data
+    }), !data.voted ? /*#__PURE__*/_react.default.createElement("div", {
+      className: "btn-voteup",
+      onClick: function onClick() {
+        handleVote(index);
+      }
+    }, "Vote Up") : null, /*#__PURE__*/_react.default.createElement("div", {
+      className: "btn-delete",
+      onClick: function onClick() {
+        handleDelete(index);
+      }
+    }, "Delete")));
+  }));
+};
+
+var _default = List;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","./Question.js":"components/Question.js"}],"components/Form.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Form = function Form(_ref) {
+  var obj = _ref.obj,
+      handleOnChange = _ref.handleOnChange,
+      handleSubmit = _ref.handleSubmit;
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "form-area"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "textbox-shell"
+  }, /*#__PURE__*/_react.default.createElement("textarea", {
+    name: "text",
+    type: "text",
+    className: "text-area",
+    onChange: handleOnChange,
+    value: obj.texts,
+    rows: "1",
+    cols: "80",
+    placeholder: "Ask a question..."
+  })), /*#__PURE__*/_react.default.createElement("div", {
+    className: "btn",
+    onClick: handleSubmit
+  }, "Submit"));
+};
+
+var _default = Form;
 exports.default = _default;
 },{"react":"../node_modules/react/index.js"}],"../node_modules/parseuri/index.js":[function(require,module,exports) {
 /**
@@ -37727,93 +37806,7 @@ exports.connect = lookup;
 exports.Manager = require('./manager');
 exports.Socket = require('./socket');
 
-},{"./url":"../node_modules/socket.io-client/lib/url.js","socket.io-parser":"../node_modules/socket.io-parser/index.js","./manager":"../node_modules/socket.io-client/lib/manager.js","debug":"../node_modules/debug/src/browser.js","./socket":"../node_modules/socket.io-client/lib/socket.js"}],"components/List.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _Question = _interopRequireDefault(require("./Question.js"));
-
-var _socket = _interopRequireDefault(require("socket.io-client"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// const socket = io('http://localhost:3000');
-var List = function List(_ref) {
-  var dataList = _ref.dataList,
-      handleVote = _ref.handleVote,
-      handleDelete = _ref.handleDelete;
-  return /*#__PURE__*/_react.default.createElement("div", {
-    className: "question-container"
-  }, dataList.sort(function (a, b) {
-    return b.score - a.score;
-  }).map(function (data, index) {
-    return /*#__PURE__*/_react.default.createElement("li", {
-      key: index
-    }, /*#__PURE__*/_react.default.createElement("div", {
-      className: "question-box"
-    }, /*#__PURE__*/_react.default.createElement(_Question.default, {
-      val: data
-    }), !data.voted ? /*#__PURE__*/_react.default.createElement("div", {
-      className: "btn-voteup",
-      onClick: function onClick() {
-        handleVote(index);
-      }
-    }, "Vote Up") : null, /*#__PURE__*/_react.default.createElement("div", {
-      className: "btn-delete",
-      onClick: function onClick() {
-        handleDelete(index);
-      }
-    }, "Delete")));
-  }));
-};
-
-var _default = List;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js","./Question.js":"components/Question.js","socket.io-client":"../node_modules/socket.io-client/lib/index.js"}],"components/Form.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Form = function Form(_ref) {
-  var obj = _ref.obj,
-      handleOnChange = _ref.handleOnChange,
-      handleSubmit = _ref.handleSubmit,
-      socket = _ref.socket;
-  return /*#__PURE__*/_react.default.createElement("div", {
-    className: "form-area"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "textbox-shell"
-  }, /*#__PURE__*/_react.default.createElement("textarea", {
-    name: "text",
-    type: "text",
-    className: "text-area",
-    onChange: handleOnChange,
-    value: obj.texts,
-    rows: "1",
-    cols: "80",
-    placeholder: "Ask a question..."
-  })), /*#__PURE__*/_react.default.createElement("div", {
-    className: "btn",
-    onClick: handleSubmit
-  }, "Submit"));
-};
-
-var _default = Form;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":[function(require,module,exports) {
+},{"./url":"../node_modules/socket.io-client/lib/url.js","socket.io-parser":"../node_modules/socket.io-parser/index.js","./manager":"../node_modules/socket.io-client/lib/manager.js","debug":"../node_modules/debug/src/browser.js","./socket":"../node_modules/socket.io-client/lib/socket.js"}],"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41961,7 +41954,8 @@ var Window = function Window() {
 
 
   var setVote = function setVote(dataList, id) {
-    var state = _toConsumableArray(dataList);
+    var state = _toConsumableArray(dataList); //locate the question in the state by id
+
 
     var index = state.findIndex(function (question) {
       return question._id == id;
@@ -41974,7 +41968,8 @@ var Window = function Window() {
 
 
   var deleteItem = function deleteItem(dataList, id) {
-    var state = _toConsumableArray(dataList);
+    var state = _toConsumableArray(dataList); //locate the question in the state by id
+
 
     var index = state.findIndex(function (question) {
       return question._id == id;
@@ -41985,10 +41980,9 @@ var Window = function Window() {
 
 
   _react.default.useEffect(function () {
-    socket = (0, _socket.default)("http://localhost:3000"); // roomName = `${props.match.params.roomName}/${props.match.params.id}`;
-
     roomName = room.roomName;
     userName = history.location.state.username;
+    socket = (0, _socket.default)("http://localhost:3000");
     setObj(_objectSpread(_objectSpread({}, obj), {}, {
       author: userName,
       room: roomName
@@ -41999,31 +41993,43 @@ var Window = function Window() {
       userName: userName
     }); // Listening Sockets------------------------------------------
 
-    socket.on("acknowledgeJoin", function (roomData) {
+    socket.on("connect", function () {
+      console.log("Connected to server: ", socket.connected); // true
+    });
+    socket.on("acknowledge-join", function (roomData) {
       console.log("Socket Acknowledged"); // add error boundary for invalid roomData--
 
       setDataList(roomData.questions);
-    });
+    }); //if server could not find room then redirect to home page
+
+    socket.on("room-not-found", function () {
+      history.push("/");
+    }); //add a question
+
     socket.on("add-question", function (data) {
       console.log("new question", data);
       setDataList(function (dataList) {
         return [data].concat(_toConsumableArray(dataList));
       });
-    });
+    }); //vote up question
+
     socket.on("vote-up", function (id) {
       console.log("vote up from socket");
       setDataList(function (dataList) {
         return setVote(dataList, id);
       });
-    });
+    }); //delete question
+
     socket.on("delete-question", function (id) {
       console.log("delete from socket");
       setDataList(function (dataList) {
         return deleteItem(dataList, id);
       });
     });
-  }, []); // --------------------------------------------------------------SOCKETS ------------------------------------------------
-
+    socket.on("disconnect", function () {
+      console.log("Connected to server: ", socket.connected); // false
+    });
+  }, []);
 
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, dataList.length == 0 && visibility.list ? /*#__PURE__*/_react.default.createElement("div", {
     className: "question-container"
@@ -42383,7 +42389,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41807" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37943" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

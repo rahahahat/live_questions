@@ -10,7 +10,3 @@ const Question = (props) => {
   );
 };
 export default Question;
-
-// <div className="btn-voteup" onClick={handleVoteUp}>
-// Vote Up
-// </div>

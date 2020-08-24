@@ -1,7 +1,6 @@
 import React from "react";
 import Question from "./Question.js";
-import io from "socket.io-client";
-// const socket = io('http://localhost:3000');
+
 const List = ({ dataList, handleVote, handleDelete }) => {
   return (
     <div className={`question-container`}>

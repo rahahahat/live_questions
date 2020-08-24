@@ -77,24 +77,6 @@ app.get("/info", (req, res) => {
   res.json(info);
 });
 
-//if :roomcode is a valid room redirects and connects
-app.get("/:roomcode", (req, res) => {
-  //find room in db
-  Room.findOne({
-    url: req.params.roomcode,
-  }).then((result) => {
-    if (result != null) {
-      //if rooms exist
-      res.locals.roomcode = req.params.roomcode;
-      //   res.render("room");
-      res.send(true);
-    } else {
-      //otherwise redirect to home
-      res.redirect("/");
-    }
-  });
-});
-
 //inserts a new room into db
 app.post("/room", (req, res, next) => {
   console.log(req.body);

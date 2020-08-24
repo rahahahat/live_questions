@@ -102,6 +102,7 @@ const Window = () => {
   const handlePostVisibility = () => {
     setVisibility({ form: true, list: false, post: false });
   };
+
   // Helper function for socket to update vote.
   const setVote = (dataList, id) => {
     let state = [...dataList];
@@ -126,18 +127,29 @@ const Window = () => {
 
   // --------------------------------------------------------------SOCKETS ------------------------------------------------
   React.useEffect(() => {
-    socket = io("http://localhost:3000");
-    // roomName = `${props.match.params.roomName}/${props.match.params.id}`;
     roomName = room.roomName;
     userName = history.location.state.username;
+
+    socket = io("http://localhost:3000");
+
     setObj({ ...obj, author: userName, room: roomName });
+
     // Initiate client-side connection----------------------------
     socket.emit("join-room", { roomName, userName });
     // Listening Sockets------------------------------------------
-    socket.on("acknowledgeJoin", (roomData) => {
+    socket.on("connect", () => {
+      console.log("Connected to server: ", socket.connected); // true
+    });
+
+    socket.on("acknowledge-join", (roomData) => {
       console.log("Socket Acknowledged");
       // add error boundary for invalid roomData--
       setDataList(roomData.questions);
+    });
+
+    //if server could not find room then redirect to home page
+    socket.on("room-not-found", () => {
+      history.push("/");
     });
 
     //add a question
@@ -157,8 +169,11 @@ const Window = () => {
       console.log("delete from socket");
       setDataList((dataList) => deleteItem(dataList, id));
     });
+
+    socket.on("disconnect", () => {
+      console.log("Connected to server: ", socket.connected); // false
+    });
   }, []);
-  // --------------------------------------------------------------SOCKETS ------------------------------------------------
 
   return (
     <React.Fragment>
