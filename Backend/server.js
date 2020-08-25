@@ -97,7 +97,6 @@ io.on("connection", (socket) => {
   socket.on("add-question", (newQuestion) => {
     //console.log(newQuestion);
     console.log(`${Date.now()}: ${newQuestion.author} asks ${newQuestion.text} in room ${newQuestion.room}`);
-
     Room.findOne({
       url: newQuestion.room,
     })
