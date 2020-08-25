@@ -11,11 +11,15 @@ const CreateRoom = () => {
     profanityFilter: true,
     requirePassword: false,
   });
+
   const handleSubmit = () => {
-    event.preventDefault();
+    event.preventDefault(); //stop form redirecting
+
     fetch(API_URL + "/room", {
+      //post request to /room is for inserting a new room to db
       method: "POST",
       body: JSON.stringify({
+        //capture data from the form - could switch to using a formdata object
         url: state.room,
         owner: "TODO",
         created: new Date(),
@@ -24,18 +28,24 @@ const CreateRoom = () => {
         //todo: add password text here
       }),
       headers: {
+        //set headers (important for serverside parsing)
         "Content-Type": "application/json",
       },
     })
       .then((res) => {
-        console.log(res);
-        history.push({
-          pathname: "/set-username",
-          state: { room: state.room },
-        });
+        if (res.ok) {
+          //if the response is ok then redirect to join the room
+          history.push({
+            pathname: "/set-username",
+            state: { room: state.room },
+          });
+        } else {
+          console.error("CreateRoom Failed");
+        }
       })
       .catch(console.error);
   };
+
   return (
     <form className="center-wrapper" onSubmit={handleSubmit}>
       <input
@@ -58,7 +68,7 @@ const CreateRoom = () => {
         name="profanityFilter"
         defaultChecked={settings.profanityFilter}
         onChange={(event) => {
-          //update settings
+          //update settings - use {...settings} becase you should always work on copy of state then update
           event.target.checked
             ? updateSettings(Object.assign({ ...settings }, { profanityFilter: true }))
             : updateSettings(Object.assign({ ...settings }, { profanityFilter: false }));

@@ -8,7 +8,7 @@ const Form = ({ obj, handleOnChange, handleSubmit }) => {
           type="text"
           className={`text-area`}
           onChange={handleOnChange}
-          value={obj.texts}
+          value={obj.text}
           rows="1"
           cols="80"
           placeholder="Ask a question..."

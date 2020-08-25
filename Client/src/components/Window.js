@@ -1,6 +1,6 @@
 import React from "react";
 import List from "./List.js";
-import Form from "./Form.js";
+import QuestionForm from "./QuestionForm.js";
 import io from "socket.io-client";
 import { useParams, useHistory } from "react-router-dom";
 
@@ -12,6 +12,7 @@ let userName = "DEFAULT_USERNAME";
 const Window = () => {
   const history = useHistory();
   const room = useParams();
+
   // State that handles conditional rendering for components -----------------------------------------------
   const [visibility, setVisibility] = React.useState({
     form: false,
@@ -32,21 +33,15 @@ const Window = () => {
   });
   // ---------------------------------------------- Handler Functions ----------------------------------------
 
-  /* Handles the change in the form component.
-  # Updates the tempObj using setObj everytime a change happens in the Question Form
-  */
+  // Handles the change in the form component.
   const handleOnChange = (event) => {
     setObj({
       ...obj,
       [event.target.name]: event.target.value,
     });
   };
-  /* Handles the submit in the form component.
-  # Gets the Obj and pushes it to the dataList
-  # Uses setDataList to update dataList and render
-  # Uses setObj and pushes and empty question-object to be used by handleOnchange
-  # Sets specified visibility.
-  */
+
+  //Handles the submit in the form component.
   const handleSubmit = () => {
     if (obj.text != "") {
       socket.emit("add-question", obj);
@@ -60,12 +55,8 @@ const Window = () => {
     }
     handleSubmitVisibility();
   };
-  /* Handles changing the vote of a particular Question.
-  # Gets the index of arrays.map
-  # Creates a mutable copy of dataList
-  # Increments the vote of the particular object queried by the index.
-  # Uses setDataList to update the state
-  */
+
+  // Handles changing the vote of a particular Question.
   const handleVote = (index) => {
     let state = [...dataList];
     const id = state[index]._id;
@@ -78,17 +69,11 @@ const Window = () => {
     };
     setDataList(state);
   };
-  /* Handles deleting a particular question object from dataList.
-  # Gets the index of arrays.map
-  # Creates a mutable copy of dataList
-  # Deletes the desired Object using index.
-  # Uses setDataList to update the state.
-  */
+
+  //Handles deleting a particular question object from dataList.
   const handleDelete = (index) => {
     let state = [...dataList];
     const id = state[index]._id;
-    console.log("Deleting", id);
-    console.log(roomName);
     socket.emit("delete-question", { id, roomName });
     state.splice(index, 1);
     setDataList(state);
@@ -175,30 +160,12 @@ const Window = () => {
     });
   }, []);
 
+  //--------------------------rendering---------------------------------
   return (
     <React.Fragment>
-      {/*---------- Conditionally rendering the Question List both initially and after recieving data---------- */}
-      {dataList.length == 0 && visibility.list ? (
-        <div className={`question-container`}>
-          <div className="no-list-text"> No questions yet</div>
-        </div>
-      ) : visibility.list ? (
-        <List
-          dataList={dataList}
-          handleVote={handleVote}
-          handleDelete={handleDelete}
-        />
-      ) : null}
-
-      {/*------------------------------------- Conditionally rendering the form ------------------------------*/}
-      {visibility.form ? (
-        <Form
-          obj={obj}
-          handleOnChange={handleOnChange}
-          handleSubmit={handleSubmit}
-        />
-      ) : null}
-      {visibility.post ? (
+      {visibility.list && <List dataList={dataList} handleVote={handleVote} handleDelete={handleDelete} />}
+      {visibility.form && <QuestionForm obj={obj} handleOnChange={handleOnChange} handleSubmit={handleSubmit} />}
+      {visibility.post && (
         <React.Fragment>
           <div className={`btn`} onClick={handlePostVisibility}>
             Post a Question...
@@ -207,7 +174,7 @@ const Window = () => {
             Log State
           </div>
         </React.Fragment>
-      ) : null}
+      )}
     </React.Fragment>
   );
 };

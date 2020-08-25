@@ -28327,7 +28327,14 @@ var List = function List(_ref) {
   var dataList = _ref.dataList,
       handleVote = _ref.handleVote,
       handleDelete = _ref.handleDelete;
-  return /*#__PURE__*/_react.default.createElement("div", {
+  return dataList.length == 0 ?
+  /*#__PURE__*/
+  //if datalist contains no questions then render the noquestionsyet box
+  _react.default.createElement("div", {
+    className: "question-container"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "no-list-text"
+  }, " No questions yet")) : /*#__PURE__*/_react.default.createElement("div", {
     className: "question-container"
   }, dataList.sort(function (a, b) {
     return b.score - a.score;
@@ -28354,7 +28361,7 @@ var List = function List(_ref) {
 
 var _default = List;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./Question.js":"components/Question.js"}],"components/Form.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Question.js":"components/Question.js"}],"components/QuestionForm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28379,7 +28386,7 @@ var Form = function Form(_ref) {
     type: "text",
     className: "text-area",
     onChange: handleOnChange,
-    value: obj.texts,
+    value: obj.text,
     rows: "1",
     cols: "80",
     placeholder: "Ask a question..."
@@ -41789,7 +41796,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _List = _interopRequireDefault(require("./List.js"));
 
-var _Form = _interopRequireDefault(require("./Form.js"));
+var _QuestionForm = _interopRequireDefault(require("./QuestionForm.js"));
 
 var _socket = _interopRequireDefault(require("socket.io-client"));
 
@@ -41859,21 +41866,12 @@ var Window = function Window() {
       _React$useState6 = _slicedToArray(_React$useState5, 2),
       obj = _React$useState6[0],
       setObj = _React$useState6[1]; // ---------------------------------------------- Handler Functions ----------------------------------------
-
-  /* Handles the change in the form component.
-  # Updates the tempObj using setObj everytime a change happens in the Question Form
-  */
+  // Handles the change in the form component.
 
 
   var handleOnChange = function handleOnChange(event) {
     setObj(_objectSpread(_objectSpread({}, obj), {}, _defineProperty({}, event.target.name, event.target.value)));
-  };
-  /* Handles the submit in the form component.
-  # Gets the Obj and pushes it to the dataList
-  # Uses setDataList to update dataList and render
-  # Uses setObj and pushes and empty question-object to be used by handleOnchange
-  # Sets specified visibility.
-  */
+  }; //Handles the submit in the form component.
 
 
   var handleSubmit = function handleSubmit() {
@@ -41888,13 +41886,7 @@ var Window = function Window() {
     }
 
     handleSubmitVisibility();
-  };
-  /* Handles changing the vote of a particular Question.
-  # Gets the index of arrays.map
-  # Creates a mutable copy of dataList
-  # Increments the vote of the particular object queried by the index.
-  # Uses setDataList to update the state
-  */
+  }; // Handles changing the vote of a particular Question.
 
 
   var handleVote = function handleVote(index) {
@@ -41911,21 +41903,13 @@ var Window = function Window() {
       voted: true
     });
     setDataList(state);
-  };
-  /* Handles deleting a particular question object from dataList.
-  # Gets the index of arrays.map
-  # Creates a mutable copy of dataList
-  # Deletes the desired Object using index.
-  # Uses setDataList to update the state.
-  */
+  }; //Handles deleting a particular question object from dataList.
 
 
   var handleDelete = function handleDelete(index) {
     var state = _toConsumableArray(dataList);
 
     var id = state[index]._id;
-    console.log("Deleting", id);
-    console.log(roomName);
     socket.emit("delete-question", {
       id: id,
       roomName: roomName
@@ -42029,21 +42013,18 @@ var Window = function Window() {
     socket.on("disconnect", function () {
       console.log("Connected to server: ", socket.connected); // false
     });
-  }, []);
+  }, []); //--------------------------rendering---------------------------------
 
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, dataList.length == 0 && visibility.list ? /*#__PURE__*/_react.default.createElement("div", {
-    className: "question-container"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "no-list-text"
-  }, " No questions yet")) : visibility.list ? /*#__PURE__*/_react.default.createElement(_List.default, {
+
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, visibility.list && /*#__PURE__*/_react.default.createElement(_List.default, {
     dataList: dataList,
     handleVote: handleVote,
     handleDelete: handleDelete
-  }) : null, visibility.form ? /*#__PURE__*/_react.default.createElement(_Form.default, {
+  }), visibility.form && /*#__PURE__*/_react.default.createElement(_QuestionForm.default, {
     obj: obj,
     handleOnChange: handleOnChange,
     handleSubmit: handleSubmit
-  }) : null, visibility.post ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
+  }), visibility.post && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "btn",
     onClick: handlePostVisibility
   }, "Post a Question..."), /*#__PURE__*/_react.default.createElement("div", {
@@ -42051,12 +42032,12 @@ var Window = function Window() {
     onClick: function onClick() {
       return console.log(dataList);
     }
-  }, "Log State")) : null);
+  }, "Log State")));
 };
 
 var _default = Window;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./List.js":"components/List.js","./Form.js":"components/Form.js","socket.io-client":"../node_modules/socket.io-client/lib/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/CreateRoom.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./List.js":"components/List.js","./QuestionForm.js":"components/QuestionForm.js","socket.io-client":"../node_modules/socket.io-client/lib/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/CreateRoom.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42111,10 +42092,13 @@ var CreateRoom = function CreateRoom() {
       updateSettings = _React$useState4[1];
 
   var handleSubmit = function handleSubmit() {
-    event.preventDefault();
+    event.preventDefault(); //stop form redirecting
+
     fetch(API_URL + "/room", {
+      //post request to /room is for inserting a new room to db
       method: "POST",
       body: JSON.stringify({
+        //capture data from the form - could switch to using a formdata object
         url: state.room,
         owner: "TODO",
         created: new Date(),
@@ -42123,16 +42107,21 @@ var CreateRoom = function CreateRoom() {
 
       }),
       headers: {
+        //set headers (important for serverside parsing)
         "Content-Type": "application/json"
       }
     }).then(function (res) {
-      console.log(res);
-      history.push({
-        pathname: "/set-username",
-        state: {
-          room: state.room
-        }
-      });
+      if (res.ok) {
+        //if the response is ok then redirect to join the room
+        history.push({
+          pathname: "/set-username",
+          state: {
+            room: state.room
+          }
+        });
+      } else {
+        console.error("CreateRoom Failed");
+      }
     }).catch(console.error);
   };
 
@@ -42158,7 +42147,7 @@ var CreateRoom = function CreateRoom() {
     name: "profanityFilter",
     defaultChecked: settings.profanityFilter,
     onChange: function onChange(event) {
-      //update settings
+      //update settings - use {...settings} becase you should always work on copy of state then update
       event.target.checked ? updateSettings(Object.assign(_objectSpread({}, settings), {
         profanityFilter: true
       })) : updateSettings(Object.assign(_objectSpread({}, settings), {
