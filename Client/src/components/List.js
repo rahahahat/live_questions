@@ -2,7 +2,12 @@ import React from "react";
 import Question from "./Question.js";
 
 const List = ({ dataList, handleVote, handleDelete }) => {
-  return (
+  return dataList.length == 0 ? (
+    //if datalist contains no questions then render the noquestionsyet box
+    <div className={`question-container`}>
+      <div className="no-list-text"> No questions yet</div>
+    </div>
+  ) : (
     <div className={`question-container`}>
       {dataList
         .sort((a, b) => b.score - a.score)
@@ -10,7 +15,7 @@ const List = ({ dataList, handleVote, handleDelete }) => {
           <li key={index}>
             <div className={`question-box`}>
               <Question val={data} />
-              {/* render vote-up if and only if you, havent votd yet! */}
+              {/* render vote-up if and only if you, havent voted yet! */}
               {!data.voted ? (
                 <div
                   className="btn-voteup"
