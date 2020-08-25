@@ -5,7 +5,11 @@ const API_URL = "http://localhost:3000";
 const CreateRoom = () => {
   const history = useHistory();
   console.log(history);
-  const [state, setState] = React.useState({});
+  const [state, setState] = React.useState({
+    room: "",
+    pasword: "",
+  });
+  const [password, setPassword] = React.useState();
   //todo: add state for password
   const [settings, updateSettings] = React.useState({
     profanityFilter: true,
@@ -25,7 +29,7 @@ const CreateRoom = () => {
         created: new Date(),
         profanityFilter: settings.profanityFilter,
         requirePassword: settings.requirePassword,
-        //todo: add password text here
+        password: state.password,
       }),
       headers: {
         //set headers (important for serverside parsing)
@@ -52,13 +56,24 @@ const CreateRoom = () => {
         className="room-input"
         placeholder="Enter a room name"
         onChange={(event) => {
-          setState({ [event.target.name]: event.target.value });
+          setState(Object.assign({ ...state }, { room: event.target.value }));
         }}
         name="room"
       />
       <br />
 
-      {settings.requirePassword && <input type="password" placeholder="password" name="password" className="room-input" />}
+      {settings.requirePassword && (
+        <input
+          type="password"
+          placeholder="password"
+          name="password"
+          className="room-input"
+          required={settings.requirePassword}
+          onChange={(event) => {
+            setState(Object.assign({ ...state }, { password: event.target.value }));
+          }}
+        />
+      )}
 
       <br />
 

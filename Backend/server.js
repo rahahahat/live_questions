@@ -9,6 +9,7 @@ var io = require("socket.io").listen(http);
 var cors = require("cors");
 const bodyParser = require("body-parser");
 var Filter = require("bad-words");
+const bcrypt = require("bcrypt");
 
 const Room = require("./models/room");
 const Question = require("./models/question");
@@ -24,6 +25,8 @@ app.use(bodyParser.json());
 
 const mongoose = require("mongoose");
 const { createSign } = require("crypto");
+const { rejects } = require("assert");
+const { resolve } = require("path");
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -47,26 +50,41 @@ app.get("/info", (req, res) => {
 
 //inserts a new room into db
 app.post("/room", (req, res, next) => {
-  console.log(req.body);
-  if (isValid(req.body)) {
-    const room = new Room({
-      url: req.body.url.toString().trim(),
-      owner: req.body.owner.toString().trim(),
-      created: new Date(),
-    });
+  //reasonably complicated!
+  //create a promise as bcrypt.hash is async
+  let processTheNewRoom = new Promise((resolve, reject) => {
+    if (!req.body.requirePassword) {
+      //if no password is required for the room just return ""
+      resolve("");
+    } else {
+      bcrypt.hash(req.body.password, 8, (err, hash) => {
+        //otherwise make a hash
+        if (err) reject(err);
+        resolve(hash);
+      });
+    }
+  })
+    .then((hash) => {
+      //take the hash (or just "") and use it in creating the mongodb document with the other params
+      const room = new Room({
+        url: req.body.url.toString().trim(),
+        owner: req.body.owner.toString().trim(),
+        created: new Date(),
+        profanityFilter: req.body.profanityFilter,
+        requirePassword: req.body.requirePassword,
+        password: hash,
+      });
 
-    console.log("creating new room: ", room.url);
+      console.log("creating new room: ", room.url);
 
-    room.save(function (err) {
-      if (err) return console.error(err);
-    });
+      room.save(function (err) {
+        //save to the db
+        if (err) return console.error(err);
+      });
 
-    res.json(JSON.stringify(room));
-  } else {
-    res.json({
-      message: "Something went wrong! ",
-    });
-  }
+      res.json(JSON.stringify(room)); //send bach a response
+    })
+    .catch((err) => console.error(err));
 });
 
 //global entry point for io connections
@@ -197,6 +215,19 @@ function incrementQuestionScore(questionId) {
 
 function isValid(body) {
   return true;
+}
+
+async function hashPassword(password) {
+  const saltRounds = 10;
+
+  const hashedPassword = await new Promise((resolve, reject) => {
+    bcrypt.hash(password, saltRounds, function (err, hash) {
+      if (err) reject(err);
+      resolve(hash);
+    });
+  });
+
+  return hashedPassword;
 }
 
 http.listen(process.env.PORT || 3000, function () {
