@@ -19,6 +19,7 @@ const Window = () => {
     list: true,
     post: true,
   });
+
   // The dataList State which handles all the questions -----------------------------------------------------
   const [dataList, setDataList] = React.useState([]);
 
@@ -42,7 +43,8 @@ const Window = () => {
   };
 
   //Handles the submit in the form component.
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
     if (obj.text != "") {
       socket.emit("add-question", obj);
       console.log(obj);
@@ -175,6 +177,16 @@ const Window = () => {
           </div>
         </React.Fragment>
       )}
+
+      <div
+        className="btn"
+        onClick={() => {
+          socket.emit("disconnect");
+          history.push("/");
+        }}
+      >
+        Leave Room
+      </div>
     </React.Fragment>
   );
 };

@@ -5,15 +5,24 @@ const JoinRoom = () => {
   const history = useHistory();
   const [state, setState] = React.useState({});
   const handleSubmit = () => {
+    // might reintroduce later
+    // event.preventDefault();
+    // fetch(`${API_URL}/${state.room}`).then((res) => {
+    //   console.log(res);
+    //   if (!res.ok) {
+    //     console.log("Error joining room!");
+    //   } else {
+    //     history.push({
+    //       pathname: `/set-username`,
+    //       state: { room: state.room },
+    //     });
+    //   }
+    // });
+
     event.preventDefault();
-    fetch(`${API_URL}/${state.room}`).then((res) => {
-      if (!res.ok) {
-        console.log("Error joining room!");
-      }
-      history.push({
-        pathname: `/set-username`,
-        state: { room: state.room },
-      });
+    history.push({
+      pathname: `/set-username`,
+      state: { room: state.room },
     });
   };
   return (

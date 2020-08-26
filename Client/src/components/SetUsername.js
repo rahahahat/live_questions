@@ -14,7 +14,8 @@ const SetUsername = () => {
   const handleChange = (event) => {
     setUsername({ [event.target.name]: event.target.value });
   };
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault(); //stop form redirect
     history.push({
       pathname: `/room/${room_name}`,
       state: { username: userName.username },
