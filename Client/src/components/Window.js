@@ -136,8 +136,7 @@ const Window = () => {
 
     //if server could not find room then redirect to home page
     socket.on("room-not-found", () => {
-      console.log(room, roomUrl);
-      //history.push("/");
+      history.push("/");
     });
 
     //add a question
