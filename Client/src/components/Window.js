@@ -6,7 +6,7 @@ import { useParams, useHistory } from "react-router-dom";
 
 const API_URL = "http://localhost:3000";
 let socket;
-//let roomUrl = "DEFAULT";
+let roomUrl = "DEFAULT";
 let userName = "DEFAULT_USERNAME";
 
 const Window = () => {
@@ -24,7 +24,7 @@ const Window = () => {
   const [dataList, setDataList] = React.useState([]);
 
   // Temporary state for appending new entries to dataList --------------------------------------------------
-  const [questionState, setquestionState] = React.useState({
+  const [questionState, setQuestionState] = React.useState({
     _id: "0",
     author: "//fetch from server//",
     text: "",
@@ -35,20 +35,20 @@ const Window = () => {
   // ---------------------------------------------- Handler Functions ----------------------------------------
 
   // Handles the change in the form component.
-  const handleOnChange = (event) => {
-    setquestionState({
+  const handleQuestionFormOnChange = (event) => {
+    setQuestionState({
       ...questionState,
       [event.target.name]: event.target.value,
     });
   };
 
   //Handles the submit in the form component.
-  const handleSubmit = (event) => {
+  const handleQuestionFormSubmit = (event) => {
     event.preventDefault();
     if (questionState.text != "") {
       socket.emit("add-question", questionState);
       console.log(questionState);
-      setquestionState({
+      setQuestionState({
         ...questionState,
         text: "",
         score: 0,
@@ -114,12 +114,12 @@ const Window = () => {
 
   // --------------------------------------------------------------SOCKETS ------------------------------------------------
   React.useEffect(() => {
-    let roomUrl = room.roomUrl;
+    roomUrl = room.roomUrl;
     userName = history.location.state.username;
 
     socket = io("http://localhost:3000");
 
-    setquestionState({ ...questionState, author: userName, room: roomUrl });
+    setQuestionState({ ...questionState, author: userName, room: roomUrl });
 
     // Initiate client-side connection----------------------------
     socket.emit("join-room", { roomUrl, userName });
@@ -167,7 +167,9 @@ const Window = () => {
   return (
     <React.Fragment>
       {visibility.list && <List dataList={dataList} handleVote={handleVote} handleDelete={handleDelete} />}
-      {visibility.form && <QuestionForm questionState={questionState} handleOnChange={handleOnChange} handleSubmit={handleSubmit} />}
+      {visibility.form && (
+        <QuestionForm questionState={questionState} handleOnChange={handleQuestionFormOnChange} handleSubmit={handleQuestionFormSubmit} />
+      )}
       {visibility.post && (
         <React.Fragment>
           <div className={`btn`} onClick={handlePostVisibility}>

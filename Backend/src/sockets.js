@@ -8,22 +8,22 @@ module.exports = (io) => {
     //Triggered when joinform is submitted
     console.log(`Socket connected id ${socket.id}`);
 
-    socket.on("join-room", (user) => {
+    //                     (user) is { roomUrl, userName }
+    socket.on("join-room", ({ roomUrl, userName }) => {
       //find room in db to check it exists before creating
-      console.log(user);
       Room.findOne({
-        url: user.roomUrl,
+        url: roomUrl,
       })
         .populate("questions") //turns list of question ids into list of question objects
         .exec((err, result) => {
           if (err || !result) {
-            err ? console.log(err) : console.log("Room not found", user.roomUrl);
+            err ? console.log(err) : console.log("Room not found", roomUrl);
             socket.emit("room-not-found");
           } else {
             //result = result.populate("questions");
-            socket.join(user.roomUrl);
+            socket.join(roomUrl);
             socket.emit("acknowledge-join", result);
-            console.log(`${Date.now()}: ${user.userName} joined room ${user.roomUrl}`);
+            console.log(`${Date.now()}: ${userName} joined room ${roomUrl}`);
           }
         });
     });
