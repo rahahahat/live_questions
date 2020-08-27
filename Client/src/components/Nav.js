@@ -1,16 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, BrowserRouter as Router, Switch, withRouter } from 'react-router-dom';
 const Nav = () => {
-	console.log('HI');
+	const history = useHistory();
 	return (
 		<div className="center-wrapper">
-			<Link to="/create-room">
-				<div className="btn-fixed">Create Room</div>
-			</Link>
+			<div
+				className="btn-fixed"
+				onClick={() => {
+					history.push({
+						pathname: '/create'
+					});
+				}}
+			>
+				Create Room
+			</div>
 			<div style={{ textAlign: 'center' }}>or</div>
-			<Link to="/join-room">
-				<div className="btn-fixed">Join Room</div>
-			</Link>
+			<div
+				className="btn-fixed"
+				onClick={() => {
+					history.push('/Join');
+				}}
+			>
+				Join Room
+			</div>
 		</div>
 	);
 };

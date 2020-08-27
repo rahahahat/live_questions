@@ -1,5 +1,5 @@
 {
-  "name": "Backend",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,11 +11,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bad-words": "^3.0.3",
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
+    "mongoose": "^5.10.0",
     "nodemon": "^2.0.4",
+    "random-words": "^1.1.1",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "prettier": "2.0.5"
   }
 }
