@@ -38,7 +38,7 @@ db.once("open", () => console.log("Connected to mongose"));
 app.get("/", (req, res) => {
   res.send("hello");
 });
-
+// console
 //mostly for debugging api
 app.get("/info", (req, res) => {
   let info = {
