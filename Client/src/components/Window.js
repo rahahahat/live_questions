@@ -6,7 +6,7 @@ import { useParams, useHistory } from "react-router-dom";
 
 const API_URL = "http://localhost:3000";
 let socket;
-let roomName = "DEFAULT";
+//let roomUrl = "DEFAULT";
 let userName = "DEFAULT_USERNAME";
 
 const Window = () => {
@@ -63,7 +63,7 @@ const Window = () => {
     let state = [...dataList];
     const id = state[index]._id;
     console.log("Upvoting", id);
-    socket.emit("vote-up", { id, roomName });
+    socket.emit("vote-up", { id, roomUrl });
     state[index] = {
       ...state[index],
       score: state[index].score + 1,
@@ -76,7 +76,7 @@ const Window = () => {
   const handleDelete = (index) => {
     let state = [...dataList];
     const id = state[index]._id;
-    socket.emit("delete-question", { id, roomName });
+    socket.emit("delete-question", { id, roomUrl });
     state.splice(index, 1);
     setDataList(state);
   };
@@ -114,15 +114,15 @@ const Window = () => {
 
   // --------------------------------------------------------------SOCKETS ------------------------------------------------
   React.useEffect(() => {
-    roomName = room.roomName;
+    let roomUrl = room.roomUrl;
     userName = history.location.state.username;
 
     socket = io("http://localhost:3000");
 
-    setquestionState({ ...questionState, author: userName, room: roomName });
+    setquestionState({ ...questionState, author: userName, room: roomUrl });
 
     // Initiate client-side connection----------------------------
-    socket.emit("join-room", { roomName, userName });
+    socket.emit("join-room", { roomUrl, userName });
     // Listening Sockets------------------------------------------
     socket.on("connect", () => {
       console.log("Connected to server: ", socket.connected); // true
@@ -136,7 +136,8 @@ const Window = () => {
 
     //if server could not find room then redirect to home page
     socket.on("room-not-found", () => {
-      history.push("/");
+      console.log(room, roomUrl);
+      //history.push("/");
     });
 
     //add a question

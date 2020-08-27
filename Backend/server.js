@@ -9,6 +9,7 @@ var io = require("socket.io").listen(http);
 var cors = require("cors");
 const bodyParser = require("body-parser");
 var Filter = require("bad-words");
+var randomWords = require("random-words");
 const bcrypt = require("bcrypt");
 
 const Room = require("./models/room");
@@ -64,8 +65,11 @@ app.post("/room", (req, res, next) => {
   })
     .then((hash) => {
       //take the hash (or just "") and use it in creating the mongodb document with the other params
+      let generatedUrl = generateUrl();
+
       const room = new Room({
-        url: req.body.url.toString().trim(),
+        url: generatedUrl,
+        title: req.body.title.toString().trim(),
         owner: req.body.owner.toString().trim(),
         created: new Date(),
         profanityFilter: req.body.profanityFilter,
@@ -80,7 +84,7 @@ app.post("/room", (req, res, next) => {
         if (err) return console.error(err);
       });
 
-      res.json(JSON.stringify(room)); //send bach a response
+      res.json(room); //send back a response -- client will use this to redirect
     })
     .catch((err) => console.error(err));
 });
@@ -91,3 +95,8 @@ require("./src/sockets.js")(io);
 http.listen(process.env.PORT || 3000, function () {
   console.log("Hello World, lisening on 3000");
 });
+
+const generateUrl = () => {
+  //do some error handling here to prevent duplicate url
+  return randomWords({ exactly: 3, join: "-" });
+};

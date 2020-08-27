@@ -10,19 +10,20 @@ module.exports = (io) => {
 
     socket.on("join-room", (user) => {
       //find room in db to check it exists before creating
+      console.log(user);
       Room.findOne({
-        url: user.roomName,
+        url: user.roomUrl,
       })
         .populate("questions") //turns list of question ids into list of question objects
         .exec((err, result) => {
           if (err || !result) {
-            err ? console.log(err) : console.log("Room not found", user.roomName);
+            err ? console.log(err) : console.log("Room not found", user.roomUrl);
             socket.emit("room-not-found");
           } else {
             //result = result.populate("questions");
-            socket.join(user.roomName);
+            socket.join(user.roomUrl);
             socket.emit("acknowledge-join", result);
-            console.log(`${Date.now()}: ${user.userName} joined room ${user.roomName}`);
+            console.log(`${Date.now()}: ${user.userName} joined room ${user.roomUrl}`);
           }
         });
     });
@@ -56,7 +57,7 @@ module.exports = (io) => {
         });
     });
 
-    socket.on("vote-up", ({ id, roomName }) => {
+    socket.on("vote-up", ({ id, roomUrl }) => {
       //increment question score in DB
       incrementQuestionScoreById(id);
 
@@ -65,15 +66,15 @@ module.exports = (io) => {
           console.error("Could not update score");
         } else {
           //update the question on clientside
-          socket.to(roomName).broadcast.emit("vote-up", id);
+          socket.to(roomUrl).broadcast.emit("vote-up", id);
         }
       });
     });
 
-    socket.on("delete-question", ({ id, roomName }) => {
-      console.log(`Deleting question ${id} from ${roomName}`);
+    socket.on("delete-question", ({ id, roomUrl }) => {
+      console.log(`Deleting question ${id} from ${roomUrl}`);
       //remove reference from room
-      Room.findOneAndUpdate({ url: roomName }, { $pull: { questions: id } }, { new: true }, (err, doc) => {
+      Room.findOneAndUpdate({ url: roomUrl }, { $pull: { questions: id } }, { new: true }, (err, doc) => {
         if (err) {
           console.error(err);
         }
@@ -85,7 +86,7 @@ module.exports = (io) => {
           console.error(err);
         }
       });
-      socket.to(roomName).emit("delete-question", id);
+      socket.to(roomUrl).emit("delete-question", id);
     });
 
     socket.on("disconnect", () => {

@@ -1,15 +1,17 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-var room_name = "DEFAULT_USERNAME";
+var room = "DEFAULT";
 
 const SetUsername = () => {
   const history = useHistory();
   console.log(history);
 
   React.useEffect(() => {
-    room_name = history.location.state.room;
+    console.log(history.location.state);
+    room = history.location.state.room;
   }, []);
+
   const [userName, setUsername] = React.useState({});
   const handleChange = (event) => {
     setUsername({ [event.target.name]: event.target.value });
@@ -17,7 +19,7 @@ const SetUsername = () => {
   const handleSubmit = (event) => {
     event.preventDefault(); //stop form redirect
     history.push({
-      pathname: `/room/${room_name}`,
+      pathname: `/room/${room}`,
       state: { username: userName.username },
     });
   };

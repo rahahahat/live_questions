@@ -4,27 +4,27 @@ import { useLayoutEffect } from "react";
 const API_URL = "http://localhost:3000";
 const CreateRoom = () => {
   const history = useHistory();
-  console.log(history);
+
   const [state, setState] = React.useState({
     room: "",
     pasword: "",
   });
-  const [password, setPassword] = React.useState();
-  //todo: add state for password
+
   const [settings, updateSettings] = React.useState({
+    //could probably incorportate this into state?
     profanityFilter: true,
     requirePassword: false,
   });
 
   const handleSubmit = () => {
     event.preventDefault(); //stop form redirecting
-
+    console.log("SENDING POST");
     fetch(API_URL + "/room", {
       //post request to /room is for inserting a new room to db
       method: "POST",
       body: JSON.stringify({
         //capture data from the form - could switch to using a formdata object
-        url: state.room,
+        title: state.room,
         owner: "TODO",
         created: new Date(),
         profanityFilter: settings.profanityFilter,
@@ -36,18 +36,23 @@ const CreateRoom = () => {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => {
-        if (res.ok) {
-          //if the response is ok then redirect to join the room
-          history.push({
-            pathname: "/set-username",
-            state: { room: state.room },
-          });
-        } else {
-          console.error("CreateRoom Failed");
-        }
+      .then((res) => res.json()) //interpret the response as JSON -- the server sends back res.json(room)
+      .then((responseData) => {
+        //if the response is ok then redirect to join the room
+
+        //set the state to the url from the response and redirect to set the username
+        history.push({
+          pathname: "/set-username",
+          state: { room: responseData.url },
+        });
       })
-      .catch(console.error);
+      .catch((err) => {
+        //if there was an error or connection failure then redirect to the homepage
+        console.error(err);
+        history.push({
+          pathname: "/",
+        });
+      });
   };
 
   return (
