@@ -1,5 +1,5 @@
 import React from "react";
-const Form = ({ obj, handleOnChange, handleSubmit }) => {
+const Form = ({ questionState, handleOnChange, handleSubmit }) => {
   return (
     <div className={`form-area`}>
       <div className={`textbox-shell`}>
@@ -8,7 +8,7 @@ const Form = ({ obj, handleOnChange, handleSubmit }) => {
           type="text"
           className={`text-area`}
           onChange={handleOnChange}
-          value={obj.text}
+          value={questionState.text}
           rows="1"
           cols="80"
           placeholder="Ask a question..."

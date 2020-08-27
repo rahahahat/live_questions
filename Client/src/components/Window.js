@@ -24,7 +24,7 @@ const Window = () => {
   const [dataList, setDataList] = React.useState([]);
 
   // Temporary state for appending new entries to dataList --------------------------------------------------
-  const [obj, setObj] = React.useState({
+  const [questionState, setquestionState] = React.useState({
     _id: "0",
     author: "//fetch from server//",
     text: "",
@@ -36,8 +36,8 @@ const Window = () => {
 
   // Handles the change in the form component.
   const handleOnChange = (event) => {
-    setObj({
-      ...obj,
+    setquestionState({
+      ...questionState,
       [event.target.name]: event.target.value,
     });
   };
@@ -45,11 +45,11 @@ const Window = () => {
   //Handles the submit in the form component.
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (obj.text != "") {
-      socket.emit("add-question", obj);
-      console.log(obj);
-      setObj({
-        ...obj,
+    if (questionState.text != "") {
+      socket.emit("add-question", questionState);
+      console.log(questionState);
+      setquestionState({
+        ...questionState,
         text: "",
         score: 0,
         voted: false,
@@ -72,7 +72,7 @@ const Window = () => {
     setDataList(state);
   };
 
-  //Handles deleting a particular question object from dataList.
+  //Handles deleting a particular question questionStateect from dataList.
   const handleDelete = (index) => {
     let state = [...dataList];
     const id = state[index]._id;
@@ -119,7 +119,7 @@ const Window = () => {
 
     socket = io("http://localhost:3000");
 
-    setObj({ ...obj, author: userName, room: roomName });
+    setquestionState({ ...questionState, author: userName, room: roomName });
 
     // Initiate client-side connection----------------------------
     socket.emit("join-room", { roomName, userName });
@@ -166,7 +166,7 @@ const Window = () => {
   return (
     <React.Fragment>
       {visibility.list && <List dataList={dataList} handleVote={handleVote} handleDelete={handleDelete} />}
-      {visibility.form && <QuestionForm obj={obj} handleOnChange={handleOnChange} handleSubmit={handleSubmit} />}
+      {visibility.form && <QuestionForm questionState={questionState} handleOnChange={handleOnChange} handleSubmit={handleSubmit} />}
       {visibility.post && (
         <React.Fragment>
           <div className={`btn`} onClick={handlePostVisibility}>
