@@ -75,7 +75,9 @@ const CreateRoom = () => {
           className="room-input"
           required={settings.requirePassword}
           onChange={(event) => {
-            setState(Object.assign({ ...state }, { password: event.target.value }));
+            setState(
+              Object.assign({ ...state }, { password: event.target.value })
+            );
           }}
         />
       )}
@@ -90,8 +92,12 @@ const CreateRoom = () => {
         onChange={(event) => {
           //update settings - use {...settings} becase you should always work on copy of state then update
           event.target.checked
-            ? updateSettings(Object.assign({ ...settings }, { profanityFilter: true }))
-            : updateSettings(Object.assign({ ...settings }, { profanityFilter: false }));
+            ? updateSettings(
+                Object.assign({ ...settings }, { profanityFilter: true })
+              )
+            : updateSettings(
+                Object.assign({ ...settings }, { profanityFilter: false })
+              );
         }}
       />
 
@@ -105,14 +111,20 @@ const CreateRoom = () => {
         onChange={(event) => {
           //update settings - use {...settings} becase you should always work on copy of state then update
           event.target.checked
-            ? updateSettings(Object.assign({ ...settings }, { requirePassword: true }))
-            : updateSettings(Object.assign({ ...settings }, { requirePassword: false }));
+            ? updateSettings(
+                Object.assign({ ...settings }, { requirePassword: true })
+              )
+            : updateSettings(
+                Object.assign({ ...settings }, { requirePassword: false })
+              );
         }}
       />
 
       <br />
 
-      <button className="btn">Create Room</button>
+      <div className="btn" onClick={handleSubmit}>
+        Create Room
+      </div>
     </form> //end centre wrapper
   );
 };

@@ -88,10 +88,22 @@ app.post("/room", (req, res, next) => {
     })
     .catch((err) => console.error(err));
 });
-
+app.post("/validate-join", (req, res) => {
+  Room.findOne({ url: req.body.room })
+    .then((room) => {
+      if (!room) res.send(false);
+      return room;
+    })
+    .then((room) => {
+      console.log(room);
+      bcrypt.compare(req.body.password, room.password, (err, result) => {
+        console.log(result);
+        res.send(result);
+      });
+    });
+});
 //include all the socket.io code
 require("./src/sockets.js")(io);
-
 http.listen(process.env.PORT || 3000, function () {
   console.log("Hello World, lisening on 3000");
 });
