@@ -29,7 +29,9 @@ const CreateRoom = () => {
 				created: new Date(),
 				profanityFilter: settings.profanityFilter,
 				requirePassword: settings.requirePassword,
+				// potential security breach right here---------------------------------------
 				password: state.password
+				// potential security breach right here---------------------------------------
 			}),
 			headers: {
 				//set headers (important for serverside parsing)
@@ -42,8 +44,8 @@ const CreateRoom = () => {
 
 				//set the state to the url from the response and redirect to set the username
 				history.push({
-					pathname: '/set-username',
-					state: { room: responseData.url }
+					pathname: `/room/${responseData.url}`,
+					state: { validated: true }
 				});
 			})
 			.catch((err) => {

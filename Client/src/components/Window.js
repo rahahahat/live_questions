@@ -152,12 +152,14 @@ const Window = () => {
 			});
 		});
 	};
+	// handle change for password
 	const handlePasswordChange = (event) => {
 		setPassword({ ...password, [event.target.name]: event.target.value });
 	};
 	// --------------------------------------------------------------SOCKETS ------------------------------------------------
 	React.useEffect(() => {
 		roomUrl = room.roomUrl;
+		// User-Validation conditional fetch
 		if (history.location.state == null) {
 			fetch(`${API_URL}/validate-url`, {
 				method: 'POST',

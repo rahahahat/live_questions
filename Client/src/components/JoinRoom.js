@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:3000';
 const JoinRoom = () => {
 	const history = useHistory();
 	const [ button, setButton ] = React.useState(false);
-	const [ room, setRoom ] = React.useState({});
+	const [ room, setRoom ] = React.useState({ room: '', password: '' });
 	const handleSubmit = () => {
 		event.preventDefault();
 		setButton((button) => !button);

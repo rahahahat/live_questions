@@ -95,11 +95,15 @@ app.post('/validate-join', (req, res) => {
 			return room;
 		})
 		.then((room) => {
-			console.log(room);
-			bcrypt.compare(req.body.password, room.password, (err, result) => {
-				console.log(result);
-				res.send(result);
-			});
+			if (room.requirePassword) {
+				console.log(room);
+				bcrypt.compare(req.body.password, room.password, (err, result) => {
+					console.log(result);
+					res.send(result);
+				});
+			} else {
+				res.send(true);
+			}
 		});
 });
 
