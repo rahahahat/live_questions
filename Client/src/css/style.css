@@ -24,7 +24,7 @@ body {
 	display: inline-block;
 	height: 0px;
 	font-size: 35px;
-	content: '.';
+	content: ".";
 	animation: dots 1.5s steps(5, end) infinite;
 }
 
@@ -54,6 +54,10 @@ li {
 	width: fit-content;
 	cursor: pointer;
 	font-size: 15px;
+	outline: none;
+	border: none;
+	display: block;
+	font: inherit;
 }
 
 .btn-fixed {
@@ -105,24 +109,33 @@ li {
 	right: 0px;
 	left: 0px;
 }
+.btn-loading {
+	font-size: 15px;
+}
+.btn-loading::after {
+	padding: 0px;
+	margin: 0px;
+	display: inline;
+	font-size: 25px;
+	content: ".";
+	animation: dots 1.5s steps(5, end) infinite;
+}
 
 @keyframes dots {
 	0%,
 	20% {
 		color: gray;
-		text-shadow: .25em 0 0 grey, .5em 0 0 gray;
+		text-shadow: 0.25em 0 0 grey, 0.5em 0 0 gray;
 	}
 	40% {
 		color: white;
-		text-shadow: .25em 0 0 gray, .5em 0 0 gray;
+		text-shadow: 0.25em 0 0 gray, 0.5em 0 0 gray;
 	}
 	60% {
-		text-shadow: .25em 0 0 white, .5em 0 0 gray;
+		text-shadow: 0.25em 0 0 white, 0.5em 0 0 gray;
 	}
 	80%,
 	100% {
-		text-shadow: .25em 0 0 white, .5em 0 0 white;
+		text-shadow: 0.25em 0 0 white, 0.5em 0 0 white;
 	}
 }
-
-/* --------------------------------------------------------------------------------- */
