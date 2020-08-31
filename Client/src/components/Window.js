@@ -10,6 +10,7 @@ const API_URL = 'http://localhost:3000';
 let socket;
 let roomUrl = 'DEFAULT';
 let id;
+
 const Window = () => {
 	const history = useHistory();
 	const room = useParams();
