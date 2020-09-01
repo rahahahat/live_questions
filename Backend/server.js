@@ -135,6 +135,7 @@ app.post("/validate-password", (req, res) => {
     });
   });
 });
+
 //include all the socket.io code
 require("./src/sockets.js")(io);
 http.listen(process.env.PORT || 3000, function () {

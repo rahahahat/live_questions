@@ -1,0 +1,149 @@
+.Question-container {
+  /* width: 80%;
+  margin: 20px auto; */
+  background-color: #444444;
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+}
+
+.vote-section {
+  padding: 10px;
+  width: 10%;
+  display: flex;
+  flex-direction: column;
+  background-color: #555555;
+  justify-content: center;
+}
+.vote-button {
+  margin: 10px;
+  align-self: center;
+}
+.detail-section {
+  padding: 10px;
+  width: 90%;
+  background-color: #777777;
+}
+
+/* .vote-section > div {
+  margin: 10px;
+} */
+
+.vote {
+  text-align: center;
+}
+
+.detail {
+  padding: 8px;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: #999999;
+}
+
+.answer-container {
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #777777;
+  font-size: 18px;
+  max-height: 120px;
+  overflow-y: auto;
+  text-align: justify;
+}
+
+.detail-answer {
+  padding: 4px;
+}
+
+.detail > div {
+  margin: 5px;
+}
+
+.votes-text {
+  color: rgb(22, 179, 126);
+  font-weight: 600;
+}
+.detail-answer {
+  overflow: hidden;
+}
+.detail-author {
+  display: flex;
+  justify-content: space-between;
+}
+.flag-icon {
+  padding: 5px;
+  align-self: center;
+}
+.question-text {
+  margin: 0px;
+  align-self: center;
+}
+.answer-container::-webkit-scrollbar {
+  width: 8px;
+  height: 90%;
+}
+
+.answer-container::-webkit-scrollbar-track {
+  background-clip: padding-box;
+  background-color: transparent;
+  border: 3px solid transparent;
+  border-radius: 30px;
+}
+
+.answer-container::-webkit-scrollbar-thumb {
+  background-clip: padding-box;
+  background-color: #535353;
+  border-radius: 30px;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 3px 3px 3px 0;
+}
+
+.gg-arrow-up-o {
+  --ggs: 2.5;
+  color: rgb(168, 168, 168);
+  display: block;
+  margin: 17px;
+}
+.gg-flag-alt {
+  --ggs: 1.1;
+}
+.green {
+  color: rgb(13, 201, 138);
+}
+/* 
+smartphones portrait
+@media only screen and (min-width: 320px) and (max-width: 479px){ ... }
+smartphones landscape
+@media only screen and (min-width: 480px) and (max-width: 767px){ ... }
+
+@media only screen and (min-width: 768px) and (max-width: 991px){ ... }
+
+@media only screen and (min-width: 992px){ ... } */
+
+@media only screen and (min-width: 300px) and (max-width: 520px) {
+  .Question-container {
+    flex-direction: column-reverse;
+  }
+  .detail-author {
+    padding: 5px;
+    flex-direction: column;
+  }
+  .vote-section {
+    width: auto;
+  }
+  .detail-section {
+    width: auto;
+  }
+}
+
+@media only screen and (min-width: 521px) and (max-width: 767px) {
+  .vote-section {
+    width: 15%;
+  }
+  .detail-section {
+    width: 85%;
+  }
+}

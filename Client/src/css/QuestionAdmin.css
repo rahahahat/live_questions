@@ -1,0 +1,68 @@
+.question-admin-container {
+	background-color: #555555;
+	display: flex;
+	padding: 10px;
+}
+/* -------------------------------Admin Detail section-------------------------------- */
+.admin-detail-section {
+	width: 90%;
+	background-color: #999999;
+	padding: 10px;
+}
+.admin-detail {
+	overflow-wrap: break-word;
+	color: #dfdfdf;
+	font-weight: 600;
+}
+/* -------------------------------Admin controls section-------------------------------- */
+.admin-control-section {
+	width: 10%;
+	background-color: #777777;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+.admin-delete-question {
+	width: fit-content;
+	align-self: center;
+}
+
+.admin-answer-question {
+	width: fit-content;
+	align-self: center;
+}
+/* ---------------------------------Answer Submission--------------------------------- */
+.answer-form {
+	margin-top: 10px;
+	/* padding: 5px; */
+	/* background-color: thistle; */
+}
+.answer-text-area {
+	border-radius: 10px;
+	padding: 10px;
+	display: block;
+	width: 100%;
+	resize: none;
+	margin: 5px auto;
+	height: 90px;
+	outline: none;
+	border: none;
+	box-sizing: border-box;
+	background-color: #dbdbdb;
+}
+.answer-text-area:focus {
+	outline: none;
+	border: none;
+}
+.answer-submit-button {
+	padding: 10px;
+	outline: none;
+	border: none;
+	font-style: normal;
+	font: inherit;
+	display: block;
+	margin: 0px auto;
+	border-radius: 5px;
+	background-color: #dbdbdb;
+}
