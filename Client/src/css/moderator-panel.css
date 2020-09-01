@@ -1,0 +1,32 @@
+.moderator-user-list-wrapper {
+  margin: 1em;
+  padding: 3px;
+  background-color: grey;
+  width: 20%;
+  min-width: 300px;
+  max-width: 100%;
+}
+.moderator-user-list {
+  display: flex;
+  flex-direction: column;
+
+  max-height: 12em;
+  overflow-y: scroll;
+}
+.moderator-user-list-item {
+  background-color: lightgray;
+  height: 3em;
+  border-bottom: 1px solid grey;
+  display: flex;
+  justify-content: space-between;
+}
+.moderator-user-list-item p {
+  padding-left: 0.5em;
+}
+.moderator-user-list-item button {
+  display: block;
+  border: none;
+  outline: none;
+  font-style: normal;
+  font: inherit;
+}

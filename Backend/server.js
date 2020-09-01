@@ -38,9 +38,23 @@ db.once("open", () => console.log("Connected to mongose"));
 app.get("/", (req, res) => {
   res.send("hello");
 });
-// console
+
 //mostly for debugging api
-app.get("/info", (req, res) => {});
+app.get("/info", (req, res) => {
+  let data = [];
+  var sockets = io.sockets.sockets;
+  for (var socketId in sockets) {
+    var s = sockets[socketId];
+    data.push({
+      id: s.id,
+      name: s.username,
+      qroom: s.questionRoom,
+    });
+    console.log(s);
+  }
+
+  res.json(data);
+});
 
 //inserts a new room into db - accessed by CreateRoom.js
 app.post("/room", (req, res, next) => {

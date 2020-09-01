@@ -5,6 +5,7 @@ import io from "socket.io-client";
 import { useParams, useHistory } from "react-router-dom";
 import SetDisplayName from "./setDisplayName.js";
 import { set } from "mongoose";
+import { on } from "../../../Backend/models/room.js";
 
 const API_URL = "http://localhost:3000";
 let socket;
@@ -36,6 +37,10 @@ const Window = () => {
     voted: false,
     room: "",
   });
+
+  //whether or not questions are allowed in the room at this time
+  const [allowQuestions, setAllowQuestions] = React.useState(true);
+
   // ---------------------------------------------- Handler Functions ----------------------------------------
 
   // Handles the change in the form component.
@@ -232,6 +237,19 @@ const Window = () => {
       console.log("delete from socket");
       setDataList((dataList) => deleteItem(dataList, id));
     });
+
+    socket.on("kicked", (msg) => {
+      alert(msg);
+      socket.disconnect();
+      history.push("/");
+    });
+
+    //moderator turns questions on or off for a room
+    socket.on("toggle-questions", (onOrOff) => {
+      console.log("Toggling questions", onOrOff);
+      setAllowQuestions(onOrOff);
+    });
+
     socket.on("disconnect", () => {
       console.log("Connected to server: ", socket.connected); // false
     });
@@ -283,10 +301,12 @@ const Window = () => {
         </React.Fragment>
       )}
 
+      <h1>Questions allowed? : {allowQuestions ? "Yes" : "No"}</h1>
+
       {/* <div
 				className="btn"
 				onClick={() => {
-					socket.emit('disconnect');
+					socket.disconnect();
 					history.push('/');
 				}}
 			>
