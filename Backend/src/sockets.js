@@ -30,7 +30,11 @@ module.exports = (io) => {
 
     //when someone submits a new question
     socket.on("add-question", (newQuestion) => {
-      console.log(`${Date.now()}: ${newQuestion.author} asks ${newQuestion.text} in room ${newQuestion.room}`);
+      console.log(
+        `${Date.now()}: ${newQuestion.author} asks ${
+          newQuestion.text
+        } in room ${newQuestion.room}`
+      );
 
       //Find the room in the db
       Room.findOne({
@@ -74,11 +78,16 @@ module.exports = (io) => {
     socket.on("delete-question", ({ id, roomUrl }) => {
       console.log(`Deleting question ${id} from ${roomUrl}`);
       //remove reference from room
-      Room.findOneAndUpdate({ url: roomUrl }, { $pull: { questions: id } }, { new: true }, (err, doc) => {
-        if (err) {
-          console.error(err);
+      Room.findOneAndUpdate(
+        { url: roomUrl },
+        { $pull: { questions: id } },
+        { new: true },
+        (err, doc) => {
+          if (err) {
+            console.error(err);
+          }
         }
-      });
+      );
 
       //then delete question from db
       Question.findByIdAndRemove(id, (err, doc) => {
