@@ -14,6 +14,12 @@ const questionSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  answer: {
+    type: String,
+  },
+  isAnswered: {
+    type: Boolean,
+  },
 });
 
 module.exports = mongoose.model("Question", questionSchema);

@@ -15,6 +15,7 @@
     "prettier": "2.0.5"
   },
   "dependencies": {
+    "mongoose": "^5.10.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",
