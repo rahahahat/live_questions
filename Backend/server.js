@@ -41,10 +41,19 @@ app.get("/", (req, res) => {
 
 //mostly for debugging api
 app.get("/info", (req, res) => {
-  let info = {
-    rooms: io.sockets.adapter.rooms,
-  };
-  res.json(info);
+  let data = [];
+  var sockets = io.sockets.sockets;
+  for (var socketId in sockets) {
+    var s = sockets[socketId];
+    data.push({
+      id: s.id,
+      name: s.username,
+      qroom: s.questionRoom,
+    });
+    console.log(s);
+  }
+
+  res.json(data);
 });
 
 //inserts a new room into db - accessed by CreateRoom.js
@@ -88,10 +97,47 @@ app.post("/room", (req, res, next) => {
     })
     .catch((err) => console.error(err));
 });
+app.post("/validate-join", (req, res) => {
+  Room.findOne({ url: req.body.room })
+    .then((room) => {
+      if (!room) res.send(false);
+      return room;
+    })
+    .then((room) => {
+      if (room.requirePassword) {
+        console.log(room);
+        bcrypt.compare(req.body.password, room.password, (err, result) => {
+          console.log(result);
+          res.send(result);
+        });
+      } else {
+        res.send(true);
+      }
+    });
+});
+
+app.post("/validate-url", (req, res) => {
+  console.log(req.body.room);
+  Room.find({ url: req.body.room }).then((room) => {
+    if (!room) {
+      res.send(false);
+    } else {
+      res.send({ needPassword: room[0].requirePassword, roomID: room[0]._id });
+    }
+  });
+});
+
+app.post("/validate-password", (req, res) => {
+  Room.findById(req.body.id).then((room) => {
+    bcrypt.compare(req.body.password, room.password, (err, result) => {
+      console.log(result);
+      res.send(result);
+    });
+  });
+});
 
 //include all the socket.io code
 require("./src/sockets.js")(io);
-
 http.listen(process.env.PORT || 3000, function () {
   console.log("Hello World, lisening on 3000");
 });

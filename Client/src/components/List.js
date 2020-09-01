@@ -1,5 +1,6 @@
 import React from "react";
 import Question from "./Question.js";
+import QuestionUser from "./QuestionUser.js";
 
 const List = ({ dataList, handleVote, handleDelete }) => {
   return dataList.length == 0 ? (
@@ -13,9 +14,17 @@ const List = ({ dataList, handleVote, handleDelete }) => {
         .sort((a, b) => b.score - a.score)
         .map((data, index) => (
           <li key={index}>
-            <div className={`question-box`}>
+            <QuestionUser
+              index={index}
+              voteUp={handleVote}
+              author={data.author}
+              question={data.text}
+              votes={data.score}
+              answer={"none"}
+              isVoted={data.voted}
+            />
+            {/* <div className={`question-box`}>
               <Question val={data} />
-              {/* render vote-up if and only if you, havent voted yet! */}
               {!data.voted ? (
                 <div
                   className="btn-voteup"
@@ -34,7 +43,7 @@ const List = ({ dataList, handleVote, handleDelete }) => {
               >
                 Delete
               </div>
-            </div>
+            </div> */}
           </li>
         ))}
     </div>
