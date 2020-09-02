@@ -1,0 +1,17 @@
+.moderator-main {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.moderator-controls {
+  width: 35%;
+  background-color: khaki;
+}
+.mod-question-section {
+  width: 65%;
+  background-color: lavender;
+}
+.mod-question-section > li {
+  margin: 10px;
+}

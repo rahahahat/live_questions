@@ -18,6 +18,22 @@ module.exports = (io) => {
       if (roomUrl in CLIENTS) {
         socket.emit("update-user-list", CLIENTS[roomUrl]);
       }
+      Room.findOne({ url: roomUrl })
+        .populate("questions")
+        .exec((err, result) => {
+          if (err || !result) {
+            err
+              ? console.error(err)
+              : console.log("room not found in moderator-join", roomUrl);
+            socket.emit("room-not-found");
+          } else {
+            console.log(
+              "------------------------------------------------------"
+            );
+            console.log(result);
+            socket.emit("sending-questions", result);
+          }
+        });
     });
 
     socket.on("kick-user", (id) => {
@@ -68,7 +84,6 @@ module.exports = (io) => {
           }
         });
     });
-
     //when someone submits a new question
     socket.on("add-question", (newQuestion) => {
       console.log(
@@ -161,6 +176,19 @@ module.exports = (io) => {
       }
 
       //---------------------------
+    });
+    socket.on("add-answer", (answer) => {
+      console.log(answer);
+      Question.findByIdAndUpdate(
+        answer.id,
+        { answer: answer.answer },
+        { new: true }
+      ).then((result) => {
+        io.to(answer.roomUrl).emit("add-the-answer", result);
+      });
+      // Question.findById(answer.id).then((result) => {
+      //   console.log(result);
+      // });
     });
   });
 };

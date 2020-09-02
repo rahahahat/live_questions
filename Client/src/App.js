@@ -15,7 +15,6 @@ const App = () => {
       <Switch>
         <Route path="/room/:roomUrl/admin" component={ModeratorPanel} />
         <Route path="/room/:roomUrl" component={Window} />
-
         <Route path="/set-username" component={SetUsername} />
         <Route path="/Join" component={JoinRoom} />
         <Route path="/create" component={CreateRoom} />

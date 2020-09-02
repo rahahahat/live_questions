@@ -36,6 +36,7 @@ const Window = () => {
     score: 0,
     voted: false,
     room: "",
+    answer: "",
   });
 
   //whether or not questions are allowed in the room at this time
@@ -109,7 +110,14 @@ const Window = () => {
     state[index] = { ...state[index], score: state[index].score + 1 };
     return state;
   };
-
+  const setAnswer = (answer, dataList, id) => {
+    let state = [...dataList];
+    let index = state.findIndex((question) => {
+      return question._id == id;
+    });
+    state[index] = { ...state[index], answer: answer };
+    return state;
+  };
   // Helper function for sokcet to delete item.
   const deleteItem = (dataList, id) => {
     let state = [...dataList];
@@ -243,7 +251,12 @@ const Window = () => {
       socket.disconnect();
       history.push("/");
     });
-
+    socket.on("add-the-answer", (result) => {
+      console.log("working");
+      setDataList((questionList) =>
+        setAnswer(result.answer, questionList, result._id)
+      );
+    });
     //moderator turns questions on or off for a room
     socket.on("toggle-questions", (onOrOff) => {
       console.log("Toggling questions", onOrOff);

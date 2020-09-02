@@ -17,7 +17,7 @@ const QuestionUser = ({
         {!isVoted ? (
           <div className="vote-button">
             <i
-              class="gg-arrow-up-o"
+              className="gg-arrow-up-o"
               onClick={() => {
                 voteUp(index);
               }}
@@ -25,7 +25,7 @@ const QuestionUser = ({
           </div>
         ) : (
           <div className="vote-button">
-            <i class="gg-arrow-up-o green"></i>
+            <i className="gg-arrow-up-o green"></i>
           </div>
         )}
         <div className="vote">
@@ -39,10 +39,10 @@ const QuestionUser = ({
             Question: <span>{question}</span>
           </div>
           <div className="flag-icon">
-            <i class="gg-flag-alt"></i>
+            <i className="gg-flag-alt"></i>
           </div>
         </div>
-        {answer != "none" ? (
+        {answer != null ? (
           <div className="detail detail-answer">
             <div
               className="view-answer-button"
