@@ -1,32 +1,121 @@
-.moderator-user-list-wrapper {
-  margin: 1em;
-  padding: 3px;
-  background-color: grey;
-  width: 20%;
-  min-width: 300px;
-  max-width: 100%;
+/* .moderator-user-list-wrapper {
+	margin: 1em;
+	padding: 3px;
+	background-color: rgb(199, 59, 59);
+	width: 30%;
+	min-width: 300px;
+	max-width: 100%;
 }
 .moderator-user-list {
-  display: flex;
-  flex-direction: column;
-
-  max-height: 12em;
-  overflow-y: scroll;
+	display: flex;
+	flex-direction: column;
+	max-height: 200px;
+	overflow-y: auto;
 }
 .moderator-user-list-item {
-  background-color: lightgray;
-  height: 3em;
-  border-bottom: 1px solid grey;
-  display: flex;
-  justify-content: space-between;
+	background-color: lightgray;
+	height: 3em;
+	border-bottom: 1px solid grey;
+	display: flex;
+	justify-content: space-between;
 }
 .moderator-user-list-item p {
-  padding-left: 0.5em;
+	padding-left: 0.5em;
 }
 .moderator-user-list-item button {
-  display: block;
-  border: none;
-  outline: none;
-  font-style: normal;
-  font: inherit;
+	display: block;
+	border: none;
+	outline: none;
+	font-style: normal;
+	font: inherit;
+}
+.list-username {
+	color: black;
+}
+*/
+
+.moderator-controls {
+	display: flex;
+	flex-direction: column;
+}
+.mod-child {
+	width: fit-content;
+	align-self: center;
+}
+.kick-button {
+	display: block;
+	border: none;
+	outline: none;
+	font: inherit;
+	font-style: normal;
+	width: 20%;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.moderator-user-list {
+	width: auto;
+	background-color: blueviolet;
+	max-height: 200px;
+	padding: 5px 5px 0.1px 5px;
+	border-radius: 5px;
+	align-self: center;
+}
+.moderator-user-list-item {
+	height: 40px;
+	background-color: burlywood;
+	display: flex;
+	border-radius: 5px;
+	margin-bottom: 5px;
+}
+
+.list-username {
+	padding-left: 5px;
+	height: fit-content;
+	font-size: 20px;
+	width: 80%;
+	align-self: center;
+}
+
+.no-clients {
+	margin-bottom: 5px;
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.toggle-allow-questions {
+	display: block;
+	border: none;
+	outline: none;
+	font: inherit;
+	font-style: normal;
+	border-radius: 5px;
+	font-size: 20px;
+	padding: 10px;
+}
+
+.panel-heading {
+	text-align: center;
+	width: 90%;
+	font-size: 30px;
+	margin: 10px;
+}
+
+.room-control-heading {
+	font-size: 50px;
+	margin-bottom: 15px;
+}
+
+.room-controls {
+	width: 90%;
+	padding: 5px;
+	background-color: cornsilk;
+	border-radius: 5px;
+}
+.room-controls > div {
+	margin-bottom: 5px;
+}
+
+.connected-users {
+	font-size: 20px;
 }
