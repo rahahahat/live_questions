@@ -1,3 +1,7 @@
+body {
+	margin: 0px;
+	padding: 0px;
+}
 .moderator-main {
 	position: fixed;
 	width: 100%;
@@ -11,6 +15,7 @@
 .mod-question-section {
 	width: 65%;
 	background-color: rgb(179, 179, 179);
+	position: relative;
 }
 .mod-question-section > li {
 	margin: 10px;
@@ -105,4 +110,29 @@
 
 .connected-users {
 	font-size: 20px;
+}
+
+.admin-pass-container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.admin-pass-input {
+	display: block;
+}
+.admin-pass-form {
+	display: block;
+	align-self: center;
+}
+.mod-loading {
+	width: fit-content;
+	height: fit-content;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 40px;
 }
