@@ -7,7 +7,8 @@ const CreateRoom = () => {
 
 	const [ state, setState ] = React.useState({
 		room: '',
-		pasword: ''
+		password: '',
+		adminPassword: ''
 	});
 
 	const [ settings, updateSettings ] = React.useState({
@@ -15,7 +16,7 @@ const CreateRoom = () => {
 		profanityFilter: true,
 		requirePassword: false
 	});
-
+	const [ visibility, setVisibility ] = React.useState({ createRoomForm: true, adminPasswordForm: false });
 	const handleSubmit = () => {
 		event.preventDefault(); //stop form redirecting
 		console.log('SENDING POST');
@@ -30,7 +31,8 @@ const CreateRoom = () => {
 				profanityFilter: settings.profanityFilter,
 				requirePassword: settings.requirePassword,
 				// potential security breach right here---------------------------------------
-				password: state.password
+				password: state.password,
+				adminPassword: state.adminPassword
 				// potential security breach right here---------------------------------------
 			}),
 			headers: {
@@ -44,8 +46,8 @@ const CreateRoom = () => {
 
 				//set the state to the url from the response and redirect to set the username
 				history.push({
-					pathname: `/room/${responseData.url}`,
-					state: { validated: true }
+					pathname: `/room/${responseData.url}/admin`,
+					state: { validate: true }
 				});
 			})
 			.catch((err) => {
@@ -56,8 +58,29 @@ const CreateRoom = () => {
 				});
 			});
 	};
+	const validateCreateRoom = () => {
+		if (state.room == '') {
+			alert('Room name can be Empty');
+			return false;
+		} else if (settings.requirePassword && state.password == '') {
+			alert("Password can't be empty");
+			return false;
+		} else {
+			return true;
+		}
+	};
+	const validateAdminPassword = () => {
+		if (state.adminPassword == '') {
+			alert("Admin password can't be empty");
+			return false;
+		} else {
+			return true;
+		}
+	};
 
-	return (
+	console.log(state);
+	console.log(settings);
+	return visibility.createRoomForm ? (
 		<form className="center-wrapper" onSubmit={handleSubmit}>
 			<input
 				className="room-input"
@@ -114,10 +137,48 @@ const CreateRoom = () => {
 
 			<br />
 
-			<div className="btn" onClick={handleSubmit}>
+			<div
+				className="btn"
+				onClick={() => {
+					if (validateCreateRoom() == true) setVisibility({ createRoomForm: false, adminPasswordForm: true });
+				}}
+			>
 				Create Room
 			</div>
-		</form> //end centre wrapper
+		</form>
+	) : (
+		<div className="admin-pass-container">
+			<form className="admin-pass-form">
+				<input
+					value={state.adminPassword}
+					type="password"
+					placeholder="Enter Admin Password"
+					name="adminPassword"
+					className="room-input admin-pass-input"
+					onChange={(event) => {
+						setState(Object.assign({ ...state }, { adminPassword: event.target.value }));
+					}}
+				/>
+				<div
+					className="btn btn-admin-pass"
+					onClick={() => {
+						if (validateAdminPassword() == true) {
+							handleSubmit();
+						}
+					}}
+				>
+					Submit
+				</div>
+				<div
+					className="btn btn-admin-pass"
+					onClick={() => {
+						console.log(state);
+					}}
+				>
+					log
+				</div>
+			</form>
+		</div>
 	);
 };
 

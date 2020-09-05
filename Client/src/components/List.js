@@ -20,7 +20,7 @@ const List = ({ dataList, handleVote, handleDelete }) => {
               author={data.author}
               question={data.text}
               votes={data.score}
-              answer={"none"}
+              answer={data.answer}
               isVoted={data.voted}
             />
             {/* <div className={`question-box`}>
