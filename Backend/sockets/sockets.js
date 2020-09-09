@@ -4,12 +4,15 @@ var Filter = require('bad-words');
 
 var CLIENTS = {};
 //global entry point for socket.io connections
+
 module.exports = (io) => {
+
 	io.on('connection', (socket) => {
 		//Triggered when joinform is submitted
 		console.log(`Socket connected id ${socket.id}`);
 
 		//------------MODERATOR TOOLS--------------
+		//mod joins admin panel
 		socket.on('moderator-join', (roomUrl) => {
 			socket.username = 'Moderator';
 			socket.questionRoom = roomUrl;
@@ -30,20 +33,25 @@ module.exports = (io) => {
 			});
 		});
 
-		socket.on('kick-user', (id) => {
-			console.log('kicking', id);
-			io.to(id).emit('kicked', 'You were kicked by a moderator');
-		});
-
 		socket.on('toggle-questions', (onOrOff) => {
 			let switchText = onOrOff ? 'turning questions on' : 'turning questions off';
 			console.log(switchText + `in room ${socket.questionRoom}`);
 			socket.to(socket.questionRoom).emit('toggle-questions', onOrOff);
 		});
 
-		//-------------END MOD TOOLS------------------
+		socket.on('kick-user', (id) => {
+			console.log('kicking', id);
+			io.to(id).emit('kicked', 'You were kicked by a moderator');
+		});
 
-		//JOIN ROOM
+		socket.on('add-answer', (answer) => {
+			console.log(answer);
+			Question.findByIdAndUpdate(answer.id, { answer: answer.answer }, { new: true }).then((result) => {
+				io.to(answer.roomUrl).emit('add-the-answer', result);
+			});
+		});
+
+		//-----------JOIN ROOM
 		socket.on('join-room', ({ roomUrl, user }) => {
 			//find room in db to check it exists before creating
 			Room.findOne({
@@ -152,19 +160,12 @@ module.exports = (io) => {
 
 			//---------------------------
 		});
-		socket.on('add-answer', (answer) => {
-			console.log(answer);
-			Question.findByIdAndUpdate(answer.id, { answer: answer.answer }, { new: true }).then((result) => {
-				io.to(answer.roomUrl).emit('add-the-answer', result);
-			});
-			// Question.findById(answer.id).then((result) => {
-			//   console.log(result);
-			// });
-		});
+
 	});
+
 };
 
-const createQuestion = function(roomId, question) {
+const createQuestion = function (roomId, question) {
 	return Question.create(question).then((docQuestion) => {
 		return Room.findByIdAndUpdate(
 			roomId,
@@ -194,7 +195,7 @@ function incrementQuestionScoreById(questionId) {
 		{
 			new: true
 		},
-		function(err, response) {
+		function (err, response) {
 			if (err) {
 				console.log(err);
 			}

@@ -4,12 +4,12 @@ import '../css/joinRoom.css';
 const API_URL = 'http://localhost:3000';
 const JoinRoom = () => {
 	const history = useHistory();
-	const [ button, setButton ] = React.useState(false);
-	const [ room, setRoom ] = React.useState({ room: '', password: '' });
+	const [button, setButton] = React.useState(false);
+	const [room, setRoom] = React.useState({ room: '', password: '' });
 	const handleSubmit = () => {
 		event.preventDefault();
 		setButton((button) => !button);
-		fetch(`${API_URL}/validate-join`, {
+		fetch(`${API_URL}/validate/join`, {
 			method: 'POST',
 			body: JSON.stringify(room),
 			headers: {

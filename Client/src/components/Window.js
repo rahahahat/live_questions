@@ -16,20 +16,20 @@ const Window = () => {
 	const history = useHistory();
 	const room = useParams();
 	// state for password -----------------------------------------------------------------------------------
-	const [ password, setPassword ] = React.useState({ show: false, key: '' });
+	const [password, setPassword] = React.useState({ show: false, key: '' });
 	// State for username -----------------------------------------------------------------------------------
-	const [ displayName, setDisplay ] = React.useState({ name: '', isSet: true });
+	const [displayName, setDisplay] = React.useState({ name: '', isSet: true });
 	// State that handles conditional rendering for components -----------------------------------------------
-	const [ visibility, setVisibility ] = React.useState({
+	const [visibility, setVisibility] = React.useState({
 		form: false,
 		list: false,
 		post: false
 	});
 	// The dataList State which handles all the questions -----------------------------------------------------
-	const [ dataList, setDataList ] = React.useState([]);
+	const [dataList, setDataList] = React.useState([]);
 
 	// Temporary state for appending new entries to dataList --------------------------------------------------
-	const [ questionState, setQuestionState ] = React.useState({
+	const [questionState, setQuestionState] = React.useState({
 		_id: '0',
 		author: '//fetch from server//',
 		text: '',
@@ -40,7 +40,7 @@ const Window = () => {
 	});
 
 	//whether or not questions are allowed in the room at this time
-	const [ allowQuestions, setAllowQuestions ] = React.useState(true);
+	const [allowQuestions, setAllowQuestions] = React.useState(true);
 
 	// ---------------------------------------------- Handler Functions ----------------------------------------
 
@@ -70,7 +70,7 @@ const Window = () => {
 
 	// Handles changing the vote of a particular Question.
 	const handleVote = (index) => {
-		let state = [ ...dataList ];
+		let state = [...dataList];
 		const id = state[index]._id;
 		console.log('Upvoting', id);
 		socket.emit('vote-up', { id, roomUrl });
@@ -84,7 +84,7 @@ const Window = () => {
 
 	//Handles deleting a particular question questionStateect from dataList.
 	const handleDelete = (index) => {
-		let state = [ ...dataList ];
+		let state = [...dataList];
 		const id = state[index]._id;
 		socket.emit('delete-question', { id, roomUrl });
 		state.splice(index, 1);
@@ -102,7 +102,7 @@ const Window = () => {
 
 	// Helper function for socket to update vote.
 	const setVote = (dataList, id) => {
-		let state = [ ...dataList ];
+		let state = [...dataList];
 		//locate the question in the state by id
 		let index = state.findIndex((question) => {
 			return question._id == id;
@@ -111,7 +111,7 @@ const Window = () => {
 		return state;
 	};
 	const setAnswer = (answer, dataList, id) => {
-		let state = [ ...dataList ];
+		let state = [...dataList];
 		let index = state.findIndex((question) => {
 			return question._id == id;
 		});
@@ -120,7 +120,7 @@ const Window = () => {
 	};
 	// Helper function for sokcet to delete item.
 	const deleteItem = (dataList, id) => {
-		let state = [ ...dataList ];
+		let state = [...dataList];
 		//locate the question in the state by id
 		let index = state.findIndex((question) => {
 			return question._id == id;
@@ -153,7 +153,7 @@ const Window = () => {
 	// handle submit for password
 	const handlePasswordSubmit = () => {
 		event.preventDefault();
-		fetch(`${API_URL}/validate-password`, {
+		fetch(`${API_URL}/validate/password`, {
 			method: 'POST',
 			body: JSON.stringify({ password: password.key, id: id }),
 			headers: {
@@ -179,7 +179,7 @@ const Window = () => {
 		roomUrl = room.roomUrl;
 		// User-Validation conditional fetch
 		if (history.location.state == null) {
-			fetch(`${API_URL}/validate-url`, {
+			fetch(`${API_URL}/validate/url`, {
 				method: 'POST',
 				body: JSON.stringify({ room: roomUrl }),
 				headers: {
@@ -233,7 +233,7 @@ const Window = () => {
 		//add a question
 		socket.on('add-question', (data) => {
 			console.log('new question', data);
-			setDataList((dataList) => [ data, ...dataList ]);
+			setDataList((dataList) => [data, ...dataList]);
 		});
 		//vote up question
 		socket.on('vote-up', (id) => {

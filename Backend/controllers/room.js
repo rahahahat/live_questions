@@ -1,55 +1,60 @@
 const bcrypt = require('bcrypt');
 const Room = require('../models/room');
+var randomWords = require('random-words');
 
 exports.room = (req, res) => {
-    console.log(req.body);
+    let settings = req.body; //use settings as alias for req.body to improve readability
 
-    //reasonably complicated!
-    //create a promise as bcrypt.hash is async
-    let processTheNewRoom = new Promise((resolve, reject) => {
-        if (!req.body.requirePassword) {
-            //if no password is required for the room just return ""
-            resolve('');
+    //If room password is required then return a promise, otherwise resolve ''
+    new Promise((resolve, reject) => {
+        if (settings.requirePassword) {
+            resolve(genHash(settings.password))
         } else {
-            bcrypt.hash(req.body.password, 8, (err, hash) => {
-                //otherwise make a hash
-                if (err) reject(err);
-                resolve(hash);
-            });
+            resolve('')
         }
-    })
-        .then((hash) => {
-            const passHash = (hashedPass) => {
-                return new Promise((resolve, reject) => {
-                    bcrypt.hash(req.body.adminPassword, 8, (err, adminHash) => {
-                        if (err) reject(err);
-                        resolve({ password: hashedPass, adminPassword: adminHash });
-                    });
-                });
-            };
-            return passHash(hash);
-        })
-        .then((passwords) => {
-            //take the hash (or just "") and use it in creating the mongodb document with the other params
+    }).then(hashedRoomPassword => { //hashed room password will either be a hash or ''
+
+        //admin password is mandatory so hash it, then take the hash and the hash of the room password and make a room
+        genHash(settings.adminPassword).then(hashedAdminPassword => {
+
+            //generate a human-readable unique url for the room
             let generatedUrl = generateUrl();
 
+            //create room and apply settings
             const room = new Room({
                 url: generatedUrl,
-                title: req.body.title.toString().trim(),
-                owner: req.body.owner.toString().trim(),
+                title: settings.title.toString().trim(),
+                owner: settings.owner.toString().trim(),
                 created: new Date(),
-                profanityFilter: req.body.profanityFilter,
-                requirePassword: req.body.requirePassword,
-                password: passwords.password,
-                adminPassword: passwords.adminPassword
+                profanityFilter: settings.profanityFilter,
+                requirePassword: settings.requirePassword,
+                password: hashedRoomPassword,
+                adminPassword: hashedAdminPassword
             });
             console.log('creating new room: ', room);
-            room.save(function (err) {
-                //save to the db
-                if (err) return console.error(err);
-            });
 
-            res.json(room); //send back a response -- client will use this to redirect
+            //save room to the db
+            room.save(function (err) { if (err) return console.error(err); });
+
+            //send back a response -- client will use this to redirect
+            res.json(room);
+
+        }).catch(err => console.log(err)) //catch any promise errors
+    })
+}
+
+//generate a random, human-readable, 3 word url for the room
+const generateUrl = () => {
+    //TODO: do some error handling here to prevent duplicate url
+    return randomWords({ exactly: 3, join: '-' });
+};
+
+//bcrypt.hash wrapped as a promise 
+const genHash = (plaintext) => {
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(plaintext, parseInt(process.env.BCRYPT_SALT_ROUNDS), (err, hash) => {
+            if (err) reject(err);
+            resolve(hash)
         })
-        .catch((err) => console.error(err));
+    })
 }

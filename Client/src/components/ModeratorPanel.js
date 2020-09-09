@@ -12,14 +12,14 @@ const ModeratorPanel = () => {
 	let routerparams = useParams();
 	console.log(routerparams);
 	let roomUrl = routerparams.roomUrl;
-	const [ validate, setValidate ] = React.useState({ loading: true, passwordForm: false, room_id: '' });
-	const [ allowQuestions, setAllowQuestions ] = React.useState(true); //BUG: will cause errors if false by default
-	const [ title, setTitle ] = React.useState({ title: 'not-set-yet' });
-	const [ clientList, setClientList ] = React.useState([]);
-	const [ questionList, setQuestionList ] = React.useState([]);
-	const [ adminPassword, setAdminPassword ] = React.useState({});
+	const [validate, setValidate] = React.useState({ loading: true, passwordForm: false, room_id: '' });
+	const [allowQuestions, setAllowQuestions] = React.useState(true); //BUG: will cause errors if false by default
+	const [title, setTitle] = React.useState({ title: 'not-set-yet' });
+	const [clientList, setClientList] = React.useState([]);
+	const [questionList, setQuestionList] = React.useState([]);
+	const [adminPassword, setAdminPassword] = React.useState({});
 	const setVote = (dataList, id) => {
-		let state = [ ...dataList ];
+		let state = [...dataList];
 		//locate the question in the state by id
 		let index = state.findIndex((question) => {
 			return question._id == id;
@@ -28,7 +28,7 @@ const ModeratorPanel = () => {
 		return state;
 	};
 	const setAnswer = (answer, dataList, id) => {
-		let state = [ ...dataList ];
+		let state = [...dataList];
 		let index = state.findIndex((question) => {
 			return question._id == id;
 		});
@@ -40,7 +40,7 @@ const ModeratorPanel = () => {
 		socket.emit('add-answer', { answer, id, roomUrl });
 	};
 	const handleQuestionDelete = (id, roomUrl) => {
-		let state = [ ...questionList ];
+		let state = [...questionList];
 		let index = state.findIndex((question) => {
 			return question._id == id;
 		});
@@ -60,7 +60,7 @@ const ModeratorPanel = () => {
 	};
 	const handlePasswordSubmit = () => {
 		console.log(validate);
-		fetch(`${API_URL}/validate-admin-pass`, {
+		fetch(`${API_URL}/validate/admin-pass`, {
 			method: 'POST',
 			body: JSON.stringify({ password: adminPassword.adminPassword, id: validate.room_id }),
 			headers: {
@@ -94,7 +94,7 @@ const ModeratorPanel = () => {
 		});
 		socket.on('add-question', (data) => {
 			console.log('new question', data);
-			setQuestionList((questionList) => [ data, ...questionList ]);
+			setQuestionList((questionList) => [data, ...questionList]);
 		});
 		socket.on('vote-up', (id) => {
 			console.log('vote up from socket');
@@ -107,7 +107,7 @@ const ModeratorPanel = () => {
 			setQuestionList((questionList) => setAnswer(result.answer, questionList, result._id));
 		});
 		if (history.location.state == null) {
-			fetch(`${API_URL}/validate-admin-url`, {
+			fetch(`${API_URL}/validate/admin-url`, {
 				method: 'POST',
 				body: JSON.stringify({ roomUrl: roomUrl }),
 				headers: {
@@ -170,44 +170,44 @@ const ModeratorPanel = () => {
 			</form>
 		</div>
 	) : (
-		<div className="moderator-main">
-			<div className="moderator-controls">
-				<div className="panel-heading mod-child">
-					Moderator Panel
+				<div className="moderator-main">
+					<div className="moderator-controls">
+						<div className="panel-heading mod-child">
+							Moderator Panel
 					<br />
 					URL:{roomUrl}
-					{title.title == 'not-set-yet' ? null : <br />}
-					{title.title == 'not-set-yet' ? null : `Room title: ${title.title}`}
-				</div>
+							{title.title == 'not-set-yet' ? null : <br />}
+							{title.title == 'not-set-yet' ? null : `Room title: ${title.title}`}
+						</div>
 
-				<div className="room-control-heading mod-child">Room Controls</div>
-				<div className="room-controls mod-child">
-					<div className="connected-users">Users connected: {clientList.length} </div>
-					<UserList clientList={clientList} kick={kick} />
-					<button className="toggle-allow-questions" onClick={toggleAllowQuestions}>
-						{allowQuestions ? 'Close Room for Questions' : 'Open Room for Questions'}
-					</button>
+						<div className="room-control-heading mod-child">Room Controls</div>
+						<div className="room-controls mod-child">
+							<div className="connected-users">Users connected: {clientList.length} </div>
+							<UserList clientList={clientList} kick={kick} />
+							<button className="toggle-allow-questions" onClick={toggleAllowQuestions}>
+								{allowQuestions ? 'Close Room for Questions' : 'Open Room for Questions'}
+							</button>
+						</div>
+					</div>
+					<div className="mod-question-section">
+						{questionList.length == 0 ? (
+							<div className="mod-loading">LOADING</div>
+						) : (
+								questionList.sort((a, b) => b.score - a.score).map((questions, index) => (
+									<li key={questions._id}>
+										<QuestionAdmin
+											question={questions}
+											index={index}
+											onEdit={handleAnswerSubmit}
+											onDelete={handleQuestionDelete}
+											roomUrl={roomUrl}
+										/>
+									</li>
+								))
+							)}
+					</div>
 				</div>
-			</div>
-			<div className="mod-question-section">
-				{questionList.length == 0 ? (
-					<div className="mod-loading">LOADING</div>
-				) : (
-					questionList.sort((a, b) => b.score - a.score).map((questions, index) => (
-						<li key={questions._id}>
-							<QuestionAdmin
-								question={questions}
-								index={index}
-								onEdit={handleAnswerSubmit}
-								onDelete={handleQuestionDelete}
-								roomUrl={roomUrl}
-							/>
-						</li>
-					))
-				)}
-			</div>
-		</div>
-	);
+			);
 };
 
 export default ModeratorPanel;
