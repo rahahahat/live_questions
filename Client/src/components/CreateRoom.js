@@ -5,20 +5,21 @@ const API_URL = 'http://localhost:3000';
 const CreateRoom = () => {
 	const history = useHistory();
 
-	const [ state, setState ] = React.useState({
+	const [state, setState] = React.useState({
 		room: '',
 		password: '',
 		adminPassword: ''
 	});
 
-	const [ settings, updateSettings ] = React.useState({
+	const [settings, updateSettings] = React.useState({
 		//could probably incorportate this into state?
 		profanityFilter: true,
 		requirePassword: false
 	});
-	const [ visibility, setVisibility ] = React.useState({ createRoomForm: true, adminPasswordForm: false });
-	const handleSubmit = () => {
+
+	const handleSubmit = (event) => {
 		event.preventDefault(); //stop form redirecting
+
 		console.log('SENDING POST');
 		fetch(API_URL + '/room', {
 			//post request to /room is for inserting a new room to db
@@ -58,29 +59,8 @@ const CreateRoom = () => {
 				});
 			});
 	};
-	const validateCreateRoom = () => {
-		if (state.room == '') {
-			alert('Room name can be Empty');
-			return false;
-		} else if (settings.requirePassword && state.password == '') {
-			alert("Password can't be empty");
-			return false;
-		} else {
-			return true;
-		}
-	};
-	const validateAdminPassword = () => {
-		if (state.adminPassword == '') {
-			alert("Admin password can't be empty");
-			return false;
-		} else {
-			return true;
-		}
-	};
 
-	console.log(state);
-	console.log(settings);
-	return visibility.createRoomForm ? (
+	return <React.Fragment >
 		<form className="center-wrapper" onSubmit={handleSubmit}>
 			<input
 				className="room-input"
@@ -89,6 +69,7 @@ const CreateRoom = () => {
 					setState(Object.assign({ ...state }, { room: event.target.value }));
 				}}
 				name="room"
+				required
 			/>
 			<br />
 
@@ -102,9 +83,23 @@ const CreateRoom = () => {
 					onChange={(event) => {
 						setState(Object.assign({ ...state }, { password: event.target.value }));
 					}}
+
 				/>
 			)}
+			<br />
 
+			<input
+				value={state.adminPassword}
+				type="password"
+				placeholder="Enter Admin Password"
+				name="adminPassword"
+				className="room-input admin-pass-input"
+				onChange={(event) => {
+					setState(Object.assign({ ...state }, { adminPassword: event.target.value }));
+				}}
+
+				required
+			/>
 			<br />
 
 			<label htmlFor="profanityFilter">Use Profanity Filter: </label>
@@ -137,49 +132,9 @@ const CreateRoom = () => {
 
 			<br />
 
-			<div
-				className="btn"
-				onClick={() => {
-					if (validateCreateRoom() == true) setVisibility({ createRoomForm: false, adminPasswordForm: true });
-				}}
-			>
-				Create Room
-			</div>
+			<button className="btn btn-admin-pass">Create Room</button>
 		</form>
-	) : (
-		<div className="admin-pass-container">
-			<form className="admin-pass-form">
-				<input
-					value={state.adminPassword}
-					type="password"
-					placeholder="Enter Admin Password"
-					name="adminPassword"
-					className="room-input admin-pass-input"
-					onChange={(event) => {
-						setState(Object.assign({ ...state }, { adminPassword: event.target.value }));
-					}}
-				/>
-				<div
-					className="btn btn-admin-pass"
-					onClick={() => {
-						if (validateAdminPassword() == true) {
-							handleSubmit();
-						}
-					}}
-				>
-					Submit
-				</div>
-				<div
-					className="btn btn-admin-pass"
-					onClick={() => {
-						console.log(state);
-					}}
-				>
-					log
-				</div>
-			</form>
-		</div>
-	);
+	</React.Fragment >
 };
 
 export default CreateRoom;

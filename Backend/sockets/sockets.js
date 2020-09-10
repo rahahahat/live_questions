@@ -26,8 +26,6 @@ module.exports = (io) => {
 					err ? console.error(err) : console.log('room not found in moderator-join', roomUrl);
 					socket.emit('room-not-found');
 				} else {
-					// console.log('------------------------------------------------------');
-					// console.log(result);
 					socket.emit('sending-questions', result.questions);
 				}
 			});

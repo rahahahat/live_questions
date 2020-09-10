@@ -30,11 +30,13 @@ const db = mongoose.connection;
 db.on('error', (error) => console.error(error));
 db.once('open', () => console.log('Connected to mongose'));
 
+//AUTH MIDDLEWARE
+var auth = require('./middleware/auth')
 //ROUTING
-var routes = require('./routes/other')
-var validateRoutes = require('./routes/validate')
-app.use('/', routes)
-app.use('/validate', validateRoutes)
+var indexRoute = require('./routes/index')
+var roomRoutes = require('./routes/room')
+app.use('/', indexRoute)
+app.use('/room', auth.isAuthenticated, roomRoutes)
 
 //SOCKETIO
 require('./sockets/sockets.js')(io);
