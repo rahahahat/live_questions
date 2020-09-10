@@ -13,7 +13,7 @@ exports.createRoom = (req, res) => {
             resolve('')
         }
     }).then(hashedRoomPassword => { //hashed room password will either be a hash or ''
-
+        console.log("PASSWORD", settings.adminPassword)
         //admin password is mandatory so hash it, then take the hash and the hash of the room password and make a room
         genHash(settings.adminPassword).then(hashedAdminPassword => {
 

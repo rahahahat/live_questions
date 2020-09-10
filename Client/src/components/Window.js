@@ -185,11 +185,10 @@ const Window = () => {
 			return false // else return false
 		}).then(response_body => {
 			if (response_body) {
-
+				console.log(response_body.requirePassword);
 				//TODO: If password is required then look for access/refresh tokens
 				//...if token found then authenticate and join - otherwise show login form
-
-				setRequirePassword((requirePassword) => ({ ...requirePassword, show: response_body.requirePassword }))
+				setRequirePassword(response_body.requirePassword)
 			} else {
 				alert("room doesnt exist")
 			}

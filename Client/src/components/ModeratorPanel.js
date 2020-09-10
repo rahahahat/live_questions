@@ -11,8 +11,8 @@ let socket;
 const ModeratorPanel = () => {
 	let history = useHistory();
 	let routerparams = useParams();
-	console.log(routerparams);
 	let roomUrl = routerparams.roomUrl;
+
 	const [visibility, setVisibility] = React.useState({ loading: true, passwordForm: false });
 	const [allowQuestions, setAllowQuestions] = React.useState(true); //BUG: will cause errors if false by default
 	const [title, setTitle] = React.useState("");
@@ -67,7 +67,7 @@ const ModeratorPanel = () => {
 
 		fetch(`${API_URL}/room/${roomUrl}/admin`, {
 			method: 'POST',
-			body: JSON.stringify({ password: adminPassword.adminPassword }),
+			body: JSON.stringify({ password: adminPassword }),
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -80,8 +80,8 @@ const ModeratorPanel = () => {
 				//todo: handle tokens
 
 				setVisibility({ loading: false, passwordForm: false, room_id: '' });
-				setAdminPassword({});
-				socket.emit('moderator-join', roomUrl);
+
+				socket.emit('moderator-join', roomUrl); //send tokens
 			} else {
 				alert("login failed")
 			}
@@ -153,10 +153,10 @@ const ModeratorPanel = () => {
 						name="adminPassword"
 						className="room-input admin-pass-input"
 						onChange={(event) => {
-							setAdminPassword({ [event.target.name]: event.target.value });
+							setAdminPassword(event.target.value);
 						}}
 					/>
-					<div className="btn">Submit</div>
+					<button className="btn">Submit</button>
 				</form>
 			</div>
 		}

@@ -12,6 +12,7 @@ const RoomLogin = ({ requirePassword, handleSubmit, handleInputChange }) => {
                 placeholder="Enter password"
                 name="password"
                 onChange={handleInputChange}
+                required={requirePassword}
             />)}
             <button className="btn">Submit</button>
         </form>

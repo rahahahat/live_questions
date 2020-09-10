@@ -8,7 +8,7 @@ exports.validate_admin_pass = (req, res) => {
         if (!result) {
             res.status(404).send('Room not found');
         } else {
-            console.log(req.body.password, req.body.adminPassword);
+            console.log(req.body.password, result.adminPassword);
             bcrypt.compare(req.body.password, result.adminPassword, (err, result) => {
                 console.log(result)
                 result ? res.status(200).send(true) : res.status(401).send(false);
@@ -21,9 +21,13 @@ exports.validate_admin_pass = (req, res) => {
 exports.login = (req, res) => {
     Room.findOne({ url: req.params.url }).then(room => {
         if (room) { //so long as room is found
-            bcrypt.compare(req.body.password, room.password, (err, result) => {
-                result ? res.status(200).send(true) : res.status(401).send(false);
-            });
+            if (room.requirePassword) {
+                bcrypt.compare(req.body.password, room.password, (err, result) => {
+                    result ? res.status(200).send(true) : res.status(401).send(false);
+                });
+            } else {
+                res.status(200).send(true); //no password required so log in normally
+            }
         } else {
             res.status(404).send(false)
         }
