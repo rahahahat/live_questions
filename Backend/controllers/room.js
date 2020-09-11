@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const Room = require('../models/room');
-
+const User = require('../models/user');
 
 exports.validate_admin_pass = (req, res) => {
     console.log(req.params.url);
@@ -18,18 +18,30 @@ exports.validate_admin_pass = (req, res) => {
 }
 
 //send true if password for room is correct
+//TODO: if they are already authenticated then just let em in
 exports.login = (req, res) => {
     Room.findOne({ url: req.params.url }).then(room => {
         if (room) { //so long as room is found
+
+            //create user - 
+            let user = new User({
+                name: req.body.name,
+                room: room._id,
+                //TODO: token
+            })
+
+            user.save();
+
             if (room.requirePassword) {
                 bcrypt.compare(req.body.password, room.password, (err, result) => {
-                    result ? res.status(200).send(true) : res.status(401).send(false);
+                    //TODO:Send back token
+                    return result ? res.status(200).send(true) : res.status(401).send(false);
                 });
             } else {
-                res.status(200).send(true); //no password required so log in normally
+                return res.status(200).send(true); //no password required so log in normally
             }
         } else {
-            res.status(404).send(false)
+            return res.status(404).send(false)
         }
     }).catch(err => console.log(err));
 }

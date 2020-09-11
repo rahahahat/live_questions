@@ -31,7 +31,7 @@ exports.createRoom = (req, res) => {
                 password: hashedRoomPassword,
                 adminPassword: hashedAdminPassword
             });
-            console.log('creating new room: ', room);
+            console.log('creating new room: ', room.url);
 
             //save room to the db
             room.save(function (err) { if (err) return console.error(err); });
@@ -39,7 +39,7 @@ exports.createRoom = (req, res) => {
             //send back a response -- client will use this to redirect
 
             //SECURITY: hashed passwords should not be sent back here
-            res.json(room);
+            return res.json(room);
 
         }).catch(err => console.log(err)) //catch any promise errors
     })

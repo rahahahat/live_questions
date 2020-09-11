@@ -50,6 +50,7 @@ module.exports = (io) => {
 		});
 
 		//-----------JOIN ROOM
+		//TODO: Auth token
 		socket.on('join-room', ({ roomUrl, user }) => {
 			//find room in db to check it exists before creating
 			Room.findOne({
@@ -61,6 +62,9 @@ module.exports = (io) => {
 						err ? console.log(err) : console.log('Room not found', roomUrl);
 						socket.emit('room-not-found');
 					} else {
+
+						//TODO: find user from DB and set their username to that
+
 						socket.join(roomUrl);
 						socket.username = user;
 						socket.questionRoom = roomUrl;
