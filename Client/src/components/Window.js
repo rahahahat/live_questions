@@ -3,9 +3,7 @@ import List from "./List.js";
 import QuestionForm from "./QuestionForm.js";
 import io from "socket.io-client";
 import { useParams, useHistory } from "react-router-dom";
-import SetDisplayName from "./setDisplayName.js";
-import { set } from "mongoose";
-import { on } from "../../../Backend/models/room.js";
+import RoomLogin from "./RoomLogin";
 
 const API_URL = "http://localhost:3000";
 let socket;
@@ -15,10 +13,12 @@ let id;
 const Window = () => {
   const history = useHistory();
   const room = useParams();
+
+  const [loggedIn, setLoggedIn] = React.useState(false);
   // state for password -----------------------------------------------------------------------------------
-  const [password, setPassword] = React.useState({ show: false, key: "" });
+  const [requirePassword, setRequirePassword] = React.useState(false);
   // State for username -----------------------------------------------------------------------------------
-  const [displayName, setDisplay] = React.useState({ name: "", isSet: true });
+  const [displayName, setDisplayName] = React.useState("");
   // State that handles conditional rendering for components -----------------------------------------------
   const [visibility, setVisibility] = React.useState({
     form: false,
@@ -31,27 +31,66 @@ const Window = () => {
   // Temporary state for appending new entries to dataList --------------------------------------------------
   const [questionState, setQuestionState] = React.useState({
     _id: "0",
-    author: "//fetch from server//",
+    author: "",
     text: "",
     score: 0,
     voted: false,
     room: "",
+    answer: "",
   });
 
   //whether or not questions are allowed in the room at this time
   const [allowQuestions, setAllowQuestions] = React.useState(true);
 
-  // ---------------------------------------------- Handler Functions ----------------------------------------
+  const [loginInputs, setLoginInputs] = React.useState({
+    name: "",
+    password: "",
+  });
 
+  // ---------------------------------------------- Handler Functions ----------------------------------------
+  const handleLoginInputChange = (event) => {
+    setLoginInputs({ ...loginInputs, [event.target.name]: event.target.value });
+  };
+
+  const handleLoginSubmit = (event) => {
+    event.preventDefault();
+
+    fetch(`${API_URL}/room/${roomUrl}/login`, {
+      method: "POST",
+      body: JSON.stringify(loginInputs),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      if (res.ok && res.json()) {
+        //room found & ok
+        console.log("200", res);
+
+        //TODO: STORE ACCESS TOKEN
+        setDisplayName(loginInputs.name);
+        setQuestionState((questionState) => ({
+          ...questionState,
+          author: loginInputs.name,
+          room: roomUrl,
+        }));
+        setVisibility({ form: false, list: true, post: true });
+        setLoggedIn(true); //set logged in to true
+
+        socket.emit("join-room", { roomUrl, user: loginInputs.name });
+      } else {
+        //login failed
+        console.log("401:", res);
+        alert("login failed");
+        return false;
+      }
+    });
+  };
   // Handles the change in the form component.
   const handleQuestionFormOnChange = (event) => {
     setQuestionState({
       ...questionState,
       [event.target.name]: event.target.value,
     });
-    socket;
-    let roomUrl = "DEFAULT";
-    let userName = "DEFAULT_USERNAME";
   };
 
   //Handles the submit in the form component.
@@ -65,7 +104,6 @@ const Window = () => {
         text: "",
         score: 0,
         voted: false,
-        room: roomName,
       });
     }
     handleSubmitVisibility();
@@ -113,7 +151,14 @@ const Window = () => {
     state[index] = { ...state[index], score: state[index].score + 1 };
     return state;
   };
-
+  const setAnswer = (answer, dataList, id) => {
+    let state = [...dataList];
+    let index = state.findIndex((question) => {
+      return question._id == id;
+    });
+    state[index] = { ...state[index], answer: answer };
+    return state;
+  };
   // Helper function for sokcet to delete item.
   const deleteItem = (dataList, id) => {
     let state = [...dataList];
@@ -125,93 +170,32 @@ const Window = () => {
     return state;
   };
 
-  // handle submit for display name;
-  const handleDisplaySubmit = () => {
-    event.preventDefault();
-    var user = displayName.name;
-    setQuestionState((questionState) => ({
-      ...questionState,
-      author: user,
-      room: roomUrl,
-    }));
-    socket.emit("join-room", { roomUrl, user });
-    setVisibility({
-      form: false,
-      list: true,
-      post: true,
-    });
-    setDisplay({ ...displayName, isSet: true });
-  };
-  // handle change for display name
-  const handleDisplayChange = (event) => {
-    setDisplay({ ...displayName, [event.target.name]: event.target.value });
-  };
-  // handle submit for password
-  const handlePasswordSubmit = () => {
-    event.preventDefault();
-    fetch(`${API_URL}/validate-password`, {
-      method: "POST",
-      body: JSON.stringify({ password: password.key, id: id }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => {
-      res.text().then((result) => {
-        if (JSON.parse(result)) {
-          setPassword({ show: false });
-          setDisplay({ ...displayName, isSet: false });
-        } else {
-          alert("Wrong Password");
-        }
-      });
-    });
-  };
-  // handle change for password
-  const handlePasswordChange = (event) => {
-    setPassword({ ...password, [event.target.name]: event.target.value });
-  };
   // --------------------------------------------------------------SOCKETS ------------------------------------------------
   React.useEffect(() => {
     roomUrl = room.roomUrl;
-    // User-Validation conditional fetch
-    if (history.location.state == null) {
-      fetch(`${API_URL}/validate-url`, {
-        method: "POST",
-        body: JSON.stringify({ room: roomUrl }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+
+    //INITIAL FETCH CHECKS IF ROOM IS REAL AND IF PASSWORD IS REQUIRED
+    fetch(`${API_URL}/room/${roomUrl}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) return res.json(); //room found - return response body
+        return false; // else return false
       })
-        .then((res) => {
-          console.log("a");
-          res
-            .text()
-            .then((result) => {
-              console.log(typeof result);
-              if (!JSON.parse(result)) {
-                history.push("/");
-              } else {
-                console.log(JSON.parse(result));
-                return JSON.parse(result);
-              }
-            })
-            .then((roomData) => {
-              console.log(roomData);
-              id = roomData.roomID;
-              console.log(roomData.needPassword);
-              if (roomData.needPassword) {
-                setPassword((password) => ({ ...password, show: true }));
-              } else {
-                setDisplay({ ...displayName, isSet: false });
-              }
-            });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      setDisplay({ ...displayName, isSet: false });
-    }
+      .then((response_body) => {
+        if (response_body) {
+          console.log(response_body.requirePassword);
+          //TODO: If password is required then look for access/refresh tokens
+          //...if token found then authenticate and join - otherwise show login form
+          setRequirePassword(response_body.requirePassword);
+        } else {
+          alert("room doesnt exist");
+        }
+      });
+
     socket = io("http://localhost:3000");
     // Listening Sockets------------------------------------------
     socket.on("connect", () => {
@@ -247,7 +231,12 @@ const Window = () => {
       socket.disconnect();
       history.push("/");
     });
-
+    socket.on("add-the-answer", (result) => {
+      console.log("working");
+      setDataList((questionList) =>
+        setAnswer(result.answer, questionList, result._id)
+      );
+    });
     //moderator turns questions on or off for a room
     socket.on("toggle-questions", (onOrOff) => {
       console.log("Toggling questions", onOrOff);
@@ -262,50 +251,42 @@ const Window = () => {
   //--------------------------rendering---------------------------------
   return (
     <React.Fragment>
-      {password.show && (
-        <form className="center-wrapper" onSubmit={handlePasswordSubmit}>
-          <input
-            type="password"
-            className="room-input"
-            placeholder="Enter password"
-            name="key"
-            onChange={handlePasswordChange}
-          />
-          <button className="btn">Submit</button>
-        </form>
-      )}
-      {!displayName.isSet && (
-        <SetDisplayName
-          handleChange={handleDisplayChange}
-          handleSubmit={handleDisplaySubmit}
+      {!loggedIn ? ( //TODO ?? : changed to (loggenIn && isAuthenticated)
+        <RoomLogin
+          requirePassword={requirePassword}
+          handleInputChange={handleLoginInputChange}
+          handleSubmit={handleLoginSubmit}
         />
-      )}
-      {visibility.list && (
-        <List
-          dataList={dataList}
-          handleVote={handleVote}
-          handleDelete={handleDelete}
-        />
-      )}
-      {visibility.form && (
-        <QuestionForm
-          questionState={questionState}
-          handleOnChange={handleQuestionFormOnChange}
-          handleSubmit={handleQuestionFormSubmit}
-        />
-      )}
-      {visibility.post && (
+      ) : (
         <React.Fragment>
-          <div className={`btn`} onClick={handlePostVisibility}>
-            Post a Question...
-          </div>
-          <div className={`btn`} onClick={() => console.log(dataList)}>
-            Log State
-          </div>
+          {visibility.list && (
+            <List
+              dataList={dataList}
+              handleVote={handleVote}
+              handleDelete={handleDelete}
+            />
+          )}
+          {visibility.form && (
+            <QuestionForm
+              questionState={questionState}
+              handleOnChange={handleQuestionFormOnChange}
+              handleSubmit={handleQuestionFormSubmit}
+            />
+          )}
+          {visibility.post && (
+            <React.Fragment>
+              <button className={`btn`} onClick={handlePostVisibility}>
+                Post a Question...
+              </button>
+              <button className={`btn`} onClick={() => console.log(dataList)}>
+                Log State
+              </button>
+            </React.Fragment>
+          )}
+
+          <h1>Questions allowed? : {allowQuestions ? "Yes" : "No"}</h1>
         </React.Fragment>
       )}
-
-      <h1>Questions allowed? : {allowQuestions ? "Yes" : "No"}</h1>
 
       {/* <div
 				className="btn"

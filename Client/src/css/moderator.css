@@ -1,38 +1,26 @@
-/* .moderator-user-list-wrapper {
-	margin: 1em;
-	padding: 3px;
-	background-color: rgb(199, 59, 59);
-	width: 30%;
-	min-width: 300px;
-	max-width: 100%;
+body {
+	margin: 0px;
+	padding: 0px;
 }
-.moderator-user-list {
+.moderator-main {
+	position: fixed;
+	width: 100%;
+	height: 100%;
 	display: flex;
-	flex-direction: column;
-	max-height: 200px;
-	overflow-y: auto;
 }
-.moderator-user-list-item {
-	background-color: lightgray;
-	height: 3em;
-	border-bottom: 1px solid grey;
-	display: flex;
-	justify-content: space-between;
+.moderator-controls {
+	width: 35%;
+	background-color: rgb(206, 206, 206);
 }
-.moderator-user-list-item p {
-	padding-left: 0.5em;
+.mod-question-section {
+	width: 65%;
+	background-color: rgb(179, 179, 179);
+	position: relative;
 }
-.moderator-user-list-item button {
-	display: block;
-	border: none;
-	outline: none;
-	font-style: normal;
-	font: inherit;
+.mod-question-section > li {
+	margin: 10px;
 }
-.list-username {
-	color: black;
-}
-*/
+/* ---------------------------Room control Section---------------------------------- */
 
 .moderator-controls {
 	display: flex;
@@ -55,26 +43,29 @@
 
 .moderator-user-list {
 	width: auto;
-	background-color: blueviolet;
+	background-color: rgb(138, 138, 138);
 	max-height: 200px;
 	padding: 5px 5px 0.1px 5px;
 	border-radius: 5px;
 	align-self: center;
+	overflow-y: auto;
 }
 .moderator-user-list-item {
 	height: 40px;
-	background-color: burlywood;
+	background-color: rgb(49, 224, 166);
 	display: flex;
 	border-radius: 5px;
 	margin-bottom: 5px;
+	color: white;
+	font-weight: 600;
 }
 
 .list-username {
-	padding-left: 5px;
 	height: fit-content;
 	font-size: 20px;
 	width: 80%;
 	align-self: center;
+	text-align: center;
 }
 
 .no-clients {
@@ -90,8 +81,9 @@
 	font: inherit;
 	font-style: normal;
 	border-radius: 5px;
-	font-size: 20px;
-	padding: 10px;
+	font-size: 15px;
+	padding: 7px;
+	margin: 0px auto;
 }
 
 .panel-heading {
@@ -103,19 +95,44 @@
 
 .room-control-heading {
 	font-size: 50px;
-	margin-bottom: 15px;
+	margin-bottom: 10px;
 }
 
 .room-controls {
 	width: 90%;
-	padding: 5px;
-	background-color: cornsilk;
+	padding: 7px;
+	background-color: rgb(179, 179, 179);
 	border-radius: 5px;
 }
 .room-controls > div {
-	margin-bottom: 5px;
+	margin-bottom: 7px;
 }
 
 .connected-users {
 	font-size: 20px;
+}
+
+.admin-pass-container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.admin-pass-input {
+	display: block;
+}
+.admin-pass-form {
+	display: block;
+	align-self: center;
+}
+.mod-loading {
+	width: fit-content;
+	height: fit-content;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 40px;
 }
