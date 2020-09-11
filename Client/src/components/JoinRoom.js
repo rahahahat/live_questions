@@ -4,28 +4,28 @@ import '../css/joinRoom.css';
 const API_URL = 'http://localhost:3000';
 const JoinRoom = () => {
 	const history = useHistory();
-	const [ button, setButton ] = React.useState(false);
-	const [ room, setRoom ] = React.useState({ room: '', password: '' });
+	const [button, setButton] = React.useState(false);
+	const [room, setRoom] = React.useState('');
 	const handleSubmit = () => {
 		event.preventDefault();
 		setButton((button) => !button);
-		fetch(`${API_URL}/validate-join`, {
+		fetch(`${API_URL}/room/${room}`, {
 			method: 'POST',
-			body: JSON.stringify(room),
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		})
 			.then((res) => {
+				console.log(res);
 				res.text().then((data) => {
 					if (JSON.parse(data)) {
 						history.push({
-							pathname: `/room/${room.room}`,
-							state: { validated: true }
+							pathname: `/room/${room}`,
 						});
 					} else {
+						//Only called if response has failed - not while response is being sent ??
 						setButton((button) => !button);
-						alert('Incorrect Room ID or Password.');
+						alert('Invalid Room ID');
 					}
 				});
 			})
@@ -34,20 +34,13 @@ const JoinRoom = () => {
 			});
 	};
 	const handleChange = (event) => {
-		setRoom({ ...room, [event.target.name]: event.target.value });
+		setRoom(event.target.value);
 	};
 	return (
 		<form className="center-wrapper join-wrapper" onSubmit={handleSubmit}>
-			<input className="for-input" placeholder="Room ID" name="room" onChange={handleChange} />
-			<input
-				type="password"
-				className="for-input"
-				placeholder="Password"
-				name="password"
-				onChange={handleChange}
-			/>
-			<button className={'btn btn-join'} onClick={handleSubmit}>
-				Submit
+			<input className="for-input" placeholder="Room ID" name="room" onChange={handleChange} required />
+			<button className={'btn btn-join'} >
+				Join
 			</button>
 			{!button ? null : (
 				<div className="loadingio-spinner-spinner-ndjd8y7s7h">

@@ -24,10 +24,10 @@ const QuestionUser = ({
             ></i>
           </div>
         ) : (
-          <div className="vote-button">
-            <i className="gg-arrow-up-o green"></i>
-          </div>
-        )}
+            <div className="vote-button">
+              <i className="gg-arrow-up-o green"></i>
+            </div>
+          )}
         <div className="vote">
           Votes: <span className="votes-text">{votes}</span>
         </div>

@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "mongoose": "^5.10.2",
+    "parcel": "^1.12.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",
