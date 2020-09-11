@@ -92,21 +92,24 @@ module.exports = (io) => {
 			Room.findOne({
 				url: newQuestion.room
 			})
-				.then((record) => {
+				.then((room) => {
 					//create question object
 					let question = new Question({
 						author: newQuestion.author,
-						text: record.profanityFilter
+						text: room.profanityFilter
 							? new Filter().clean(newQuestion.text) //filter profanity if setting is true for this room
 							: newQuestion.text,
 						score: 0
 					});
 					console.log(question);
 
-					createQuestion(record._id, question);
+					question.save()
+					room.questions.push(question)
+					room.save()
+					//createQuestion(room._id, question);
 
 					//emit question to room
-					io.to(record.url).emit('add-question', question);
+					io.to(room.url).emit('add-question', question);
 				})
 				.catch((err) => {
 					console.error(err);

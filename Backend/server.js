@@ -32,6 +32,8 @@ db.once('open', () => console.log('Connected to mongose'));
 
 //AUTH MIDDLEWARE
 var auth = require('./middleware/auth')
+
+
 //ROUTING
 var indexRoute = require('./routes/index')
 var roomRoutes = require('./routes/room')
