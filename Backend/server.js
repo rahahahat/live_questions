@@ -8,8 +8,10 @@ var http = require('http').createServer(app);
 var io = require('socket.io').listen(http);
 var cors = require('cors');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser')
 
-app.use(cors());
+app.use(cors({ credentials: true, origin: 'http://localhost:1234' }));
+app.use(cookieParser())
 app.use(
 	bodyParser.urlencoded({
 		extended: true
@@ -34,9 +36,11 @@ db.once('open', () => console.log('Connected to mongose'));
 var auth = require('./middleware/auth')
 
 
+
 //ROUTING
 var indexRoute = require('./routes/index')
-var roomRoutes = require('./routes/room')
+var roomRoutes = require('./routes/room');
+
 app.use('/', indexRoute)
 app.use('/room', auth.isAuthenticated, roomRoutes)
 

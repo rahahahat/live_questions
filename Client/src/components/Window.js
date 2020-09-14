@@ -59,13 +59,14 @@ const Window = () => {
 			method: 'POST',
 			body: JSON.stringify(loginInputs),
 			headers: {
-				'Content-Type': 'application/json'
-			}
+				'Content-Type': 'application/json',
+			},
+			credentials: 'include',
 		}).then(res => {
-			if (res.ok && res.json()) { //room found & ok
+			console.log(res.headers);
+			if (res.ok) { //room found & ok
 				console.log("200", res)
 
-				//TODO: STORE ACCESS TOKEN
 				setDisplayName(loginInputs.name)
 				setQuestionState((questionState) => ({
 					...questionState,
@@ -76,14 +77,17 @@ const Window = () => {
 				setLoggedIn(true) //set logged in to true
 
 				socket.emit('join-room', { roomUrl, user: loginInputs.name });
-
-
 			} else { //login failed
 				console.log("401:", res)
 				alert("login failed")
 				return false
 			}
-		})
+
+		}).then(() => {
+			return fetch(`${API_URL}/test`, {
+				credentials: 'include'
+			});
+		});
 	}
 	// Handles the change in the form component.
 	const handleQuestionFormOnChange = (event) => {
@@ -179,16 +183,26 @@ const Window = () => {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
-			}
+			},
+			credentials: 'include'
 		}).then(res => {
 			if (res.ok) return res.json(); //room found - return response body
 			return false // else return false
 		}).then(response_body => {
 			if (response_body) {
-				console.log(response_body.requirePassword);
-				//TODO: If password is required then look for access/refresh tokens
-				//...if token found then authenticate and join - otherwise show login form
-				setRequirePassword(response_body.requirePassword)
+				console.log("ISAUTH:", response_body.authenticated);
+				if (response_body.authenticated) {
+					setDisplayName("todo") //TODO send back their prev username - eg token.name
+					setQuestionState((questionState) => ({
+						...questionState,
+						author: "todo",
+						room: response_body.url
+					}))
+					setVisibility({ form: false, list: true, post: true });
+					setLoggedIn(true)
+				} else {
+					setRequirePassword(response_body.requirePassword);
+				}
 			} else {
 				alert("room doesnt exist")
 			}
@@ -286,7 +300,7 @@ const Window = () => {
 			>
 				Leave Room
 			</div> */}
-		</React.Fragment>
+		</React.Fragment >
 	);
 };
 export default Window;
