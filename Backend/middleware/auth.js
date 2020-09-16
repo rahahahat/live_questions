@@ -3,15 +3,26 @@ var jwt = require('jsonwebtoken')
 
 //work out if user is authenticated by token
 module.exports.isAuthenticated = (req, res, next) => {
-    // console.log(JSON.stringify(req.cookies));
+    let room = req.body.url
     let token = req.cookies.token
-    // console.log("-------------------------------------/n", token);
-    if (token) {
+
+    if (token) { //if a token exists
+
+        //Check that the client has a valid access token
         let verified = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
         console.log("verfied", verified);
-        req.isAuthenticated = verified;
+        console.log("HERE:", verified.room, room);
+
+        //Check that the room the token is for is the same as the room that is being accessed
+        if (verified.room == room) {
+            req.isAuthenticated = verified;
+        } else {
+            //console.log("Auth failed - wrong room");
+            req.isAuthenticated = false;
+        }
     } else {
         req.isAuthenticated = false
     }
+
     next()
 }

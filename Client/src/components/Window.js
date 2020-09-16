@@ -181,6 +181,7 @@ const Window = () => {
 		//INITIAL FETCH CHECKS IF ROOM IS REAL AND IF PASSWORD IS REQUIRED
 		fetch(`${API_URL}/room/${roomUrl}`, {
 			method: 'POST',
+			body: JSON.stringify({ url: roomUrl }),
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -199,7 +200,8 @@ const Window = () => {
 						room: response_body.url
 					}))
 					setVisibility({ form: false, list: true, post: true });
-					setLoggedIn(true)
+					setLoggedIn(true);
+					socket.emit('join-room', { roomUrl, user: loginInputs.name });
 				} else {
 					setRequirePassword(response_body.requirePassword);
 				}
