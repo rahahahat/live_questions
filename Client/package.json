@@ -4,23 +4,28 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "parcel ./src/index.html"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "jest": "^26.4.2",
     "parcel-bundler": "^1.12.4",
     "prettier": "2.0.5"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "babel-jest": "^26.3.0",
     "mongoose": "^5.10.2",
     "parcel": "^1.12.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",
     "react-router-dom": "^5.2.0",
+    "react-test-renderer": "^16.13.1",
     "socket.io-client": "^2.3.0"
   }
 }

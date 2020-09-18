@@ -9,11 +9,44 @@ const API_URL = "http://localhost:3000";
 let socket;
 let roomUrl = "DEFAULT";
 let id;
+let history;
+let room;
+
+const init = {
+  dataList: [],
+  loggedIn: false,
+  requirePassword: false,
+  displayName: "",
+  visibility: {
+    form: false,
+    list: false,
+    post: false,
+  },
+  allowQuestion: false,
+  initQuestionState: {
+    _id: "0",
+    author: "",
+    text: "",
+    score: 0,
+    voted: false,
+    room: "",
+    answer: "",
+  },
+  loginInputs: {
+    name: "",
+    password: "",
+  },
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "add-question":
+  }
+};
 
 const Window = () => {
-  const history = useHistory();
-  const room = useParams();
-
+  history = useHistory();
+  room = useParams();
   const [loggedIn, setLoggedIn] = React.useState(false);
   // state for password -----------------------------------------------------------------------------------
   const [requirePassword, setRequirePassword] = React.useState(false);
@@ -61,29 +94,36 @@ const Window = () => {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((res) => {
-      if (res.ok && res.json()) {
-        //room found & ok
-        console.log("200", res);
+      credentials: "include",
+    })
+      .then((res) => {
+        console.log(res.headers);
+        if (res.ok) {
+          //room found & ok
+          console.log("200", res);
 
-        //TODO: STORE ACCESS TOKEN
-        setDisplayName(loginInputs.name);
-        setQuestionState((questionState) => ({
-          ...questionState,
-          author: loginInputs.name,
-          room: roomUrl,
-        }));
-        setVisibility({ form: false, list: true, post: true });
-        setLoggedIn(true); //set logged in to true
+          setDisplayName(loginInputs.name);
+          setQuestionState((questionState) => ({
+            ...questionState,
+            author: loginInputs.name,
+            room: roomUrl,
+          }));
+          setVisibility({ form: false, list: true, post: true });
+          setLoggedIn(true); //set logged in to true
 
-        socket.emit("join-room", { roomUrl, user: loginInputs.name });
-      } else {
-        //login failed
-        console.log("401:", res);
-        alert("login failed");
-        return false;
-      }
-    });
+          socket.emit("join-room", { roomUrl, user: loginInputs.name });
+        } else {
+          //login failed
+          console.log("401:", res);
+          alert("login failed");
+          return false;
+        }
+      })
+      .then(() => {
+        return fetch(`${API_URL}/test`, {
+          credentials: "include",
+        });
+      });
   };
   // Handles the change in the form component.
   const handleQuestionFormOnChange = (event) => {
@@ -173,13 +213,14 @@ const Window = () => {
   // --------------------------------------------------------------SOCKETS ------------------------------------------------
   React.useEffect(() => {
     roomUrl = room.roomUrl;
-
     //INITIAL FETCH CHECKS IF ROOM IS REAL AND IF PASSWORD IS REQUIRED
     fetch(`${API_URL}/room/${roomUrl}`, {
       method: "POST",
+      body: JSON.stringify({ url: roomUrl }),
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
     })
       .then((res) => {
         if (res.ok) return res.json(); //room found - return response body
@@ -187,10 +228,20 @@ const Window = () => {
       })
       .then((response_body) => {
         if (response_body) {
-          console.log(response_body.requirePassword);
-          //TODO: If password is required then look for access/refresh tokens
-          //...if token found then authenticate and join - otherwise show login form
-          setRequirePassword(response_body.requirePassword);
+          console.log("ISAUTH:", response_body.authenticated);
+          if (response_body.authenticated) {
+            setDisplayName("todo"); //TODO send back their prev username - eg token.name
+            setQuestionState((questionState) => ({
+              ...questionState,
+              author: "todo",
+              room: response_body.url,
+            }));
+            setVisibility({ form: false, list: true, post: true });
+            setLoggedIn(true);
+            socket.emit("join-room", { roomUrl, user: loginInputs.name });
+          } else {
+            setRequirePassword(response_body.requirePassword);
+          }
         } else {
           alert("room doesnt exist");
         }

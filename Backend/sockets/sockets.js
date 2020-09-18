@@ -9,7 +9,7 @@ module.exports = (io) => {
 
 	io.on('connection', (socket) => {
 		//Triggered when joinform is submitted
-		console.log(`Socket connected id ${socket.id}`);
+		//console.log(`Socket connected id ${socket.id}`);
 
 		//------------MODERATOR TOOLS--------------
 		//mod joins admin panel
@@ -80,7 +80,7 @@ module.exports = (io) => {
 						socket.to(roomUrl).emit('update-user-list', CLIENTS[socket.questionRoom]);
 						//----------------------------------
 
-						console.log(`${Date.now()}: ${user} joined room ${roomUrl}`);
+						//console.log(`${Date.now()}: ${user} joined room ${roomUrl}`);
 					}
 				});
 		});
@@ -151,15 +151,15 @@ module.exports = (io) => {
 		});
 
 		socket.on('disconnect', () => {
-			console.log(`${socket.username} disconnected from ${socket.questionRoom}`);
+			//console.log(`${socket.username} disconnected from ${socket.questionRoom}`);
 
 			//--for moderator user list--
-			console.log(CLIENTS, socket.id);
+			//console.log(CLIENTS, socket.id);
 
 			//client may not always be in room (they may connect and never set display name) so this must be handled
 			if (socket.questionRoom in CLIENTS) {
 				CLIENTS[socket.questionRoom] = CLIENTS[socket.questionRoom].filter((client) => client.id != socket.id);
-				console.log(CLIENTS);
+				//console.log(CLIENTS);
 				socket.to(socket.questionRoom).emit('update-user-list', CLIENTS[socket.questionRoom]);
 			}
 

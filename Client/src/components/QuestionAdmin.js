@@ -2,7 +2,7 @@ import React from "react";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
 import "../css/QuestionAdmin.css";
-import Question from "./Question";
+
 const QuestionAdmin = ({ question, onDelete, onEdit, index, roomUrl }) => {
   const [answer, setAnswer] = React.useState({ ans: "", show: false });
   const handleChange = (event) => {
