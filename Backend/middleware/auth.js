@@ -10,8 +10,6 @@ module.exports.isAuthenticated = (req, res, next) => {
 
         //Check that the client has a valid access token
         let verified = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-        console.log("verfied", verified);
-        console.log("HERE:", verified.room, room);
 
         //Check that the room the token is for is the same as the room that is being accessed
         if (verified.room == room) {
