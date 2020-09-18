@@ -5,9 +5,12 @@ var Filter = require('bad-words');
 var CLIENTS = {};
 //global entry point for socket.io connections
 
-module.exports = (io) => {
+var socketAuth = require('../middleware/socket-auth');
 
-	io.on('connection', (socket) => {
+module.exports = (io) => {
+	io.use(socketAuth.socketIsAuthenticated).on('connection', (socket) => {
+
+		//console.log("Socket cookie", socket.handshake.headers.cookie);
 		//Triggered when joinform is submitted
 		//console.log(`Socket connected id ${socket.id}`);
 
