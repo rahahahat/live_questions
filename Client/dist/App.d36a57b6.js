@@ -28390,7 +28390,8 @@ var QuestionUser = _react.default.memo(function (_ref) {
       question = _ref.question,
       votes = _ref.votes,
       answer = _ref.answer,
-      isVoted = _ref.isVoted;
+      isVoted = _ref.isVoted,
+      roomUrl = _ref.roomUrl;
 
   var _React$useState = _react.default.useState(false),
       _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -28406,7 +28407,7 @@ var QuestionUser = _react.default.memo(function (_ref) {
   }, /*#__PURE__*/_react.default.createElement("i", {
     className: "gg-arrow-up-o",
     onClick: function onClick() {
-      voteUp(index);
+      voteUp(id, index, roomUrl);
     }
   })) : /*#__PURE__*/_react.default.createElement("div", {
     className: "vote-button"
@@ -28461,7 +28462,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var List = _react.default.memo(function (_ref) {
   var dataList = _ref.dataList,
       handleVote = _ref.handleVote,
-      handleDelete = _ref.handleDelete;
+      roomUrl = _ref.roomUrl;
   return dataList.length == 0 ?
   /*#__PURE__*/
   //if datalist contains no questions then render the noquestionsyet box
@@ -28477,13 +28478,15 @@ var List = _react.default.memo(function (_ref) {
     return /*#__PURE__*/_react.default.createElement("li", {
       key: index
     }, /*#__PURE__*/_react.default.createElement(_QuestionUser.default, {
+      id: data.id,
       index: index,
       voteUp: handleVote,
       author: data.author,
       question: data.text,
       votes: data.score,
       answer: data.answer,
-      isVoted: data.voted
+      isVoted: data.voted,
+      roomUrl: roomUrl
     }));
   }));
 });
@@ -41951,62 +41954,47 @@ var RoomLogin = function RoomLogin(_ref) {
 
 var _default = RoomLogin;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"components/Window.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _List = _interopRequireDefault(require("./List.js"));
-
-var _QuestionForm = _interopRequireDefault(require("./QuestionForm.js"));
-
-var _socket = _interopRequireDefault(require("socket.io-client"));
-
-var _reactRouterDom = require("react-router-dom");
-
-var _RoomLogin = _interopRequireDefault(require("./RoomLogin"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
+},{"react":"../node_modules/react/index.js"}],"../Tests/TestUtils/reducerTestUtils.js":[function(require,module,exports) {
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var API_URL = "http://localhost:3000";
-var socket;
-var roomUrl = "DEFAULT";
-var id;
-var history;
-var room;
+var TEST_ROOM = {
+  title: "TESTS",
+  questions: [],
+  requirePassword: true,
+  profanityFilter: true,
+  _id: "5f63ec385804ad5fa32aec8a",
+  url: "tests",
+  owner: "DEVS",
+  created: "2020-09-17T23:07:36.181Z",
+  password: "$2b$08$7hPlrS8xu9VKSxKENqc6VuZWj56pJwu78s1Bxy9JWHzl6.4EreQna",
+  adminPassword: "$2b$08$7hPlrS8xu9VKSxKENqc6VuZWj56pJwu78s1Bxy9JWHzl6.4EreQna",
+  __v: 0
+};
+var TEST_QUESTION = {
+  _id: "5f64c5c362ca161f1ecb4b37",
+  text: "TEST QUESTION",
+  author: "TEST AUTHOR",
+  score: 0,
+  __v: 0
+};
 var init = {
-  dataList: [],
+  questions: [],
   loggedIn: false,
   requirePassword: false,
   displayName: "",
@@ -42031,9 +42019,267 @@ var init = {
   }
 };
 
+var setVote = function setVote(dataList, id) {
+  var state = _toConsumableArray(dataList);
+
+  var index = state.findIndex(function (question) {
+    return question._id == id;
+  });
+  state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
+    score: state[index].score + 1
+  });
+  return state;
+};
+
+var deleteItem = function deleteItem(dataList, id) {
+  var state = _toConsumableArray(dataList);
+
+  var index = state.findIndex(function (question) {
+    return question._id == id;
+  });
+  state.splice(index, 1);
+  return state;
+};
+
+var setAnswer = function setAnswer(answer, dataList, id) {
+  var state = _toConsumableArray(dataList);
+
+  var index = state.findIndex(function (question) {
+    return question._id == id;
+  });
+  state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
+    answer: answer
+  });
+  return state;
+};
+
+var handleVote = function handleVote(list, index) {
+  var state = _toConsumableArray(list);
+
+  state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
+    score: state[index].score + 1,
+    voted: true
+  });
+  return state;
+};
+
 var reducer = function reducer(state, action) {
   switch (action.type) {
-    case "add-question":
+    case "toggleAllowQuestion":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        allowQuestion: action.payload.data
+      });
+
+    case "onFirstRenderVisibility":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        visibility: {
+          form: false,
+          list: true,
+          post: true
+        }
+      });
+
+    case "afterPostClickVisibility":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        visibility: {
+          form: true,
+          list: false,
+          post: false
+        }
+      });
+
+    case "afterSubmitClickVisibility":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        visibility: {
+          form: false,
+          list: true,
+          post: true
+        }
+      });
+
+    case "setPasswordRequirement":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        requirePassword: action.payload.data
+      });
+
+    case "setQuestionTextOnFormChange":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        initQuestionState: _objectSpread(_objectSpread({}, state.initQuestionState), {}, {
+          text: action.payload.questionText
+        })
+      });
+
+    case "setInitialQuestionState":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        initQuestionState: _objectSpread(_objectSpread({}, state.initQuestionState), {}, {
+          text: "",
+          score: 0,
+          voted: false
+        })
+      });
+
+    case "setLoggedIn":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        loggedIn: action.payload.data
+      });
+
+    case "setLoginUsername":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        loginInputs: _objectSpread(_objectSpread({}, state.loginInputs), {}, {
+          name: action.payload.data
+        })
+      });
+
+    case "setLoginPassword":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        loginInputs: _objectSpread(_objectSpread({}, state.loginInputs), {}, {
+          password: action.payload.data
+        })
+      });
+
+    case "setQuestionsOnAcknowledgeJoin":
+      {
+        return _objectSpread(_objectSpread({}, state), {}, {
+          questions: _toConsumableArray(action.payload.questions)
+        });
+      }
+
+    case "onLoginSubmit":
+      {
+        return _objectSpread(_objectSpread({}, state), {}, {
+          displayName: action.payload.name,
+          initQuestionState: _objectSpread(_objectSpread({}, state.initQuestionState), {}, {
+            author: action.payload.name,
+            room: action.payload.roomUrl
+          }),
+          visibility: {
+            form: false,
+            list: true,
+            post: true
+          },
+          loggedIn: true
+        });
+      }
+
+    case "onAuthInitialUseEffect":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        // displayName: action.payload.data.displayName,
+        displayName: "TODO",
+        initQuestionState: _objectSpread(_objectSpread({}, state.initQuestionState), {}, {
+          //   author: action.payload.data.displayName,
+          author: "TODO",
+          room: action.payload.roomUrl
+        }),
+        visibility: {
+          form: false,
+          list: true,
+          post: true
+        },
+        loggedIn: true
+      });
+
+    case "addQuestionToList":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        questions: [action.payload.question].concat(_toConsumableArray(state.questions))
+      });
+
+    case "voteUpOnSocket":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        questions: setVote(state.questions, action.payload.id)
+      });
+
+    case "deleteQuestionOnSocket":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        questions: deleteItem(state.questions, action.payload.id)
+      });
+
+    case "addAnswerOnSocket":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        questions: setAnswer(action.payload.answer, state.questions, action.payload.id)
+      });
+
+    case "handleVoteUpOnBtnClick":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        questions: handleVote(state.questions, action.payload.index)
+      });
+  }
+};
+
+module.exports = {
+  TEST_ROOM: TEST_ROOM,
+  TEST_QUESTION: TEST_QUESTION,
+  init: init,
+  reducer: reducer
+};
+},{}],"components/Window.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _List = _interopRequireDefault(require("./List.js"));
+
+var _QuestionForm = _interopRequireDefault(require("./QuestionForm.js"));
+
+var _socket = _interopRequireDefault(require("socket.io-client"));
+
+var _reactRouterDom = require("react-router-dom");
+
+var _RoomLogin = _interopRequireDefault(require("./RoomLogin"));
+
+var _reducerTestUtils = require("../../Tests/TestUtils/reducerTestUtils.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var API_URL = "http://localhost:3000";
+var socket;
+var roomUrl = "DEFAULT";
+var id;
+var history;
+var room;
+var init = {
+  questions: [],
+  loggedIn: false,
+  requirePassword: false,
+  displayName: "",
+  visibility: {
+    form: false,
+    list: false,
+    post: false
+  },
+  allowQuestion: false,
+  initQuestionState: {
+    _id: "0",
+    author: "TODO",
+    text: "",
+    score: 0,
+    voted: false,
+    room: "",
+    answer: ""
+  },
+  loginInputs: {
+    name: "",
+    password: ""
   }
 };
 
@@ -42041,77 +42287,35 @@ var Window = function Window() {
   history = (0, _reactRouterDom.useHistory)();
   room = (0, _reactRouterDom.useParams)();
 
-  var _React$useState = _react.default.useState(false),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      loggedIn = _React$useState2[0],
-      setLoggedIn = _React$useState2[1]; // state for password -----------------------------------------------------------------------------------
-
-
-  var _React$useState3 = _react.default.useState(false),
-      _React$useState4 = _slicedToArray(_React$useState3, 2),
-      requirePassword = _React$useState4[0],
-      setRequirePassword = _React$useState4[1]; // State for username -----------------------------------------------------------------------------------
-
-
-  var _React$useState5 = _react.default.useState(""),
-      _React$useState6 = _slicedToArray(_React$useState5, 2),
-      displayName = _React$useState6[0],
-      setDisplayName = _React$useState6[1]; // State that handles conditional rendering for components -----------------------------------------------
-
-
-  var _React$useState7 = _react.default.useState({
-    form: false,
-    list: false,
-    post: false
-  }),
-      _React$useState8 = _slicedToArray(_React$useState7, 2),
-      visibility = _React$useState8[0],
-      setVisibility = _React$useState8[1]; // The dataList State which handles all the questions -----------------------------------------------------
-
-
-  var _React$useState9 = _react.default.useState([]),
-      _React$useState10 = _slicedToArray(_React$useState9, 2),
-      dataList = _React$useState10[0],
-      setDataList = _React$useState10[1]; // Temporary state for appending new entries to dataList --------------------------------------------------
-
-
-  var _React$useState11 = _react.default.useState({
-    _id: "0",
-    author: "",
-    text: "",
-    score: 0,
-    voted: false,
-    room: "",
-    answer: ""
-  }),
-      _React$useState12 = _slicedToArray(_React$useState11, 2),
-      questionState = _React$useState12[0],
-      setQuestionState = _React$useState12[1]; //whether or not questions are allowed in the room at this time
-
-
-  var _React$useState13 = _react.default.useState(true),
-      _React$useState14 = _slicedToArray(_React$useState13, 2),
-      allowQuestions = _React$useState14[0],
-      setAllowQuestions = _React$useState14[1];
-
-  var _React$useState15 = _react.default.useState({
-    name: "",
-    password: ""
-  }),
-      _React$useState16 = _slicedToArray(_React$useState15, 2),
-      loginInputs = _React$useState16[0],
-      setLoginInputs = _React$useState16[1]; // ---------------------------------------------- Handler Functions ----------------------------------------
+  var _useReducer = (0, _react.useReducer)(_reducerTestUtils.reducer, init),
+      _useReducer2 = _slicedToArray(_useReducer, 2),
+      windowState = _useReducer2[0],
+      dispatch = _useReducer2[1]; // +++++++++++++++++++++++++++++++++++++++++++ Handler Functions +++++++++++++++++++++++++++++++++++++++++
 
 
   var handleLoginInputChange = function handleLoginInputChange(event) {
-    setLoginInputs(_objectSpread(_objectSpread({}, loginInputs), {}, _defineProperty({}, event.target.name, event.target.value)));
+    if (event.target.name == "name") {
+      dispatch({
+        type: "setLoginUsername",
+        payload: {
+          data: event.target.value
+        }
+      });
+    } else {
+      dispatch({
+        type: "setLoginPassword",
+        payload: {
+          data: event.target.value
+        }
+      });
+    }
   };
 
   var handleLoginSubmit = function handleLoginSubmit(event) {
     event.preventDefault();
     fetch("".concat(API_URL, "/room/").concat(roomUrl, "/login"), {
       method: "POST",
-      body: JSON.stringify(loginInputs),
+      body: JSON.stringify(windowState.loginInputs),
       headers: {
         "Content-Type": "application/json"
       },
@@ -42120,145 +42324,65 @@ var Window = function Window() {
       console.log(res.headers);
 
       if (res.ok) {
-        //room found & ok
-        console.log("200", res);
-        setDisplayName(loginInputs.name);
-        setQuestionState(function (questionState) {
-          return _objectSpread(_objectSpread({}, questionState), {}, {
-            author: loginInputs.name,
-            room: roomUrl
-          });
+        dispatch({
+          type: "onLoginSubmit",
+          payload: {
+            name: windowState.loginInputs.name,
+            roomUrl: roomUrl
+          }
         });
-        setVisibility({
-          form: false,
-          list: true,
-          post: true
-        });
-        setLoggedIn(true); //set logged in to true
-
         socket.emit("join-room", {
           roomUrl: roomUrl,
-          user: loginInputs.name
+          user: windowState.loginInputs.name
         });
       } else {
-        //login failed
         console.log("401:", res);
         alert("login failed");
         return false;
       }
-    }).then(function () {
-      return fetch("".concat(API_URL, "/test"), {
-        credentials: "include"
-      });
+    }).catch(function (err) {
+      console.log(err);
     });
   }; // Handles the change in the form component.
 
 
   var handleQuestionFormOnChange = function handleQuestionFormOnChange(event) {
-    setQuestionState(_objectSpread(_objectSpread({}, questionState), {}, _defineProperty({}, event.target.name, event.target.value)));
+    dispatch({
+      type: "setQuestionTextOnFormChange",
+      payload: {
+        questionText: event.target.value
+      }
+    });
   }; //Handles the submit in the form component.
 
 
   var handleQuestionFormSubmit = function handleQuestionFormSubmit(event) {
     event.preventDefault();
 
-    if (questionState.text != "") {
-      socket.emit("add-question", questionState);
-      console.log(questionState);
-      setQuestionState(_objectSpread(_objectSpread({}, questionState), {}, {
-        text: "",
-        score: 0,
-        voted: false
-      }));
+    if (windowState.initQuestionState.text != "") {
+      socket.emit("add-question", windowState.initQuestionState);
+      dispatch({
+        type: "setInitialQuestionState"
+      });
     }
 
-    handleSubmitVisibility();
+    dispatch({
+      type: "afterSubmitClickVisibility"
+    });
   }; // Handles changing the vote of a particular Question.
 
 
-  var handleVote = function handleVote(index) {
-    var state = _toConsumableArray(dataList);
-
-    var id = state[index]._id;
-    console.log("Upvoting", id);
+  var handleVote = function handleVote(id, index, roomUrl) {
     socket.emit("vote-up", {
       id: id,
       roomUrl: roomUrl
     });
-    state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
-      score: state[index].score + 1,
-      voted: true
+    dispatch({
+      type: "handleVoteUpOnBtnClick",
+      payload: {
+        index: index
+      }
     });
-    setDataList(state);
-  }; //Handles deleting a particular question questionStateect from dataList.
-
-
-  var handleDelete = function handleDelete(index) {
-    var state = _toConsumableArray(dataList);
-
-    var id = state[index]._id;
-    socket.emit("delete-question", {
-      id: id,
-      roomUrl: roomUrl
-    });
-    state.splice(index, 1);
-    setDataList(state);
-  }; //Handles the Visibility after submit of form is clicked.
-
-
-  var handleSubmitVisibility = function handleSubmitVisibility() {
-    setVisibility({
-      form: false,
-      list: true,
-      post: true
-    });
-  }; // Handles the visibility after Post a question is clicked.
-
-
-  var handlePostVisibility = function handlePostVisibility() {
-    setVisibility({
-      form: true,
-      list: false,
-      post: false
-    });
-  }; // Helper function for socket to update vote.
-
-
-  var setVote = function setVote(dataList, id) {
-    var state = _toConsumableArray(dataList); //locate the question in the state by id
-
-
-    var index = state.findIndex(function (question) {
-      return question._id == id;
-    });
-    state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
-      score: state[index].score + 1
-    });
-    return state;
-  };
-
-  var setAnswer = function setAnswer(answer, dataList, id) {
-    var state = _toConsumableArray(dataList);
-
-    var index = state.findIndex(function (question) {
-      return question._id == id;
-    });
-    state[index] = _objectSpread(_objectSpread({}, state[index]), {}, {
-      answer: answer
-    });
-    return state;
-  }; // Helper function for sokcet to delete item.
-
-
-  var deleteItem = function deleteItem(dataList, id) {
-    var state = _toConsumableArray(dataList); //locate the question in the state by id
-
-
-    var index = state.findIndex(function (question) {
-      return question._id == id;
-    });
-    state.splice(index, 1);
-    return state;
   }; // --------------------------------------------------------------SOCKETS ------------------------------------------------
 
 
@@ -42283,64 +42407,68 @@ var Window = function Window() {
         console.log("ISAUTH:", response_body.authenticated);
 
         if (response_body.authenticated) {
-          setDisplayName("todo"); //TODO send back their prev username - eg token.name
+          dispatch({
+            type: "onAuthInitialUseEffect",
+            payload: {
+              roomUrl: roomUrl
+            }
+          }); //+++++++++++++++++++++++++++++++++ GET FROM TOKEN TODO++++++++++++++++++++++++++++++++
 
-          setQuestionState(function (questionState) {
-            return _objectSpread(_objectSpread({}, questionState), {}, {
-              author: "todo",
-              room: response_body.url
-            });
-          });
-          setVisibility({
-            form: false,
-            list: true,
-            post: true
-          });
-          setLoggedIn(true);
           socket.emit("join-room", {
             roomUrl: roomUrl,
-            user: loginInputs.name
+            user: "TODO"
           });
         } else {
-          setRequirePassword(response_body.requirePassword);
+          dispatch({
+            type: "setPasswordRequirement",
+            payload: {
+              data: response_body.requirePassword
+            }
+          });
         }
       } else {
         alert("room doesnt exist");
       }
-    });
-    socket = (0, _socket.default)("http://localhost:3000"); // Listening Sockets------------------------------------------
+    }); //++++++++++++++++++++++++++++++++++++++++ Listening Sockets ++++++++++++++++++++++++++++++++++++++++++
 
+    socket = (0, _socket.default)("http://localhost:3000");
     socket.on("connect", function () {
-      console.log("Connected to server: ", socket.connected); // true
+      console.log("Connected to server: ", socket.connected);
     });
     socket.on("acknowledge-join", function (roomData) {
-      console.log("Socket Acknowledged"); // add error boundary for invalid roomData--
-
-      setDataList(roomData.questions);
-    }); //if server could not find room then redirect to home page
-
+      console.log("Socket Acknowledged");
+      dispatch({
+        type: "setQuestionsOnAcknowledgeJoin",
+        payload: {
+          questions: roomData.questions
+        }
+      });
+    });
     socket.on("room-not-found", function () {
       history.push("/");
-    }); //add a question
-
+    });
     socket.on("add-question", function (data) {
-      console.log("new question", data);
-      setDataList(function (dataList) {
-        return [data].concat(_toConsumableArray(dataList));
+      dispatch({
+        type: "addQuestionToList",
+        payload: {
+          question: data
+        }
       });
-    }); //vote up question
-
+    });
     socket.on("vote-up", function (id) {
-      console.log("vote up from socket");
-      setDataList(function (dataList) {
-        return setVote(dataList, id);
+      dispatch({
+        type: "voteUpOnSocket",
+        payload: {
+          id: id
+        }
       });
-    }); //delete question
-
+    });
     socket.on("delete-question", function (id) {
-      console.log("delete from socket");
-      setDataList(function (dataList) {
-        return deleteItem(dataList, id);
+      dispatch({
+        type: "deleteQuestionOnSocket",
+        payload: {
+          id: id
+        }
       });
     });
     socket.on("kicked", function (msg) {
@@ -42349,51 +42477,62 @@ var Window = function Window() {
       history.push("/");
     });
     socket.on("add-the-answer", function (result) {
-      console.log("working");
-      setDataList(function (questionList) {
-        return setAnswer(result.answer, questionList, result._id);
+      dispatch({
+        type: "addAnswerOnSocket",
+        payload: {
+          answer: result.answer,
+          id: result._id
+        }
       });
-    }); //moderator turns questions on or off for a room
-
+    });
     socket.on("toggle-questions", function (onOrOff) {
       console.log("Toggling questions", onOrOff);
-      setAllowQuestions(onOrOff);
+      dispatch({
+        type: "toggleAllowQuestion",
+        payload: {
+          data: onOrOff
+        }
+      });
     });
     socket.on("disconnect", function () {
       console.log("Connected to server: ", socket.connected); // false
     });
-  }, []); //--------------------------rendering---------------------------------
+  }, []); //++++++++++++++++++++++++++++++++ rendering ++++++++++++++++++++++++++++++++++++++++++++
 
 
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, !loggedIn ?
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, !windowState.loggedIn ?
   /*#__PURE__*/
   //TODO ?? : changed to (loggenIn && isAuthenticated)
   _react.default.createElement(_RoomLogin.default, {
-    requirePassword: requirePassword,
+    requirePassword: windowState.requirePassword,
     handleInputChange: handleLoginInputChange,
     handleSubmit: handleLoginSubmit
-  }) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, visibility.list && /*#__PURE__*/_react.default.createElement(_List.default, {
-    dataList: dataList,
+  }) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, windowState.visibility.list && /*#__PURE__*/_react.default.createElement(_List.default, {
+    dataList: windowState.questions,
     handleVote: handleVote,
-    handleDelete: handleDelete
-  }), visibility.form && /*#__PURE__*/_react.default.createElement(_QuestionForm.default, {
-    questionState: questionState,
+    roomUrl: roomUrl
+  }), windowState.visibility.form && /*#__PURE__*/_react.default.createElement(_QuestionForm.default, {
+    questionState: windowState.initQuestionState,
     handleOnChange: handleQuestionFormOnChange,
     handleSubmit: handleQuestionFormSubmit
-  }), visibility.post && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("button", {
+  }), windowState.visibility.post && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("button", {
     className: "btn",
-    onClick: handlePostVisibility
+    onClick: function onClick() {
+      dispatch({
+        type: "afterPostClickVisibility"
+      });
+    }
   }, "Post a Question..."), /*#__PURE__*/_react.default.createElement("button", {
     className: "btn",
     onClick: function onClick() {
-      return console.log(dataList);
+      return console.log(windowState.questions);
     }
-  }, "Log State")), /*#__PURE__*/_react.default.createElement("h1", null, "Questions allowed? : ", allowQuestions ? "Yes" : "No")));
+  }, "Log State"))));
 };
 
 var _default = Window;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./List.js":"components/List.js","./QuestionForm.js":"components/QuestionForm.js","socket.io-client":"../node_modules/socket.io-client/lib/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./RoomLogin":"components/RoomLogin.js"}],"components/CreateRoom.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./List.js":"components/List.js","./QuestionForm.js":"components/QuestionForm.js","socket.io-client":"../node_modules/socket.io-client/lib/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./RoomLogin":"components/RoomLogin.js","../../Tests/TestUtils/reducerTestUtils.js":"../Tests/TestUtils/reducerTestUtils.js"}],"components/CreateRoom.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -114783,7 +114922,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42449" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44157" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

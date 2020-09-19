@@ -1,4 +1,4 @@
-const TEST = {
+const TEST_ROOM = {
   title: "TESTS",
   questions: [],
   requirePassword: true,
@@ -11,6 +11,7 @@ const TEST = {
   adminPassword: "$2b$08$7hPlrS8xu9VKSxKENqc6VuZWj56pJwu78s1Bxy9JWHzl6.4EreQna",
   __v: 0,
 };
+
 const TEST_QUESTION = {
   _id: "5f64c5c362ca161f1ecb4b37",
   text: "TEST QUESTION",
@@ -18,6 +19,7 @@ const TEST_QUESTION = {
   score: 0,
   __v: 0,
 };
+
 const init = {
   questions: [],
   loggedIn: false,
@@ -44,10 +46,44 @@ const init = {
   },
 };
 
+const setVote = (dataList, id) => {
+  let state = [...dataList];
+  let index = state.findIndex((question) => {
+    return question._id == id;
+  });
+  state[index] = { ...state[index], score: state[index].score + 1 };
+  return state;
+};
+const deleteItem = (dataList, id) => {
+  let state = [...dataList];
+  let index = state.findIndex((question) => {
+    return question._id == id;
+  });
+  state.splice(index, 1);
+  return state;
+};
+const setAnswer = (answer, dataList, id) => {
+  let state = [...dataList];
+  let index = state.findIndex((question) => {
+    return question._id == id;
+  });
+  state[index] = { ...state[index], answer: answer };
+  return state;
+};
+const handleVote = (list, index) => {
+  let state = [...list];
+  state[index] = {
+    ...state[index],
+    score: state[index].score + 1,
+    voted: true,
+  };
+  return state;
+};
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "toggleAllowQuestion":
-      return { ...state, allowQuestion: !state.allowQuestion };
+      return { ...state, allowQuestion: action.payload.data };
     case "onFirstRenderVisibility":
       return {
         ...state,
@@ -80,6 +116,24 @@ const reducer = (state, action) => {
         ...state,
         requirePassword: action.payload.data,
       };
+    case "setQuestionTextOnFormChange":
+      return {
+        ...state,
+        initQuestionState: {
+          ...state.initQuestionState,
+          text: action.payload.questionText,
+        },
+      };
+    case "setInitialQuestionState":
+      return {
+        ...state,
+        initQuestionState: {
+          ...state.initQuestionState,
+          text: "",
+          score: 0,
+          voted: false,
+        },
+      };
     case "setLoggedIn":
       return {
         ...state,
@@ -101,6 +155,29 @@ const reducer = (state, action) => {
           password: action.payload.data,
         },
       };
+    case "setQuestionsOnAcknowledgeJoin": {
+      return {
+        ...state,
+        questions: [...action.payload.questions],
+      };
+    }
+    case "onLoginSubmit": {
+      return {
+        ...state,
+        displayName: action.payload.name,
+        initQuestionState: {
+          ...state.initQuestionState,
+          author: action.payload.name,
+          room: action.payload.roomUrl,
+        },
+        visibility: {
+          form: false,
+          list: true,
+          post: true,
+        },
+        loggedIn: true,
+      };
+    }
     case "onAuthInitialUseEffect":
       return {
         ...state,
@@ -110,7 +187,7 @@ const reducer = (state, action) => {
           ...state.initQuestionState,
           //   author: action.payload.data.displayName,
           author: "TODO",
-          room: action.payload.data.roomUrl,
+          room: action.payload.roomUrl,
         },
         visibility: {
           form: false,
@@ -124,7 +201,32 @@ const reducer = (state, action) => {
         ...state,
         questions: [action.payload.question, ...state.questions],
       };
+    case "voteUpOnSocket":
+      return {
+        ...state,
+        questions: setVote(state.questions, action.payload.id),
+      };
+    case "deleteQuestionOnSocket":
+      return {
+        ...state,
+        questions: deleteItem(state.questions, action.payload.id),
+      };
+
+    case "addAnswerOnSocket":
+      return {
+        ...state,
+        questions: setAnswer(
+          action.payload.answer,
+          state.questions,
+          action.payload.id
+        ),
+      };
+    case "handleVoteUpOnBtnClick":
+      return {
+        ...state,
+        questions: handleVote(state.questions, action.payload.index),
+      };
   }
 };
 
-module.exports = { TEST, init, reducer };
+module.exports = { TEST_ROOM, TEST_QUESTION, init, reducer };

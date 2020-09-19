@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useReducer } from "react";
 import List from "./List.js";
 import QuestionForm from "./QuestionForm.js";
 import io from "socket.io-client";
 import { useParams, useHistory } from "react-router-dom";
 import RoomLogin from "./RoomLogin";
-
+import { reducer } from "../../Tests/TestUtils/reducerTestUtils.js";
 const API_URL = "http://localhost:3000";
 let socket;
 let roomUrl = "DEFAULT";
@@ -13,7 +13,7 @@ let history;
 let room;
 
 const init = {
-  dataList: [],
+  questions: [],
   loggedIn: false,
   requirePassword: false,
   displayName: "",
@@ -25,7 +25,7 @@ const init = {
   allowQuestion: false,
   initQuestionState: {
     _id: "0",
-    author: "",
+    author: "TODO",
     text: "",
     score: 0,
     voted: false,
@@ -38,59 +38,34 @@ const init = {
   },
 };
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "add-question":
-  }
-};
-
 const Window = () => {
   history = useHistory();
   room = useParams();
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  // state for password -----------------------------------------------------------------------------------
-  const [requirePassword, setRequirePassword] = React.useState(false);
-  // State for username -----------------------------------------------------------------------------------
-  const [displayName, setDisplayName] = React.useState("");
-  // State that handles conditional rendering for components -----------------------------------------------
-  const [visibility, setVisibility] = React.useState({
-    form: false,
-    list: false,
-    post: false,
-  });
-  // The dataList State which handles all the questions -----------------------------------------------------
-  const [dataList, setDataList] = React.useState([]);
-
-  // Temporary state for appending new entries to dataList --------------------------------------------------
-  const [questionState, setQuestionState] = React.useState({
-    _id: "0",
-    author: "",
-    text: "",
-    score: 0,
-    voted: false,
-    room: "",
-    answer: "",
-  });
-
-  //whether or not questions are allowed in the room at this time
-  const [allowQuestions, setAllowQuestions] = React.useState(true);
-
-  const [loginInputs, setLoginInputs] = React.useState({
-    name: "",
-    password: "",
-  });
-
-  // ---------------------------------------------- Handler Functions ----------------------------------------
+  const [windowState, dispatch] = useReducer(reducer, init);
+  // +++++++++++++++++++++++++++++++++++++++++++ Handler Functions +++++++++++++++++++++++++++++++++++++++++
   const handleLoginInputChange = (event) => {
-    setLoginInputs({ ...loginInputs, [event.target.name]: event.target.value });
+    if (event.target.name == "name") {
+      dispatch({
+        type: "setLoginUsername",
+        payload: {
+          data: event.target.value,
+        },
+      });
+    } else {
+      dispatch({
+        type: "setLoginPassword",
+        payload: {
+          data: event.target.value,
+        },
+      });
+    }
   };
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
-
     fetch(`${API_URL}/room/${roomUrl}/login`, {
       method: "POST",
-      body: JSON.stringify(loginInputs),
+      body: JSON.stringify(windowState.loginInputs),
       headers: {
         "Content-Type": "application/json",
       },
@@ -99,115 +74,56 @@ const Window = () => {
       .then((res) => {
         console.log(res.headers);
         if (res.ok) {
-          //room found & ok
-          console.log("200", res);
-
-          setDisplayName(loginInputs.name);
-          setQuestionState((questionState) => ({
-            ...questionState,
-            author: loginInputs.name,
-            room: roomUrl,
-          }));
-          setVisibility({ form: false, list: true, post: true });
-          setLoggedIn(true); //set logged in to true
-
-          socket.emit("join-room", { roomUrl, user: loginInputs.name });
+          dispatch({
+            type: "onLoginSubmit",
+            payload: {
+              name: windowState.loginInputs.name,
+              roomUrl: roomUrl,
+            },
+          });
+          socket.emit("join-room", {
+            roomUrl,
+            user: windowState.loginInputs.name,
+          });
         } else {
-          //login failed
           console.log("401:", res);
           alert("login failed");
           return false;
         }
       })
-      .then(() => {
-        return fetch(`${API_URL}/test`, {
-          credentials: "include",
-        });
+      .catch((err) => {
+        console.log(err);
       });
   };
   // Handles the change in the form component.
   const handleQuestionFormOnChange = (event) => {
-    setQuestionState({
-      ...questionState,
-      [event.target.name]: event.target.value,
+    dispatch({
+      type: "setQuestionTextOnFormChange",
+      payload: {
+        questionText: event.target.value,
+      },
     });
   };
 
   //Handles the submit in the form component.
   const handleQuestionFormSubmit = (event) => {
     event.preventDefault();
-    if (questionState.text != "") {
-      socket.emit("add-question", questionState);
-      console.log(questionState);
-      setQuestionState({
-        ...questionState,
-        text: "",
-        score: 0,
-        voted: false,
-      });
+    if (windowState.initQuestionState.text != "") {
+      socket.emit("add-question", windowState.initQuestionState);
+      dispatch({ type: "setInitialQuestionState" });
     }
-    handleSubmitVisibility();
+    dispatch({ type: "afterSubmitClickVisibility" });
   };
 
   // Handles changing the vote of a particular Question.
-  const handleVote = (index) => {
-    let state = [...dataList];
-    const id = state[index]._id;
-    console.log("Upvoting", id);
+  const handleVote = (id, index, roomUrl) => {
     socket.emit("vote-up", { id, roomUrl });
-    state[index] = {
-      ...state[index],
-      score: state[index].score + 1,
-      voted: true,
-    };
-    setDataList(state);
-  };
-
-  //Handles deleting a particular question questionStateect from dataList.
-  const handleDelete = (index) => {
-    let state = [...dataList];
-    const id = state[index]._id;
-    socket.emit("delete-question", { id, roomUrl });
-    state.splice(index, 1);
-    setDataList(state);
-  };
-  //Handles the Visibility after submit of form is clicked.
-  const handleSubmitVisibility = () => {
-    setVisibility({ form: false, list: true, post: true });
-  };
-
-  // Handles the visibility after Post a question is clicked.
-  const handlePostVisibility = () => {
-    setVisibility({ form: true, list: false, post: false });
-  };
-
-  // Helper function for socket to update vote.
-  const setVote = (dataList, id) => {
-    let state = [...dataList];
-    //locate the question in the state by id
-    let index = state.findIndex((question) => {
-      return question._id == id;
+    dispatch({
+      type: "handleVoteUpOnBtnClick",
+      payload: {
+        index: index,
+      },
     });
-    state[index] = { ...state[index], score: state[index].score + 1 };
-    return state;
-  };
-  const setAnswer = (answer, dataList, id) => {
-    let state = [...dataList];
-    let index = state.findIndex((question) => {
-      return question._id == id;
-    });
-    state[index] = { ...state[index], answer: answer };
-    return state;
-  };
-  // Helper function for sokcet to delete item.
-  const deleteItem = (dataList, id) => {
-    let state = [...dataList];
-    //locate the question in the state by id
-    let index = state.findIndex((question) => {
-      return question._id == id;
-    });
-    state.splice(index, 1);
-    return state;
   };
 
   // --------------------------------------------------------------SOCKETS ------------------------------------------------
@@ -230,124 +146,140 @@ const Window = () => {
         if (response_body) {
           console.log("ISAUTH:", response_body.authenticated);
           if (response_body.authenticated) {
-            setDisplayName("todo"); //TODO send back their prev username - eg token.name
-            setQuestionState((questionState) => ({
-              ...questionState,
-              author: "todo",
-              room: response_body.url,
-            }));
-            setVisibility({ form: false, list: true, post: true });
-            setLoggedIn(true);
-            socket.emit("join-room", { roomUrl, user: loginInputs.name });
+            dispatch({
+              type: "onAuthInitialUseEffect",
+              payload: {
+                roomUrl: roomUrl,
+              },
+            });
+            //+++++++++++++++++++++++++++++++++ GET FROM TOKEN TODO++++++++++++++++++++++++++++++++
+            socket.emit("join-room", { roomUrl, user: "TODO" });
           } else {
-            setRequirePassword(response_body.requirePassword);
+            dispatch({
+              type: "setPasswordRequirement",
+              payload: {
+                data: response_body.requirePassword,
+              },
+            });
           }
         } else {
           alert("room doesnt exist");
         }
       });
-
+    //++++++++++++++++++++++++++++++++++++++++ Listening Sockets ++++++++++++++++++++++++++++++++++++++++++
     socket = io("http://localhost:3000");
-    // Listening Sockets------------------------------------------
     socket.on("connect", () => {
-      console.log("Connected to server: ", socket.connected); // true
+      console.log("Connected to server: ", socket.connected);
     });
     socket.on("acknowledge-join", (roomData) => {
       console.log("Socket Acknowledged");
-      // add error boundary for invalid roomData--
-      setDataList(roomData.questions);
+      dispatch({
+        type: "setQuestionsOnAcknowledgeJoin",
+        payload: {
+          questions: roomData.questions,
+        },
+      });
     });
-    //if server could not find room then redirect to home page
     socket.on("room-not-found", () => {
       history.push("/");
     });
-    //add a question
     socket.on("add-question", (data) => {
-      console.log("new question", data);
-      setDataList((dataList) => [data, ...dataList]);
+      dispatch({
+        type: "addQuestionToList",
+        payload: {
+          question: data,
+        },
+      });
     });
-    //vote up question
     socket.on("vote-up", (id) => {
-      console.log("vote up from socket");
-      setDataList((dataList) => setVote(dataList, id));
+      dispatch({
+        type: "voteUpOnSocket",
+        payload: {
+          id: id,
+        },
+      });
     });
-    //delete question
     socket.on("delete-question", (id) => {
-      console.log("delete from socket");
-      setDataList((dataList) => deleteItem(dataList, id));
+      dispatch({
+        type: "deleteQuestionOnSocket",
+        payload: {
+          id: id,
+        },
+      });
     });
-
     socket.on("kicked", (msg) => {
       alert(msg);
       socket.disconnect();
       history.push("/");
     });
     socket.on("add-the-answer", (result) => {
-      console.log("working");
-      setDataList((questionList) =>
-        setAnswer(result.answer, questionList, result._id)
-      );
+      dispatch({
+        type: "addAnswerOnSocket",
+        payload: {
+          answer: result.answer,
+          id: result._id,
+        },
+      });
     });
-    //moderator turns questions on or off for a room
     socket.on("toggle-questions", (onOrOff) => {
       console.log("Toggling questions", onOrOff);
-      setAllowQuestions(onOrOff);
+      dispatch({
+        type: "toggleAllowQuestion",
+        payload: {
+          data: onOrOff,
+        },
+      });
     });
-
     socket.on("disconnect", () => {
       console.log("Connected to server: ", socket.connected); // false
     });
   }, []);
 
-  //--------------------------rendering---------------------------------
+  //++++++++++++++++++++++++++++++++ rendering ++++++++++++++++++++++++++++++++++++++++++++
   return (
     <React.Fragment>
-      {!loggedIn ? ( //TODO ?? : changed to (loggenIn && isAuthenticated)
+      {!windowState.loggedIn ? ( //TODO ?? : changed to (loggenIn && isAuthenticated)
         <RoomLogin
-          requirePassword={requirePassword}
+          requirePassword={windowState.requirePassword}
           handleInputChange={handleLoginInputChange}
           handleSubmit={handleLoginSubmit}
         />
       ) : (
         <React.Fragment>
-          {visibility.list && (
+          {windowState.visibility.list && (
             <List
-              dataList={dataList}
+              dataList={windowState.questions}
               handleVote={handleVote}
-              handleDelete={handleDelete}
+              roomUrl={roomUrl}
             />
           )}
-          {visibility.form && (
+          {windowState.visibility.form && (
             <QuestionForm
-              questionState={questionState}
+              questionState={windowState.initQuestionState}
               handleOnChange={handleQuestionFormOnChange}
               handleSubmit={handleQuestionFormSubmit}
             />
           )}
-          {visibility.post && (
+          {windowState.visibility.post && (
             <React.Fragment>
-              <button className={`btn`} onClick={handlePostVisibility}>
+              <button
+                className={`btn`}
+                onClick={() => {
+                  dispatch({ type: "afterPostClickVisibility" });
+                }}
+              >
                 Post a Question...
               </button>
-              <button className={`btn`} onClick={() => console.log(dataList)}>
+              <button
+                className={`btn`}
+                onClick={() => console.log(windowState.questions)}
+              >
                 Log State
               </button>
             </React.Fragment>
           )}
-
-          <h1>Questions allowed? : {allowQuestions ? "Yes" : "No"}</h1>
         </React.Fragment>
       )}
-
-      {/* <div
-				className="btn"
-				onClick={() => {
-					socket.disconnect();
-					history.push('/');
-				}}
-			>
-				Leave Room
-			</div> */}
     </React.Fragment>
   );
 };

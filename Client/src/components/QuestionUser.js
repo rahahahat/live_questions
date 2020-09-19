@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/QuestionUser.css";
 const QuestionUser = React.memo(
-  ({ index, voteUp, author, question, votes, answer, isVoted }) => {
+  ({ index, voteUp, author, question, votes, answer, isVoted, roomUrl }) => {
     const [viewAnswer, setViewAnswer] = React.useState(false);
     return (
       <div className="Question-container user-question-container">
@@ -11,7 +11,7 @@ const QuestionUser = React.memo(
               <i
                 className="gg-arrow-up-o"
                 onClick={() => {
-                  voteUp(index);
+                  voteUp(id, index, roomUrl);
                 }}
               ></i>
             </div>

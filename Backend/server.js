@@ -9,7 +9,6 @@ var io = require("socket.io").listen(http);
 var cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const Question = require("./models/question.js");
 app.use(cors({ credentials: true, origin: "http://localhost:1234" }));
 app.use(cookieParser());
 app.use(
@@ -45,15 +44,6 @@ app.use("/room", auth.isAuthenticated, roomRoutes);
 var result;
 //SOCKETIO
 require("./sockets/sockets.js")(io);
-
-const testQ = new Question({
-  text: "TEST QUESTION",
-  author: "TEST AUTHOR",
-  score: 0,
-});
-testQ.save((err, result) => {
-  console.log(result);
-});
 http.listen(process.env.PORT || 3000, function () {
   console.log("Hello World, lisening on 3000");
 });
