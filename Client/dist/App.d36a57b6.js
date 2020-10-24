@@ -41954,25 +41954,7 @@ var RoomLogin = function RoomLogin(_ref) {
 
 var _default = RoomLogin;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"../Tests/TestUtils/reducerTestUtils.js":[function(require,module,exports) {
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
+},{"react":"../node_modules/react/index.js"}],"../Tests/TestUtils/test_vars.js":[function(require,module,exports) {
 var TEST_ROOM = {
   title: "TESTS",
   questions: [],
@@ -41993,6 +41975,33 @@ var TEST_QUESTION = {
   score: 0,
   __v: 0
 };
+module.exports = {
+  TEST_ROOM: TEST_ROOM,
+  TEST_QUESTION: TEST_QUESTION
+};
+},{}],"../Tests/TestUtils/WindowReducerTestUtils.js":[function(require,module,exports) {
+"use strict";
+
+var _test_vars = require("./test_vars.js");
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 var init = {
   questions: [],
   loggedIn: false,
@@ -42206,12 +42215,10 @@ var reducer = function reducer(state, action) {
 };
 
 module.exports = {
-  TEST_ROOM: TEST_ROOM,
-  TEST_QUESTION: TEST_QUESTION,
   init: init,
   reducer: reducer
 };
-},{}],"components/Window.js":[function(require,module,exports) {
+},{"./test_vars.js":"../Tests/TestUtils/test_vars.js"}],"components/Window.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42231,7 +42238,7 @@ var _reactRouterDom = require("react-router-dom");
 
 var _RoomLogin = _interopRequireDefault(require("./RoomLogin"));
 
-var _reducerTestUtils = require("../../Tests/TestUtils/reducerTestUtils.js");
+var _WindowReducerTestUtils = require("../../Tests/TestUtils/WindowReducerTestUtils.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42287,7 +42294,7 @@ var Window = function Window() {
   history = (0, _reactRouterDom.useHistory)();
   room = (0, _reactRouterDom.useParams)();
 
-  var _useReducer = (0, _react.useReducer)(_reducerTestUtils.reducer, init),
+  var _useReducer = (0, _react.useReducer)(_WindowReducerTestUtils.reducer, init),
       _useReducer2 = _slicedToArray(_useReducer, 2),
       windowState = _useReducer2[0],
       dispatch = _useReducer2[1]; // +++++++++++++++++++++++++++++++++++++++++++ Handler Functions +++++++++++++++++++++++++++++++++++++++++
@@ -42532,7 +42539,7 @@ var Window = function Window() {
 
 var _default = Window;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./List.js":"components/List.js","./QuestionForm.js":"components/QuestionForm.js","socket.io-client":"../node_modules/socket.io-client/lib/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./RoomLogin":"components/RoomLogin.js","../../Tests/TestUtils/reducerTestUtils.js":"../Tests/TestUtils/reducerTestUtils.js"}],"components/CreateRoom.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./List.js":"components/List.js","./QuestionForm.js":"components/QuestionForm.js","socket.io-client":"../node_modules/socket.io-client/lib/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./RoomLogin":"components/RoomLogin.js","../../Tests/TestUtils/WindowReducerTestUtils.js":"../Tests/TestUtils/WindowReducerTestUtils.js"}],"components/CreateRoom.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -114612,7 +114619,7 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var API_URL = 'http://localhost:3000';
+var API_URL = "http://localhost:3000";
 var socket;
 
 var ModeratorPanel = function ModeratorPanel() {
@@ -114680,7 +114687,7 @@ var ModeratorPanel = function ModeratorPanel() {
   };
 
   var handleAnswerSubmit = function handleAnswerSubmit(id, answer, roomUrl) {
-    socket.emit('add-answer', {
+    socket.emit("add-answer", {
       answer: answer,
       id: id,
       roomUrl: roomUrl
@@ -114695,32 +114702,32 @@ var ModeratorPanel = function ModeratorPanel() {
     });
     state.splice(index, 1);
     setQuestionList(state);
-    socket.emit('delete-question', {
+    socket.emit("delete-question", {
       id: id,
       roomUrl: roomUrl
     });
   };
 
   var kick = function kick(id) {
-    console.log('Kicking user ', id);
-    socket.emit('kick-user', id);
+    console.log("Kicking user ", id);
+    socket.emit("kick-user", id);
   };
 
   var toggleAllowQuestions = function toggleAllowQuestions() {
     console.log(allowQuestions);
-    socket.emit('toggle-questions', !allowQuestions);
+    socket.emit("toggle-questions", !allowQuestions);
     setAllowQuestions(!allowQuestions);
   };
 
   var handlePasswordSubmit = function handlePasswordSubmit(event) {
     event.preventDefault();
     fetch("".concat(API_URL, "/room/").concat(roomUrl, "/admin"), {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({
         password: adminPassword
       }),
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       }
     }).then(function (res) {
       if (res.ok) return res.json();
@@ -114731,9 +114738,9 @@ var ModeratorPanel = function ModeratorPanel() {
         setVisibility({
           loading: false,
           passwordForm: false,
-          room_id: ''
+          room_id: ""
         });
-        socket.emit('moderator-join', roomUrl); //send tokens
+        socket.emit("moderator-join", roomUrl); //send tokens
       } else {
         alert("login failed");
       }
@@ -114742,50 +114749,50 @@ var ModeratorPanel = function ModeratorPanel() {
 
 
   _react.default.useEffect(function () {
-    socket = (0, _socket.default)('http://localhost:3000'); // Listening Sockets------------------------------------------
+    socket = (0, _socket.default)("http://localhost:3000"); // Listening Sockets------------------------------------------
 
-    socket.on('connect', function () {
-      console.log('Connected to server: ', socket.connected); // true
+    socket.on("connect", function () {
+      console.log("Connected to server: ", socket.connected); // true
     });
-    socket.on('update-user-list', function (clients) {
-      console.log(clients);
+    socket.on("update-user-list", function (clients) {
+      // console.log(clients);
       setClientList(clients);
     });
-    socket.on('sending-questions', function (questions) {
+    socket.on("sending-questions", function (questions) {
       setQuestionList(questions);
     });
-    socket.on('add-question', function (data) {
-      console.log('new question', data);
+    socket.on("add-question", function (data) {
+      console.log("new question", data);
       setQuestionList(function (questionList) {
         return [data].concat(_toConsumableArray(questionList));
       });
     });
-    socket.on('vote-up', function (id) {
-      console.log('vote up from socket');
+    socket.on("vote-up", function (id) {
+      console.log("vote up from socket");
       setQuestionList(function (questionList) {
         return setVote(questionList, id);
       });
     });
-    socket.on('room-not-found', function () {
-      history.push('/');
+    socket.on("room-not-found", function () {
+      history.push("/");
     });
-    socket.on('add-the-answer', function (result) {
+    socket.on("add-the-answer", function (result) {
       setQuestionList(function (questionList) {
         return setAnswer(result.answer, questionList, result._id);
       });
     }); //INITIAL FETCH CHECKS IF ROOM IS REAL
 
     fetch("".concat(API_URL, "/room/").concat(roomUrl), {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       }
     }).then(function (res) {
       if (res.ok) return res.json();
       return false;
     }).then(function (response_body) {
       if (response_body) {
-        setTitle(response_body.title); //room exists so show password 
+        setTitle(response_body.title); //room exists so show password
 
         setVisibility({
           loading: false,
@@ -114818,7 +114825,7 @@ var ModeratorPanel = function ModeratorPanel() {
     className: "moderator-controls"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "panel-heading mod-child"
-  }, /*#__PURE__*/_react.default.createElement("h2", null, "Admin Panel"), /*#__PURE__*/_react.default.createElement("p", null, "Join Code (click to join)= ", /*#__PURE__*/_react.default.createElement("a", {
+  }, /*#__PURE__*/_react.default.createElement("h2", null, "Admin Panel"), /*#__PURE__*/_react.default.createElement("p", null, "Join Code (click to join)=", " ", /*#__PURE__*/_react.default.createElement("a", {
     href: "/room/" + roomUrl
   }, roomUrl), " "), /*#__PURE__*/_react.default.createElement("p", null, title)), /*#__PURE__*/_react.default.createElement("div", {
     className: "room-control-heading mod-child"
@@ -114832,7 +114839,7 @@ var ModeratorPanel = function ModeratorPanel() {
   }), /*#__PURE__*/_react.default.createElement("button", {
     className: "toggle-allow-questions",
     onClick: toggleAllowQuestions
-  }, allowQuestions ? 'Close Room for Questions' : 'Open Room for Questions'))), /*#__PURE__*/_react.default.createElement("div", {
+  }, allowQuestions ? "Close Room for Questions" : "Open Room for Questions"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "mod-question-section"
   }, questionList.length == 0 ? /*#__PURE__*/_react.default.createElement("div", {
     className: "mod-loading"
@@ -114922,7 +114929,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44157" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37407" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

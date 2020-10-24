@@ -4,7 +4,7 @@ import QuestionForm from "./QuestionForm.js";
 import io from "socket.io-client";
 import { useParams, useHistory } from "react-router-dom";
 import RoomLogin from "./RoomLogin";
-import { reducer } from "../../Tests/TestUtils/reducerTestUtils.js";
+import { reducer } from "../../Tests/TestUtils/WindowReducerTestUtils.js";
 const API_URL = "http://localhost:3000";
 let socket;
 let roomUrl = "DEFAULT";
